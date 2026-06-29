@@ -16,30 +16,39 @@ Window {
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 10
 
         RowLayout {
+            Layout.fillWidth: true
+            Layout.margins: 20
+            spacing: 100
             Layout.alignment: Qt.AlignHCenter
-            spacing: 10
 
-            TextField {
-                id: searchField
-                Layout.alignment: Qt.AlignVCenter
-                placeholderText: "Search a Task..."
-                onTextChanged: {
-                    console.log("Texto actual:", text)
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 2
+
+                TextField {
+                    id: searchField
+                    Layout.alignment: Qt.AlignVCenter
+                    placeholderText: "Search a Task..."
+                    Layout.preferredWidth: 200
+                    onTextChanged: {
+                        console.log("Texto actual:", text)
+                    }
+                }
+
+                Button {
+                    id: searchBtn
+                    Layout.alignment: Qt.AlignVCenter
+                    text: "Search"
+                    enabled: true
+                    highlighted: false
+                    onClicked: {
+                        // tu lógica
+                    }
                 }
             }
-            Button {
-                id: searchBtn
-                Layout.alignment: Qt.AlignVCenter
-                text: "Search"
-                enabled: true
-                highlighted: false
-                onClicked: {
-                    // tu lógica
-                }
-            }
+
             Button {
                 id: newTaskBtn
                 Layout.alignment: Qt.AlignVCenter
@@ -50,31 +59,90 @@ Window {
                     // tu lógica
                 }
             }
-        }
 
-        Item { Layout.fillHeight: true }
+        }
 
         RowLayout {
             Layout.alignment: Qt.AlignHCenter
-            spacing: 10
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            spacing: 15
 
             Rectangle {
-                Layout.alignment: Qt.AlignVCenter
-                id: projects
-                color: "blue"
-            }
-
-            Rectangle {
-                Layout.alignment: Qt.AlignVCenter
-                id: tasks
-                color: "green"
-            }
-
-            Rectangle {
-                Layout.alignment: Qt.AlignVCenter
-                id: taskInfo
+                Layout.fillWidth: true
+                Layout.fillHeight: true
                 color: "yellow"
+
+                ColumnLayout {
+                    id: projects
+                    Layout.alignment: Qt.AlignHCenter
+                    spacing: 10
+                    Layout.fillWidth: true
+                    // Layout.fillHeight: true
+
+                    Text {
+                        text: "Project 1"
+                        Layout.fillHeight: true
+                    }
+
+                    Text {
+                        text: "Project 2"
+                        Layout.fillHeight: true
+                    }
+
+                    Button {
+                        id: newProjectBtn
+                        // Layout.alignment: Qt.AlignVCenter
+                        text: "+ New Project"
+                        enabled: true
+                        highlighted: false
+                        onClicked: {
+                            // tu lógica
+                        }
+                    }
+                }
             }
+
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                color: "red"
+
+                ColumnLayout {
+                    id: tasks
+                    Layout.alignment: Qt.AlignHCenter
+                    spacing: 10
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+
+                    Text {
+                        text: "Task 1"
+                    }
+
+                    Text {
+                        text: "Task 2"
+                    }
+                }
+            }
+
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                color: "green"
+
+                ColumnLayout {
+                    id: taskInfo
+                    Layout.alignment: Qt.AlignHCenter
+                    spacing: 10
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+
+                    Text {
+                        text: "Task Info 1"
+                    }
+                }
+            }
+
         }
     }
 }
