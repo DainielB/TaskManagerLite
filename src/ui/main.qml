@@ -6,6 +6,7 @@ import QtQuick.Controls
 Window {
     id: mainWindow
 
+    color: "black"
     width: 800
     height: 600
     visible: true
@@ -22,16 +23,15 @@ Window {
             Layout.margins: 20
             spacing: 100
             Layout.alignment: Qt.AlignHCenter
+            spacing: 100
+            Layout.topMargin: 10
 
             RowLayout {
-                Layout.fillWidth: true
-                spacing: 2
 
                 TextField {
                     id: searchField
                     Layout.alignment: Qt.AlignVCenter
                     placeholderText: "Search a Task..."
-                    Layout.preferredWidth: 200
                     onTextChanged: {
                         console.log("Texto actual:", text)
                     }
@@ -47,6 +47,7 @@ Window {
                         // tu lógica
                     }
                 }
+
             }
 
             Button {
@@ -60,89 +61,40 @@ Window {
                 }
             }
 
-        }
-
-        RowLayout {
-            Layout.alignment: Qt.AlignHCenter
+        GridLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: 15
+            columns: 10
+            // columnSpacing: 5
 
-            Rectangle {
-                Layout.fillWidth: true
+            ProjectsList {
+                id: projects
+                projectName: "Project Test"
                 Layout.fillHeight: true
-                color: "yellow"
-
-                ColumnLayout {
-                    id: projects
-                    Layout.alignment: Qt.AlignHCenter
-                    spacing: 10
-                    Layout.fillWidth: true
-                    // Layout.fillHeight: true
-
-                    Text {
-                        text: "Project 1"
-                        Layout.fillHeight: true
-                    }
-
-                    Text {
-                        text: "Project 2"
-                        Layout.fillHeight: true
-                    }
-
-                    Button {
-                        id: newProjectBtn
-                        // Layout.alignment: Qt.AlignVCenter
-                        text: "+ New Project"
-                        enabled: true
-                        highlighted: false
-                        onClicked: {
-                            // tu lógica
-                        }
-                    }
-                }
+                Layout.fillWidth: true
+                Layout.preferredWidth: 1
+                // Layout.horizontalStretchFactor: 1
             }
 
             Rectangle {
-                Layout.fillWidth: true
+                id: p
+                color: "blue"
                 Layout.fillHeight: true
-                color: "red"
-
-                ColumnLayout {
-                    id: tasks
-                    Layout.alignment: Qt.AlignHCenter
-                    spacing: 10
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-
-                    Text {
-                        text: "Task 1"
-                    }
-
-                    Text {
-                        text: "Task 2"
-                    }
-                }
+                Layout.fillWidth: true
+                Layout.preferredWidth: 4
+                // Layout.horizontalStretchFactor: 2
             }
 
             Rectangle {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
+                id: tasks
                 color: "green"
-
-                ColumnLayout {
-                    id: taskInfo
-                    Layout.alignment: Qt.AlignHCenter
-                    spacing: 10
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-
-                    Text {
-                        text: "Task Info 1"
-                    }
-                }
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                Layout.preferredWidth: 2
+                // Layout.horizontalStretchFactor: 1
             }
 
         }
+
     }
 }
