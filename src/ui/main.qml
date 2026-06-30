@@ -18,12 +18,12 @@ Window {
     ColumnLayout {
         anchors.fill: parent
 
+        /*
         RowLayout {
             Layout.fillWidth: true
             Layout.margins: 20
             spacing: 100
             Layout.alignment: Qt.AlignHCenter
-            spacing: 100
             Layout.topMargin: 10
 
             RowLayout {
@@ -60,6 +60,8 @@ Window {
                     // tu lógica
                 }
             }
+        }
+        */
 
         GridLayout {
             Layout.fillWidth: true
@@ -76,9 +78,8 @@ Window {
                 // Layout.horizontalStretchFactor: 1
             }
 
-            Rectangle {
-                id: p
-                color: "blue"
+            TasksList {
+                id: tasksList
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 Layout.preferredWidth: 4
