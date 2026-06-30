@@ -4,7 +4,7 @@ import QtQuick.Controls
 
 Rectangle {
     id: projectsList
-    property string projectName: ""
+    property string projectName: "" // If this property does not have a value in main.qml, this will be the default value.
 
     color: "yellow"
     radius: 8
