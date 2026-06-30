@@ -4,7 +4,7 @@ import QtQuick.Controls
 
 Rectangle {
     id: projectsList
-    property string projectName: "Project 1"
+    property string projectName: ""
 
     color: "yellow"
     radius: 8
@@ -18,21 +18,24 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.topMargin: 20
-            spacing: 30
+            spacing: 30 // Divide number of projects / screen height (?)
             // Layout.verticalStretchFactor: 3
 
-            Text {
-                // text: root.projectName
-                text: "Project 1"
+            Button {
+                Layout.preferredWidth: 150
+                text: projectName
+                // text: "Project 1"
                 font.bold: true
             }
 
-            Text {
+            Button {
+                Layout.preferredWidth: 150
                 text: "Project 2"
                 font.bold: true
             }
 
-            Text {
+            Button {
+                Layout.preferredWidth: 150
                 text: "Project 3"
                 font.bold: true
             }
@@ -50,6 +53,8 @@ Rectangle {
                 Button {
                     enabled: true
                     highlighted: false
+                    font.bold: true
+                    width: 150
                     text: "Aceptar"
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: parent.horizontalCenter
