@@ -6,6 +6,7 @@ import QtQuick.Controls
 Window {
     id: mainWindow
 
+    color: "black"
     width: 800
     height: 600
     visible: true
@@ -20,26 +21,33 @@ Window {
 
         RowLayout {
             Layout.alignment: Qt.AlignHCenter
-            spacing: 10
+            spacing: 100
+            Layout.topMargin: 10
 
-            TextField {
-                id: searchField
-                Layout.alignment: Qt.AlignVCenter
-                placeholderText: "Search a Task..."
-                onTextChanged: {
-                    console.log("Texto actual:", text)
+            RowLayout {
+
+                TextField {
+                    id: searchField
+                    Layout.alignment: Qt.AlignVCenter
+                    placeholderText: "Search a Task..."
+                    onTextChanged: {
+                        console.log("Texto actual:", text)
+                    }
                 }
-            }
-            Button {
-                id: searchBtn
-                Layout.alignment: Qt.AlignVCenter
-                text: "Search"
-                enabled: true
-                highlighted: false
-                onClicked: {
-                    // tu lógica
+
+                Button {
+                    id: searchBtn
+                    Layout.alignment: Qt.AlignVCenter
+                    text: "Search"
+                    enabled: true
+                    highlighted: false
+                    onClicked: {
+                        // tu lógica
+                    }
                 }
+
             }
+
             Button {
                 id: newTaskBtn
                 Layout.alignment: Qt.AlignVCenter
@@ -52,29 +60,40 @@ Window {
             }
         }
 
-        Item { Layout.fillHeight: true }
+        GridLayout {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            columns: 10
+            // columnSpacing: 5
 
-        RowLayout {
-            Layout.alignment: Qt.AlignHCenter
-            spacing: 10
-
-            Rectangle {
-                Layout.alignment: Qt.AlignVCenter
+            ProjectsList {
                 id: projects
-                color: "blue"
+                projectName: "Project Test"
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                Layout.preferredWidth: 1
+                // Layout.horizontalStretchFactor: 1
             }
 
             Rectangle {
-                Layout.alignment: Qt.AlignVCenter
+                id: p
+                color: "blue"
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                Layout.preferredWidth: 4
+                // Layout.horizontalStretchFactor: 2
+            }
+
+            Rectangle {
                 id: tasks
                 color: "green"
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                Layout.preferredWidth: 2
+                // Layout.horizontalStretchFactor: 1
             }
 
-            Rectangle {
-                Layout.alignment: Qt.AlignVCenter
-                id: taskInfo
-                color: "yellow"
-            }
         }
+
     }
 }
