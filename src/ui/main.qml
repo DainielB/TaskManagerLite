@@ -86,9 +86,9 @@ Window {
                 // Layout.horizontalStretchFactor: 2
             }
 
-            Rectangle {
+            TaskInfo {
                 id: tasks
-                color: "green"
+                color: "blue"
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 Layout.preferredWidth: 2
