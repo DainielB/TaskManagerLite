@@ -126,16 +126,19 @@ Rectangle {
             Button {
                 text: "Edit"
             }
+            */
 
             Button {
+                id: cancelTask
                 text: "Cancel"
+                enabled: false
+                onReleased: taskInfo.cancel_button_released(editTask, cancelTask, [taskName, taskDescription, startDate, endDate, taskStatus, priority])
             }
-            */
 
             Button {
                 id: editTask
                 text: "Edit"
-                onReleased: taskInfo.edit_button_released(editTask, [taskName, taskDescription, startDate, endDate, taskStatus, priority])
+                onReleased: taskInfo.edit_button_released(editTask, [cancelTask, taskName, taskDescription, startDate, endDate, taskStatus, priority])
             }
         }
     }
