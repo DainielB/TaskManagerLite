@@ -51,18 +51,24 @@ Rectangle {
                 Layout.fillHeight: true
 
                 Button {
+                    anchors.bottom: parent.bottom
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.bottomMargin: 20
                     enabled: true
                     highlighted: false
                     font.bold: true
                     width: 150
-                    text: "Aceptar"
-                    anchors.bottom: parent.bottom
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.bottomMargin: 20
+                    text: "+ New Project"
+
+                    onReleased: projectDialog.open()
                 }
             }
 
         }
 
+    }
+
+    CreateProjectDialog {
+        id: projectDialog
     }
 }
