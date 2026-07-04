@@ -116,18 +116,19 @@ Rectangle {
             Layout.alignment: Qt.AlignRight
             spacing: 5
 
+            /*
             Button {
                 text: "Edit"
             }
 
-            /*
             Button {
                 text: "Cancel"
             }
             */
 
             Button {
-                text: "Save"
+                text: "Edit"
+                onReleased: taskInfo.on_button_released()
             }
         }
     }
