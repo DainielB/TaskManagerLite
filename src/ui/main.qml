@@ -88,7 +88,7 @@ Window {
 
             TaskInfo {
                 id: tasks
-                color: "blue"
+                // color: "blue"
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 Layout.preferredWidth: 2

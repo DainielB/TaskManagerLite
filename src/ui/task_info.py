@@ -1,15 +1,25 @@
 from PySide6.QtCore import QObject, Signal, Slot
-from PySide6.QtGui import QGuiApplication
-from PySide6.QtQml import QQmlApplicationEngine
 
 
 class TaskInfo(QObject):
-    editTaskSignal = Signal()
+    taskEdited = Signal()
 
     def __init__(self):
         super().__init__()
 
-    @Slot()
-    def on_button_released(self):
-        print("¡Botón soltado desde Python!")
-        # self.editTaskSignal.emit()
+    @Slot(QObject, list)
+    def edit_button_released(self, button, controls: list):
+        """
+        Enables the controls in the given list.
+
+        Args:
+            controls (list): A list of controls to enable.
+        """
+
+        text: str = button.property("text")
+        button.setProperty("text", "Save" if text == "Edit" else "Edit")
+
+        for button in controls:
+            enabled: bool = button.property("enabled")
+            button.setProperty("enabled", not enabled)
+        # self.taskEdited.emit()

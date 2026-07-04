@@ -1,10 +1,14 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Controls.Universal
+
 
 Rectangle {
+    Universal.theme: Universal.Light
+
     id: projectsList
-    property string taskName: "Name of the task"
+    property string name: "Name of the task"
     property string description: "Description of the task"
     property string endDate: ""
     property string state: ""
@@ -18,20 +22,22 @@ Rectangle {
         anchors.margins: 10
         spacing: 5
 
-        Label {
-            Layout.fillWidth: false
+        TextField {
+            id: taskName
             Layout.margins: 10
+            Layout.fillWidth: true
             Layout.fillHeight: false
-            Layout.alignment: Qt.AlignHCenter
-            text: taskName
+            text: name
+            enabled: false
         }
 
-        Label {
+        TextField {
+            id: taskDescription
             Layout.margins: 10
             Layout.fillWidth: true
             Layout.fillHeight: true
-            // Layout.alignment: Qt.AlignHCenter
             text: description
+            enabled: false
         }
 
         // Task Info Panel
@@ -127,8 +133,9 @@ Rectangle {
             */
 
             Button {
+                id: editTask
                 text: "Edit"
-                onReleased: taskInfo.on_button_released()
+                onReleased: taskInfo.edit_button_released(editTask, [taskName, taskDescription, startDate, endDate, taskStatus, priority])
             }
         }
     }
