@@ -87,12 +87,19 @@ Rectangle {
                     text: "Status"
                 }
 
-                TextField {
+                ComboBox {
                     id: taskStatus
                     Layout.fillWidth: true
-                    // Layout.fillHeight: true
                     enabled: false
-                    text: "In Progress"
+
+                    model: ["In Progress", "In Review", "To Do", "Paused", "Backlog", "Finished"]
+                    currentIndex: 0
+
+                    onCurrentIndexChanged: {
+                        console.log("Índice:", currentIndex)
+                        console.log("Valor:", currentValue)
+                        console.log("Texto:", currentText)
+                    }
                 }
             }
 
@@ -103,12 +110,19 @@ Rectangle {
                     text: "Priority"
                 }
 
-                TextField {
+                ComboBox {
                     id: priority
                     Layout.fillWidth: true
-                    // Layout.fillHeight: true
                     enabled: false
-                    text: "High"
+
+                    model: ["High", "Medium", "Low"]
+                    currentIndex: 0
+
+                    onCurrentIndexChanged: {
+                        console.log("Índice:", currentIndex)
+                        console.log("Valor:", currentValue)
+                        console.log("Texto:", currentText)
+                    }
                 }
             }
 
