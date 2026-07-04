@@ -98,4 +98,8 @@ Window {
         }
 
     }
+
+    CreateProjectDialog {
+        id: projectDialog
+    }
 }

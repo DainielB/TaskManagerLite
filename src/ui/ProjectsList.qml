@@ -67,8 +67,4 @@ Rectangle {
         }
 
     }
-
-    CreateProjectDialog {
-        id: projectDialog
-    }
 }
