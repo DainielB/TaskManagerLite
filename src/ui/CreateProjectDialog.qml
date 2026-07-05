@@ -77,13 +77,19 @@ Dialog {
                     }
                 }
             }
-            */
 
             TextField {
                 id: limitDate
                 Layout.fillWidth: true
                 enabled: true
                 placeholderText: "28-06-26"
+            }
+            */
+
+            DateInput {
+                id: limitDateInput
+                Layout.fillWidth: true
+                enabled: true
             }
 
             ComboBox {
