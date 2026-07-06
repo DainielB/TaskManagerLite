@@ -18,56 +18,10 @@ Window {
     ColumnLayout {
         anchors.fill: parent
 
-        /*
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.margins: 20
-            spacing: 100
-            Layout.alignment: Qt.AlignHCenter
-            Layout.topMargin: 10
-
-            RowLayout {
-
-                TextField {
-                    id: searchField
-                    Layout.alignment: Qt.AlignVCenter
-                    placeholderText: "Search a Task..."
-                    onTextChanged: {
-                        console.log("Texto actual:", text)
-                    }
-                }
-
-                Button {
-                    id: searchBtn
-                    Layout.alignment: Qt.AlignVCenter
-                    text: "Search"
-                    enabled: true
-                    highlighted: false
-                    onClicked: {
-                        // tu lógica
-                    }
-                }
-
-            }
-
-            Button {
-                id: newTaskBtn
-                Layout.alignment: Qt.AlignVCenter
-                text: "New Task"
-                enabled: true
-                highlighted: false
-                onClicked: {
-                    // tu lógica
-                }
-            }
-        }
-        */
-
         GridLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
             columns: 10
-            // columnSpacing: 5
 
             ProjectsList {
                 id: projects
