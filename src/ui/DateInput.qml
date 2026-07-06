@@ -3,95 +3,122 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Universal
 
-
 Item {
+    id: root
     property var selectedDate: new Date()
-
     width: 200
     height: 50
 
     RowLayout {
         anchors.fill: parent
 
-        TextField {
-            id: dateInput
+        ColumnLayout {
             Layout.fillWidth: true
-            placeholderText: selectedDate.getDate() + "/" + (selectedDate.getMonth() + 1) + "/" + selectedDate.getFullYear()
-            onReleased: datePicker.visible = !datePicker.visible
+            Layout.fillHeight: true
+
+            TextField {
+                id: dateInput
+                Layout.fillWidth: true
+                placeholderText: selectedDate.getDate() + "/" + (selectedDate.getMonth() + 1) + "/" + selectedDate.getFullYear()
+                onReleased: datePicker.open()
+                enabled: true
+            }
         }
+    }
 
-        /*
-        Button {
-            Layout.fillWidth: true
-            text: "▼"
-        }
+    Popup {
+        id: datePicker
+        width: dateInput.width
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
-        Rectangle {
-            Layout.fillWidth: true
-            height: 50
-            visible: False
-        }
-        */
+        // Under the TextField
+        x: dateInput.x
+        y: dateInput.y + dateInput.height + (dateInput.height / 2)
 
-        Item {
-            id: datePicker
-            Layout.fillWidth: true
-            height: 100
-            width: dateInput.width
-            y: dateInput.y + dateInput.height
-            visible: false
+        padding: 0
 
-            ColumnLayout {
+        contentItem: ColumnLayout {
+            id: calendarLayout
+            width: datePicker.width
+
+            // Popup background
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                color: "white"
+                border.color: "#cccccc"
+                radius: 4
+            }
+
+            MonthGrid {
+                id: grid
+                month: root.selectedDate.getMonth()
+                year: root.selectedDate.getFullYear()
+                locale: Qt.locale("es_ES")
                 Layout.fillWidth: true
 
-                MonthGrid {
-                    id: grid
-                    month: selectedDate.getMonth()
-                    year: selectedDate.getFullYear()
-                    locale: Qt.locale("es_ES")
+                delegate: Text {
+                    text: model.day
+                    opacity: model.month === grid.month ? 1 : 0.3
+                    font.bold: model.today
+                    horizontalAlignment: Text.AlignHCenter
+                    color: model.date.getTime() === root.selectedDate.getTime()
+                           ? "blue" : "orange"
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            root.selectedDate = model.date
+                            dateInput.placeholderText = model.date.getDate() + "/" +
+                                (model.date.getMonth() + 1) + "/" +
+                                model.date.getFullYear()
+                            datePicker.close()   // cierra al seleccionar
+                        }
+                    }
+                }
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+
+                Button {
                     Layout.fillWidth: true
-
-                    delegate: Text {
-                        text: model.day
-                        opacity: model.month === grid.month ? 1 : 0.3
-                        font.bold: model.today
-                        color: model.date.getTime() === createProject.selectedDate.getTime() ? "blue" : "orange"
-                        // color: model.date.getTime() === createProject.selectedDate.getTime() ? "blue" : "black"
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: createProject.selectedDate = model.date
+                    text: "◄"
+                    onClicked: {
+                        if (grid.month === 0) {
+                            grid.month = 11
+                            grid.year -= 1
+                        } else {
+                            grid.month -= 1
                         }
                     }
                 }
 
-                RowLayout {
+                Label {
                     Layout.fillWidth: true
-
-                    Button {
-                        Layout.fillWidth: true
-                        text: "◄"
-                    }
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: "Month"
-                    }
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: "Year"
-                    }
-
-                    Button {
-                        Layout.fillWidth: true
-                        text: "►"
-                    }
-
+                    horizontalAlignment: Text.AlignHCenter
+                    text: Qt.locale("es_ES").monthName(grid.month)
                 }
 
+                Label {
+                    Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
+                    text: grid.year
+                }
+
+                Button {
+                    Layout.fillWidth: true
+                    text: "►"
+                    onClicked: {
+                        if (grid.month === 11) {
+                            grid.month = 0
+                            grid.year += 1
+                        } else {
+                            grid.month += 1
+                        }
+                    }
+                }
             }
         }
-
     }
 }

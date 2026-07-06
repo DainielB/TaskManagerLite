@@ -75,7 +75,6 @@ Window {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 Layout.preferredWidth: 1
-                // Layout.horizontalStretchFactor: 1
             }
 
             TasksList {
@@ -83,16 +82,13 @@ Window {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 Layout.preferredWidth: 4
-                // Layout.horizontalStretchFactor: 2
             }
 
             TaskInfo {
                 id: tasks
-                // color: "blue"
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 Layout.preferredWidth: 2
-                // Layout.horizontalStretchFactor: 1
             }
 
         }
