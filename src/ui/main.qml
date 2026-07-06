@@ -25,7 +25,7 @@ Window {
 
             ProjectsList {
                 id: projects
-                projectName: "Project Test"
+                // projectName: "Project Test"
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 Layout.preferredWidth: 1

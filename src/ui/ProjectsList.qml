@@ -1,14 +1,17 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Controls.Universal
+
 
 Rectangle {
-    id: projectsList
-    property string projectName: "" // If this property does not have a value in main.qml, this will be the default value.
+    // property string projectName: "" // If this property does not have a value in main.qml, this will be the default value.
 
-    color: "yellow"
-    radius: 8
+    id: projectsList
+    radius: 4
     border.color: "#dddddd"
+
+    Universal.theme: Universal.Light
 
     ColumnLayout {
         anchors.fill: parent
@@ -19,12 +22,11 @@ Rectangle {
             Layout.fillHeight: true
             Layout.topMargin: 20
             spacing: 30 // Divide number of projects / screen height (?)
-            // Layout.verticalStretchFactor: 3
 
             Button {
                 Layout.preferredWidth: 150
-                text: projectName
-                // text: "Project 1"
+                // text: projectName
+                text: "Project 1"
                 font.bold: true
             }
 
