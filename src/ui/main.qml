@@ -23,12 +23,10 @@ Window {
             Layout.fillHeight: true
             columns: 10
 
-            ProjectsList {
-                id: projects
+            ProjectsListView {
+                id: projectsList
                 // projectName: "Project Test"
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                Layout.preferredWidth: 1
+                // Layout.preferredWidth: 1
             }
 
             TasksList {

@@ -3,43 +3,60 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Universal
 
+import TaskManagerLite 1.0
+
 
 Rectangle {
     // property string projectName: "" // If this property does not have a value in main.qml, this will be the default value.
 
-    id: projectsList
     radius: 4
     border.color: "#dddddd"
+    Layout.fillHeight: true
+    Layout.fillWidth: true
 
     Universal.theme: Universal.Light
+
+    ProjectsListModel {
+        id: projectsListModel
+    }
 
     ColumnLayout {
         anchors.fill: parent
 
-        ColumnLayout {
+        ListView {
+            id: listView
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.topMargin: 20
-            spacing: 30 // Divide number of projects / screen height (?)
+            Layout.margins: 5
+            clip: true
+            spacing: 2
+            // spacing: (parent.height / projectsListModel.num_projects()) // Divide number of projects / screen height (?)
 
-            Button {
-                Layout.preferredWidth: 150
-                // text: projectName
-                text: "Project 1"
-                font.bold: true
+            ScrollBar.vertical: ScrollBar {}
+
+            model: ListModel {
+                ListElement { name: "Project 1" }
+                ListElement { name: "Project 2" }
+                ListElement { name: "Project 3" }
             }
 
-            Button {
-                Layout.preferredWidth: 150
-                text: "Project 2"
-                font.bold: true
-            }
+            delegate: Rectangle {
+                width: listView.width
+                height: 48
+                color: ListView.isCurrentItem ? "#d0e8ff" : "white"
 
-            Button {
-                Layout.preferredWidth: 150
-                text: "Project 3"
-                font.bold: true
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    text: name
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: listView.currentIndex = index
+                }
             }
 
         }

@@ -20,8 +20,8 @@ if __name__ == "__main__":
     if not engine.rootObjects():
         sys.exit(-1)
 
-    projects_list = ProjectsList()
-    engine.rootContext().setContextProperty("projectsList", projects_list)
+    # projects_list = ProjectsList()
+    # engine.rootContext().setContextProperty("projectsList", projects_list)
 
     # tasks_list = tasks_list.TasksList()
     # engine.rootContext().setContextProperty("tasksList", tasks_list)
