@@ -12,7 +12,7 @@ from PySide6.QtCore import (
 )
 from PySide6.QtQml import QmlElement
 
-from ..data.project import Project
+from src.data.project import Project
 
 QML_IMPORT_NAME = "TaskManagerLite"
 QML_IMPORT_MAJOR_VERSION = 1
