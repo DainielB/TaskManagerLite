@@ -6,7 +6,7 @@ import QtQuick.Controls
 Window {
     id: mainWindow
 
-    color: "black"
+    color: "#2A1F2D"
     width: 800
     height: 600
     visible: true

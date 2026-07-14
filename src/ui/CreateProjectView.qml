@@ -10,8 +10,6 @@ Dialog {
     property alias limitDateInput: dateField
     property alias projectColor: colorField
 
-//    Universal.theme: Universal.Light
-
     id: createProject
     title: "Create Project"
     modal: true
@@ -19,14 +17,6 @@ Dialog {
     width: parent.width / 4
     height: parent.height / 2
     closePolicy: Popup.CloseOnEscape
-
-/*
-    CreateProjectDialog {
-        id: createProjectDialog
-        acceptSignal: createProject.acceptSignal
-        cancelSignal: createProject.cancelSignal
-    }
-*/
 
     ColumnLayout {
         anchors.fill: parent
@@ -89,10 +79,19 @@ Dialog {
                     enabled: true
 
                     model: [
-                        "Universal.Lime", "Universal.Green", "Universal.Emerald", "Universal.Teal", "Universal.Cyan", "Universal.Cobalt", "Universal.Indigo", "Universal.Violet",
-                        "Universal.Purple", "Universal.Pink", "Universal.Magenta", "Universal.Crimson", "Universal.Red", "Universal.Orange", "Universal.Amber", "Universal.Yellow",
-                        "Universal.Brown", "Universal.Olive", "Universal.Steel", "Universal.Mauve", "Universal.Taupe"
+                        "Lime", "Green", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Purple", "Pink", "Magenta", "Crimson", "Red", "Orange",
+                        "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe"
                     ]
+
+                    /*
+                    model: {
+                        "Universal.Lime":"Lime", "Universal.Green":"Green", "Universal.Emerald":"Emerald", "Universal.Teal":"Teal", "Universal.Cyan":"Cyan", "Universal.Cobalt":"Cobalt",
+                        "Universal.Indigo":"Indigo", "Universal.Violet":"Violet", "Universal.Purple":"Purple", "Universal.Pink":"Pink", "Universal.Magenta":"Magenta", "Universal.Crimson":"Crimson",
+                        "Universal.Red":"Red", "Universal.Orange":"Orange", "Universal.Amber":"Amber", "Universal.Yellow":"Yellow", "Universal.Brown":"Brown", "Universal.Olive":"Olive",
+                        "Universal.Steel":"Steel", "Universal.Mauve":"Mauve", "Universal.Taupe":"Taupe"
+                    }
+                    */
+
                     currentIndex: 0
 
                     onCurrentIndexChanged: {

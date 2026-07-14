@@ -4,9 +4,10 @@ import QtQuick.Controls
 
 Rectangle {
     id: root
+    color: "#2A1F2D"
 
     radius: 4
-    border.color: "#dddddd"
+    border.color: "#56E39F"
     Layout.fillHeight: true
     Layout.fillWidth: true
 
@@ -28,20 +29,9 @@ Rectangle {
 
             model: app_controller.project_list_controller.project_list_model
 
-/*
-            model: ListModel {
-                id: listModel
-                ListElement {
-                    name: "Project 1"
-                }
-                ListElement {
-                    name: "Project 2"
-                }
-            }
-*/
-
             Component {
                 id: projectDelegate
+
                 Item {
                     width: listView.width
                     height: 48
@@ -51,7 +41,9 @@ Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                         anchors.leftMargin: 10
-                        text: projectDialog.projectName.text
+                        text: projectDialog.projectName.text // TODO: Esto es lo que hace que cuando se cree un proyecto nuevo,
+                                                            // los que ya hay en la lista se actualicen automáticamente con el nombre
+                                                            // que se está poniendo en el textfield
                         color: listView.isCurrentItem ? "#d0e8ff" : "black"
                     }
 
@@ -64,26 +56,6 @@ Rectangle {
 
             delegate: projectDelegate
 
-            /*
-            delegate: Rectangle {
-                width: listView.width
-                height: listView.height
-                color: ListView.isCurrentItem ? "#d0e8ff" : "white"
-
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    text: name
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: listView.currentIndex = index
-                }
-            }
-            */
-
         }
 
         RowLayout {
@@ -95,6 +67,13 @@ Rectangle {
                 Layout.fillHeight: true
 
                 Button {
+                    background: Rectangle {
+                        implicitWidth: 100
+                        implicitHeight: 40
+                        enabled: true
+//                        opacity: enabled ? 1 : 0.3
+                        color: "#56E39F"
+                    }
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottomMargin: 20

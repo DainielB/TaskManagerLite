@@ -17,7 +17,6 @@ class ProjectsListModel(QAbstractListModel):
     def __init__(self):
         super().__init__()
         self._projects: list = []
-        # self._projects: list[str] = []
 
     def rowCount(
         self, parent: QModelIndex | QPersistentModelIndex = QModelIndex()
@@ -60,16 +59,16 @@ class ProjectsListModel(QAbstractListModel):
 
     @Slot(list)
     def add_project(self, project) -> None:
-        print("AQUÍ ESTAMOS")
-        self.beginInsertRows(QModelIndex(), 0, 0)
-        self._projects.insert(0, project)
-        print(self._projects)
+        self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
+        self._projects.insert(self.rowCount(), project)
         self.endInsertRows()
 
-    @Slot()
-    def get__projects(self):
+    """
+    @Slot(result=list)
+    def get_projects(self) -> list:
         return self._projects
 
     @Slot(result=int)
-    def num__projects(self):
+    def num_projects(self) -> int:
         return len(self._projects)
+    """
