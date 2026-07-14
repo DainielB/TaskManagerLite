@@ -1,28 +1,14 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-// import QtQuick.Controls.Universal
 
 Rectangle {
-//    property alias model: projectsListModel
     id: root
 
     radius: 4
     border.color: "#dddddd"
     Layout.fillHeight: true
     Layout.fillWidth: true
-
-//    Universal.theme: Universal.Light
-
-/*
-    ProjectsListModel {
-        id: projectsListModel
-    }
-
-    function addProject(name, description, limitDate, color) {
-        projectsListModel.add_project(name, description, limitDate, color)
-    }
-*/
 
     ColumnLayout {
         anchors.fill: parent
@@ -65,7 +51,7 @@ Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                         anchors.leftMargin: 10
-                        text: name
+                        text: projectDialog.projectName.text
                         color: listView.isCurrentItem ? "#d0e8ff" : "black"
                     }
 
