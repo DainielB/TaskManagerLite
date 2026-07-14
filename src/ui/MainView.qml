@@ -25,7 +25,7 @@ Window {
 
             ProjectsListView {
                 id: projectsList
-                // Layout.preferredWidth: 1
+//                Layout.preferredWidth: 1
             }
 
             TasksListView {
@@ -48,6 +48,6 @@ Window {
 
     CreateProjectView {
         id: projectDialog
-        onAccepted: projectsList.addProject([projectDialog.projectName.text, projectDialog.projectDescription.text, projectDialog.limitDateInput.dateInput, projectDialog.projectColor])
+//        onAccepted: projectsList.addProject([projectDialog.projectName.text, projectDialog.projectDescription.text, projectDialog.limitDateInput.dateInput, projectDialog.projectColor])
     }
 }

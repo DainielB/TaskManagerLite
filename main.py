@@ -4,27 +4,27 @@ from pathlib import Path
 from PySide6.QtCore import QUrl
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
+from PySide6.QtQuickControls2 import QQuickStyle
 
-from src.ui.create_project_dialog import CreateProjectDialog
-from src.ui.projects_list import ProjectsListModel
-from src.ui.task_info import TaskInfo
+from src.app.app_controller import AppController
+
 
 if __name__ == "__main__":
     app = QGuiApplication(sys.argv)
-    engine = QQmlApplicationEngine()
+    QQuickStyle.setStyle("Universal")
 
-    qml_file = Path(__file__).parent / "src/ui/MainView.qml"
-    engine.load(QUrl.fromLocalFile(str(qml_file)))
+    qml_app_engine = QQmlApplicationEngine()
+    qml_context = qml_app_engine.rootContext()
 
-    if not engine.rootObjects():
-        sys.exit(-1)
+    # Main controller
+    app_controller = AppController(parent=app)
+    qml_app_engine.rootContext().setContextProperty("app_controller", app_controller)
 
-    """
-    task_info = TaskInfo()
-    engine.rootContext().setContextProperty("taskInfo", task_info)
+    current_file_path = Path(__file__)
+    main_qml_path = current_file_path.parent / 'src/ui/MainView.qml'
+    qml_app_engine.load(QUrl.fromLocalFile(str(main_qml_path)))
 
-    project_dialog = CreateProjectDialog()
-    engine.rootContext().setContextProperty("projectDialog", project_dialog)
-    """
+    if len(qml_app_engine.rootObjects()) == 0:
+        sys.exit('Failed to start the UI.')
 
     sys.exit(app.exec())

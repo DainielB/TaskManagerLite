@@ -1,13 +1,10 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import QtQuick.Controls.Universal
-
-import TaskManagerLite 1.0
-
+// import QtQuick.Controls.Universal
 
 Rectangle {
-    // property alias model: projectsListModel
+//    property alias model: projectsListModel
     id: root
 
     radius: 4
@@ -15,8 +12,9 @@ Rectangle {
     Layout.fillHeight: true
     Layout.fillWidth: true
 
-    Universal.theme: Universal.Light
+//    Universal.theme: Universal.Light
 
+/*
     ProjectsListModel {
         id: projectsListModel
     }
@@ -24,6 +22,7 @@ Rectangle {
     function addProject(name, description, limitDate, color) {
         projectsListModel.add_project(name, description, limitDate, color)
     }
+*/
 
     ColumnLayout {
         anchors.fill: parent
@@ -41,9 +40,9 @@ Rectangle {
 
             ScrollBar.vertical: ScrollBar {}
 
-            // model: ProjectsListModel
+            model: app_controller.project_list_controller.project_list_model
 
-
+/*
             model: ListModel {
                 id: listModel
                 ListElement {
@@ -53,7 +52,7 @@ Rectangle {
                     name: "Project 2"
                 }
             }
-
+*/
 
             Component {
                 id: projectDelegate

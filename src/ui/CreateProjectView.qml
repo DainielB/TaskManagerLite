@@ -3,8 +3,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Universal
 
-import TaskManagerLite 1.0
-
 
 Dialog {
     property alias projectName: nameField
@@ -12,7 +10,7 @@ Dialog {
     property alias limitDateInput: dateField
     property alias projectColor: colorField
 
-    Universal.theme: Universal.Light
+//    Universal.theme: Universal.Light
 
     id: createProject
     title: "Create Project"
@@ -22,11 +20,13 @@ Dialog {
     height: parent.height / 2
     closePolicy: Popup.CloseOnEscape
 
+/*
     CreateProjectDialog {
         id: createProjectDialog
-        // acceptSignal: createProject.acceptSignal
-        // cancelSignal: createProject.cancelSignal
+        acceptSignal: createProject.acceptSignal
+        cancelSignal: createProject.cancelSignal
     }
+*/
 
     ColumnLayout {
         anchors.fill: parent
@@ -108,6 +108,6 @@ Dialog {
 
     standardButtons: Dialog.Ok | Dialog.Cancel
 
-    onRejected: createProjectDialog.on_cancel()
+//    onRejected: createProjectDialog.on_cancel()
 
 }

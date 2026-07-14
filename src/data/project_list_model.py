@@ -1,4 +1,3 @@
-'''
 import typing
 from dataclasses import fields
 
@@ -11,20 +10,13 @@ from PySide6.QtCore import (
     Qt,
     Slot,
 )
-from PySide6.QtQml import QmlElement
-
-from src.data.project import Project
-
-QML_IMPORT_NAME = "TaskManagerLite"
-QML_IMPORT_MAJOR_VERSION = 1
 
 
-# @QmlElement
 class ProjectsListModel(QAbstractListModel):
 
-    def __init__(self, parent=QObject | None):
+    def __init__(self):
         super().__init__()
-        self._projects: list[Project] = []
+        self._projects: list = []
         # self._projects: list[str] = []
 
     def rowCount(
@@ -58,21 +50,20 @@ class ProjectsListModel(QAbstractListModel):
                 return
                 # return getattr(project, name.data().decode())
 
+    """
     def roleNames(self) -> dict[int, QByteArray]:
         d = {}
         for i, field in enumerate(fields(Project)):
             d[Qt.ItemDataRole.DisplayRole + i] = field.name.encode()
         return d
+    """
 
     @Slot(list)
-    def add_project(self, info: list[str]) -> None:
+    def add_project(self, project) -> None:
         print("AQUÍ ESTAMOS")
         self.beginInsertRows(QModelIndex(), 0, 0)
-        project = Project(*info)
         self._projects.insert(0, project)
-        #self._projects.append(project.name)
         print(self._projects)
-        # self.insertRows(self.rowCount() - 1, 1, QModelIndex())
         self.endInsertRows()
 
     @Slot()
@@ -82,5 +73,3 @@ class ProjectsListModel(QAbstractListModel):
     @Slot(result=int)
     def num__projects(self):
         return len(self._projects)
-
-'''
