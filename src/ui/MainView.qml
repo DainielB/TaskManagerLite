@@ -25,18 +25,17 @@ Window {
 
             ProjectsListView {
                 id: projectsList
-                // projectName: "Project Test"
                 // Layout.preferredWidth: 1
             }
 
-            TasksList {
+            TasksListView {
                 id: tasksList
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 Layout.preferredWidth: 4
             }
 
-            TaskInfo {
+            TaskInfoView {
                 id: tasks
                 Layout.fillHeight: true
                 Layout.fillWidth: true
@@ -47,7 +46,8 @@ Window {
 
     }
 
-    CreateProjectDialog {
+    CreateProjectView {
         id: projectDialog
+        onAccepted: projectsList.addProject([projectDialog.projectName.text, projectDialog.projectDescription.text, projectDialog.limitDateInput.dateInput, projectDialog.projectColor])
     }
 }

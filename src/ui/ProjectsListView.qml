@@ -7,7 +7,8 @@ import TaskManagerLite 1.0
 
 
 Rectangle {
-    // property string projectName: "" // If this property does not have a value in main.qml, this will be the default value.
+    // property alias model: projectsListModel
+    id: root
 
     radius: 4
     border.color: "#dddddd"
@@ -18,6 +19,10 @@ Rectangle {
 
     ProjectsListModel {
         id: projectsListModel
+    }
+
+    function addProject(name, description, limitDate, color) {
+        projectsListModel.add_project(name, description, limitDate, color)
     }
 
     ColumnLayout {
@@ -31,19 +36,53 @@ Rectangle {
             Layout.margins: 5
             clip: true
             spacing: 2
+            highlight: Rectangle { color: "orange" }
             // spacing: (parent.height / projectsListModel.num_projects()) // Divide number of projects / screen height (?)
 
             ScrollBar.vertical: ScrollBar {}
 
+            // model: ProjectsListModel
+
+
             model: ListModel {
-                ListElement { name: "Project 1" }
-                ListElement { name: "Project 2" }
-                ListElement { name: "Project 3" }
+                id: listModel
+                ListElement {
+                    name: "Project 1"
+                }
+                ListElement {
+                    name: "Project 2"
+                }
             }
 
+
+            Component {
+                id: projectDelegate
+                Item {
+                    width: listView.width
+                    height: 48
+                    // color: listView.isCurrentItem ? "#d0e8ff" : "white"
+
+                    Text {
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10
+                        text: name
+                        color: listView.isCurrentItem ? "#d0e8ff" : "black"
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: listView.currentIndex = index
+                    }
+                }
+            }
+
+            delegate: projectDelegate
+
+            /*
             delegate: Rectangle {
                 width: listView.width
-                height: 48
+                height: listView.height
                 color: ListView.isCurrentItem ? "#d0e8ff" : "white"
 
                 Text {
@@ -58,6 +97,7 @@ Rectangle {
                     onClicked: listView.currentIndex = index
                 }
             }
+            */
 
         }
 
@@ -86,4 +126,5 @@ Rectangle {
         }
 
     }
+
 }

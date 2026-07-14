@@ -3,9 +3,14 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Universal
 
+import TaskManagerLite 1.0
+
 
 Dialog {
-    property var selectedDate: new Date()
+    property alias projectName: nameField
+    property alias projectDescription: descriptionField
+    property alias limitDateInput: dateField
+    property alias projectColor: colorField
 
     Universal.theme: Universal.Light
 
@@ -17,6 +22,12 @@ Dialog {
     height: parent.height / 2
     closePolicy: Popup.CloseOnEscape
 
+    CreateProjectDialog {
+        id: createProjectDialog
+        // acceptSignal: createProject.acceptSignal
+        // cancelSignal: createProject.cancelSignal
+    }
+
     ColumnLayout {
         anchors.fill: parent
         Layout.fillWidth: true
@@ -25,15 +36,16 @@ Dialog {
         spacing: 5
 
         TextField {
-            id: projectName
+            id: nameField
             // Layout.margins: 10
             Layout.fillWidth: true
             Layout.fillHeight: false
             placeholderText: "Project Name"
+            focus: true
         }
 
         TextField {
-            id: projectDescription
+            id: descriptionField
             // Layout.margins: 10
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -54,8 +66,8 @@ Dialog {
                     Layout.fillWidth: true
                 }
 
-                DateInput {
-                    id: limitDateInput
+                DateInputView {
+                    id: dateField
                     Layout.fillWidth: true
                     enabled: true
                 }
@@ -72,7 +84,7 @@ Dialog {
                 }
 
                 ComboBox {
-                    id: projectColor
+                    id: colorField
                     Layout.fillWidth: true
                     enabled: true
 
@@ -96,6 +108,6 @@ Dialog {
 
     standardButtons: Dialog.Ok | Dialog.Cancel
 
-    // onAccepted: console.log("Pulsado OK")
-    // onRejected: console.log("Pulsado Cancelar")
+    onRejected: createProjectDialog.on_cancel()
+
 }

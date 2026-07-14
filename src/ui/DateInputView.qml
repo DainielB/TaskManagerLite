@@ -31,7 +31,7 @@ Item {
         width: dateInput.width
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
-        // Under the TextField
+        // Below the TextField
         x: dateInput.x
         y: dateInput.y + dateInput.height + (dateInput.height / 2)
 

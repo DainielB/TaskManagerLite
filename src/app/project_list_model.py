@@ -1,3 +1,4 @@
+'''
 import typing
 from dataclasses import fields
 
@@ -18,12 +19,13 @@ QML_IMPORT_NAME = "TaskManagerLite"
 QML_IMPORT_MAJOR_VERSION = 1
 
 
-@QmlElement
+# @QmlElement
 class ProjectsListModel(QAbstractListModel):
+
     def __init__(self, parent=QObject | None):
         super().__init__()
-        # self._projects: list[Project] = []
-        self._projects: list[str] = []
+        self._projects: list[Project] = []
+        # self._projects: list[str] = []
 
     def rowCount(
         self, parent: QModelIndex | QPersistentModelIndex = QModelIndex()
@@ -67,17 +69,11 @@ class ProjectsListModel(QAbstractListModel):
         print("AQUÍ ESTAMOS")
         self.beginInsertRows(QModelIndex(), 0, 0)
         project = Project(*info)
-        self._projects.insert(0, project.name)
+        self._projects.insert(0, project)
         #self._projects.append(project.name)
         print(self._projects)
         # self.insertRows(self.rowCount() - 1, 1, QModelIndex())
         self.endInsertRows()
-
-    """
-    @Slot(str)
-    def add_project(self, project_name: str):
-        self._projects.append(project_name)
-    """
 
     @Slot()
     def get__projects(self):
@@ -87,8 +83,4 @@ class ProjectsListModel(QAbstractListModel):
     def num__projects(self):
         return len(self._projects)
 
-    """
-    @Slot(int, result=str)
-    def get_project_name(self, index: int) -> str:
-        return self._projects[index]
-    """
+'''
