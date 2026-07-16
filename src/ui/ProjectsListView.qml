@@ -4,8 +4,10 @@ import QtQuick.Controls
 
 Rectangle {
     id: root
-    color: "#2A1F2D"
 
+    property alias projectList: listView
+
+    color: "#2A1F2D"
     radius: 4
     border.color: "#56E39F"
     Layout.fillHeight: true
@@ -35,16 +37,15 @@ Rectangle {
                 Item {
                     width: listView.width
                     height: 48
-                    // color: listView.isCurrentItem ? "#d0e8ff" : "white"
 
                     Text {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                         anchors.leftMargin: 10
-                        text: projectDialog.projectName.text // TODO: Esto es lo que hace que cuando se cree un proyecto nuevo,
+                        text: name // TODO: Esto es lo que hace que cuando se cree un proyecto nuevo,
                                                             // los que ya hay en la lista se actualicen automáticamente con el nombre
                                                             // que se está poniendo en el textfield
-                        color: listView.isCurrentItem ? "#d0e8ff" : "black"
+                        color: listView.isCurrentItem ? "black" : "white"
                     }
 
                     MouseArea {
@@ -67,6 +68,7 @@ Rectangle {
                 Layout.fillHeight: true
 
                 Button {
+                    id: newProjectButton
                     background: Rectangle {
                         implicitWidth: 100
                         implicitHeight: 40

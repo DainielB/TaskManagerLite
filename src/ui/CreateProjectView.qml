@@ -5,8 +5,8 @@ import QtQuick.Controls.Universal
 
 
 Dialog {
-    property alias projectName: nameField
-    property alias projectDescription: descriptionField
+    property alias projectName: nameField.text
+    property alias projectDescription: descriptionField.text
     property alias limitDateInput: dateField
     property alias projectColor: colorField
 
@@ -106,7 +106,7 @@ Dialog {
     }
 
     standardButtons: Dialog.Ok | Dialog.Cancel
-
+//    onReleased: app_controller.project_list_controller()
 //    onRejected: createProjectDialog.on_cancel()
 
 }

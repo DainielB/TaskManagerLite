@@ -1,15 +1,36 @@
 import typing
-from dataclasses import fields
+from enum import IntEnum, auto
 
 from PySide6.QtCore import (
-    QAbstractListModel,
-    QByteArray,
-    QModelIndex,
-    QObject,
-    QPersistentModelIndex,
     Qt,
+    QAbstractListModel,
+    QModelIndex,
+    QPersistentModelIndex,
     Slot,
 )
+
+
+class ProjectItemRoles(IntEnum):
+    ID = Qt.ItemDataRole.UserRole + 1
+    NAME = auto()
+    DESCRIPTION = auto()
+    END_DATE = auto()
+    START_DATE = auto()
+    CREATION_DATE = auto()
+    STATE = auto()
+    COLOR = auto()
+
+
+_role_names = {
+    ProjectItemRoles.ID: b'id',
+    ProjectItemRoles.NAME: b'name',
+    ProjectItemRoles.DESCRIPTION: b'description',
+    ProjectItemRoles.END_DATE: b'end_date',
+    ProjectItemRoles.START_DATE: b'start_date',
+    ProjectItemRoles.CREATION_DATE: b'creation_date',
+    ProjectItemRoles.STATE: b'state',
+    ProjectItemRoles.COLOR: b'color',
+}
 
 
 class ProjectsListModel(QAbstractListModel):
@@ -18,9 +39,9 @@ class ProjectsListModel(QAbstractListModel):
         super().__init__()
         self._projects: list = []
 
-    def rowCount(
-        self, parent: QModelIndex | QPersistentModelIndex = QModelIndex()
-    ) -> int:
+        self.add_project("Test Project 1")
+
+    def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         """
         Returns the number of rows under the given parent.
         When the parent is valid it means that rowCount is returning
@@ -32,36 +53,43 @@ class ProjectsListModel(QAbstractListModel):
 
         return len(self._projects)
 
-    def data(
-        self,
-        index: QModelIndex | QPersistentModelIndex,
-        role: int = Qt.ItemDataRole.DisplayRole,
-    ) -> typing.Any:
+    def data(self, index: QModelIndex | QPersistentModelIndex, role: int = Qt.DisplayRole) -> typing.Any:
         """Returns an appropriate value for the requested data.
         If the view requests an invalid index, an invalid variant is returned.
         Any valid index that corresponds to a string in the list causes that
         string to be returned."""
 
-        if not index.isValid() < self.rowCount():
+        if role not in list(_role_names):
+            return None
+
+        try:
             project = self._projects[index.row()]
-            name = self.roleNames().get(role)
-            if name:
-                return
-                # return getattr(project, name.data().decode())
+        except IndexError:
+            return None
 
-    """
-    def roleNames(self) -> dict[int, QByteArray]:
-        d = {}
-        for i, field in enumerate(fields(Project)):
-            d[Qt.ItemDataRole.DisplayRole + i] = field.name.encode()
-        return d
-    """
+        if role in project:
+            return project[role]
 
-    @Slot(list)
-    def add_project(self, project) -> None:
-        self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
-        self._projects.insert(self.rowCount(), project)
+        return None
+
+    def roleNames(self) -> dict:
+        return _role_names
+
+    @Slot(str)
+    def add_project(self, project_name: str) -> None:
+        new_row = { ProjectItemRoles.NAME: project_name }
+        self._projects.append(new_row)
+
+    @Slot(int, str)
+    def add_project_index(self, index: int, project_name: str) -> None:
+        new_index = index + 1
+        new_project = { ProjectItemRoles.NAME: project_name }
+
+        self.beginInsertRows(QModelIndex(), new_index, new_index)
+        self._projects.insert(new_index, new_project)
         self.endInsertRows()
+
+        print("FINISH")
 
     """
     @Slot(result=list)

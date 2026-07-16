@@ -14,8 +14,12 @@ class ProjectListController(QObject):
     def project_list_model(self):
         return self._project_list_model
 
-    @Slot(list)
-    def add_project(self, info: list[str]) -> None:
+    @Slot(int, list)
+    def add_project(self, index: int, info: list) -> None:
+        """
+        Adds a project to the project list at the specified index with the given info.
+        """
+
         new_project = Project(*info)
 
-        self._project_list_model.add_project(new_project)
+        self._project_list_model.add_project_index(index, new_project.name)
