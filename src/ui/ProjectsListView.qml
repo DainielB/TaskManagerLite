@@ -7,11 +7,12 @@ Rectangle {
 
     property alias projectList: listView
 
-    color: "#2A1F2D"
+    color: "#30332E"
     radius: 4
-    border.color: "#56E39F"
+    border.color: "#F8D64F"
     Layout.fillHeight: true
     Layout.fillWidth: true
+//    margin.left: 10
 
     ColumnLayout {
         anchors.fill: parent
@@ -24,7 +25,7 @@ Rectangle {
             Layout.margins: 5
             clip: true
             spacing: 2
-            highlight: Rectangle { color: "orange" }
+            highlight: Rectangle { color: "#7286A0" }
             // spacing: (parent.height / projectsListModel.num_projects()) // Divide number of projects / screen height (?)
 
             ScrollBar.vertical: ScrollBar {}
@@ -74,7 +75,7 @@ Rectangle {
                         implicitHeight: 40
                         enabled: true
 //                        opacity: enabled ? 1 : 0.3
-                        color: "#56E39F"
+                        color: "#F8D64F"
                     }
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: parent.horizontalCenter
