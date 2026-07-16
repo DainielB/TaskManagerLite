@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import QtQuick.Controls.Universal
 
 
 Dialog {
@@ -11,15 +10,36 @@ Dialog {
     property alias projectColor: colorField
 
     id: createProject
-    title: "Create Project"
+    width: Overlay.overlay.width / 4
+    height: Overlay.overlay.height / 2
+    title: qsTr("Create Project")
+    visible: true
     modal: true
-    anchors.centerIn: parent
-    width: parent.width / 4
-    height: parent.height / 2
     closePolicy: Popup.CloseOnEscape
+    anchors.centerIn: Overlay.overlay
 
-    ColumnLayout {
-        anchors.fill: parent
+    background: Rectangle {
+        color: "#30332E"
+//        border.color: "#4a4a5e"
+//        border.width: 1
+    }
+
+    header: Rectangle {
+        color: "#30332E"
+        height: 48
+        radius: 12
+        Text {
+            anchors.centerIn: parent
+            text: createProject.title
+            color: "white"
+            font.pixelSize: 16
+            font.bold: true
+            wrapMode: Text.WordWrap
+        }
+    }
+
+    contentItem: ColumnLayout {
+        anchors.fill: Overlay.overlay
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.margins: 10
@@ -27,7 +47,6 @@ Dialog {
 
         TextField {
             id: nameField
-            // Layout.margins: 10
             Layout.fillWidth: true
             Layout.fillHeight: false
             placeholderText: "Project Name"
@@ -36,7 +55,6 @@ Dialog {
 
         TextField {
             id: descriptionField
-            // Layout.margins: 10
             Layout.fillWidth: true
             Layout.fillHeight: true
             placeholderText: "Project Description (Optional)"
@@ -88,7 +106,7 @@ Dialog {
                         "Universal.Lime":"Lime", "Universal.Green":"Green", "Universal.Emerald":"Emerald", "Universal.Teal":"Teal", "Universal.Cyan":"Cyan", "Universal.Cobalt":"Cobalt",
                         "Universal.Indigo":"Indigo", "Universal.Violet":"Violet", "Universal.Purple":"Purple", "Universal.Pink":"Pink", "Universal.Magenta":"Magenta", "Universal.Crimson":"Crimson",
                         "Universal.Red":"Red", "Universal.Orange":"Orange", "Universal.Amber":"Amber", "Universal.Yellow":"Yellow", "Universal.Brown":"Brown", "Universal.Olive":"Olive",
-                        "Universal.Steel":"Steel", "Universal.Mauve":"Mauve", "Universal.Taupe":"Taupe"
+                        "Universal.Steel":"Steel", "Universal.Mauve":"Mauve", "º.Taupe":"Taupe"
                     }
                     */
 
@@ -105,7 +123,29 @@ Dialog {
 
     }
 
-    standardButtons: Dialog.Ok | Dialog.Cancel
+    footer: DialogButtonBox {
+        background: Rectangle { color: "transparent" }
+
+        Button {
+            text: "Cancel"
+            flat: true
+            DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
+            contentItem: Text { text: parent.text; color: "#aaaaaa" }
+            background: Rectangle { color: "transparent" }
+        }
+
+        Button {
+            text: "Accept"
+            DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
+            contentItem: Text { text: parent.text; color: "white"; font.bold: true }
+            background: Rectangle {
+                color: parent.pressed ? "#637792" : "#7286A0"
+                radius: 4
+            }
+        }
+    }
+
+//    standardButtons: Dialog.Ok | Dialog.Cancel
 //    onReleased: app_controller.project_list_controller()
 //    onRejected: createProjectDialog.on_cancel()
 

@@ -57,7 +57,6 @@ Rectangle {
             }
 
             delegate: projectDelegate
-
         }
 
         RowLayout {
@@ -86,7 +85,8 @@ Rectangle {
                     width: 150
                     text: "+ New Project"
 
-                    onReleased: projectDialog.open()
+//                    onReleased: projectDialog.open()
+                    onReleased: dialogLoader.active = true
                 }
             }
 
