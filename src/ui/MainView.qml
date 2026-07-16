@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 
 
-Window {
+ApplicationWindow {
     id: mainWindow
 
     color: "#30332E"

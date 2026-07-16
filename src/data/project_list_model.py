@@ -75,13 +75,6 @@ class ProjectsListModel(QAbstractListModel):
     def roleNames(self) -> dict:
         return _role_names
 
-    """
-    @Slot(str)
-    def add_project(self, project_name: str) -> None:
-        new_row = { ProjectItemRoles.NAME: project_name }
-        self._projects.append(new_row)
-    """
-
     @Slot(str)
     def add_project(self, project_name: str) -> None:
         """Adds a project to the project list at the specified index with the given name."""
@@ -96,15 +89,3 @@ class ProjectsListModel(QAbstractListModel):
         self.beginInsertRows(QModelIndex(), new_index, new_index)
         self._projects.insert(new_index, new_project)
         self.endInsertRows()
-
-        print("FINISH")
-
-    """
-    @Slot(result=list)
-    def get_projects(self) -> list:
-        return self._projects
-
-    @Slot(result=int)
-    def num_projects(self) -> int:
-        return len(self._projects)
-    """
