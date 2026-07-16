@@ -48,6 +48,6 @@ Window {
 
     CreateProjectView {
         id: projectDialog
-        onAccepted: app_controller.project_list_controller.add_project(projectsListView.projectList.currentIndex, [projectDialog.projectName, projectDialog.projectDescription, projectDialog.limitDateInput.dateInput, projectDialog.projectColor])
+        onAccepted: app_controller.project_list_controller.add_new_project(projectDialog.projectName, projectDialog.projectDescription, projectDialog.limitDateInput.dateInput, projectDialog.projectColor)
     }
 }
