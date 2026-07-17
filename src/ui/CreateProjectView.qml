@@ -47,17 +47,31 @@ Dialog {
 
         TextField {
             id: nameField
+
+            property bool isValid: nameField.text.length > 0
+
             Layout.fillWidth: true
             Layout.fillHeight: false
             placeholderText: "Project Name"
             focus: true
+            background: Rectangle {
+                //color: "white"
+                radius: 4
+                color: isValid ? "#4a4a5e" : "#e05252"
+                border.width: !isValid ? 8 : 4
+            }
         }
 
-        TextField {
+        TextArea {
             id: descriptionField
             Layout.fillWidth: true
             Layout.fillHeight: true
             placeholderText: "Project Description (Optional)"
+            background: Rectangle {
+                color: "white"
+                radius: 4
+                border.color: nameField.enabled ? "#21be2b" : "transparent"
+            }
         }
 
         ColumnLayout {
@@ -72,6 +86,7 @@ Dialog {
                 Label {
                     text: "Limit Date"
                     Layout.fillWidth: true
+                    color: "white"
                 }
 
                 DateInputView {
@@ -89,12 +104,18 @@ Dialog {
                 Label {
                     text: "Color (Optional)"
                     Layout.fillWidth: true
+                    color: "white"
                 }
 
                 ComboBox {
                     id: colorField
                     Layout.fillWidth: true
                     enabled: true
+                    background: Rectangle {
+                        color: "white"
+                        radius: 4
+                        border.color: nameField.enabled ? "#21be2b" : "transparent"
+                    }
 
                     model: [
                         "Lime", "Green", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Purple", "Pink", "Magenta", "Crimson", "Red", "Orange",
@@ -138,8 +159,9 @@ Dialog {
             text: "Accept"
             DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
             contentItem: Text { text: parent.text; color: "white"; font.bold: true }
+            enabled: nameField.isValid
             background: Rectangle {
-                color: parent.pressed ? "#637792" : "#7286A0"
+                color: enabled || parent.pressed ? "#637792" : "#7286A0"
                 radius: 4
             }
         }

@@ -22,6 +22,11 @@ Item {
                 placeholderText: selectedDate.getDate() + "/" + (selectedDate.getMonth() + 1) + "/" + selectedDate.getFullYear()
                 onReleased: datePicker.open()
                 enabled: true
+                background: Rectangle {
+                    color: "white"
+                    radius: 4
+                    border.color: nameField.enabled ? "#21be2b" : "transparent"
+                }
             }
         }
     }
