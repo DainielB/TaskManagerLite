@@ -1,11 +1,11 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import QtQuick.Controls.Universal
+// import QtQuick.Controls.Universal
 
 
 Rectangle {
-    Universal.theme: Universal.Light
+    // Universal.theme: Universal.Light
 
     id: projectsList
     property string name: "Name of the task"
@@ -18,24 +18,28 @@ Rectangle {
     border.color: "#dddddd"
 
     ColumnLayout {
-        anchors.fill: parent
-        anchors.margins: 10
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.margins: 10
         spacing: 5
 
         TextField {
             id: taskName
-            Layout.margins: 10
+            /*
             Layout.fillWidth: true
             Layout.fillHeight: false
+            */
             text: name
             enabled: false
         }
 
         TextField {
             id: taskDescription
+            /*
             Layout.margins: 10
             Layout.fillWidth: true
             Layout.fillHeight: true
+            */
             text: description
             enabled: false
         }
@@ -43,9 +47,11 @@ Rectangle {
         // Task Info Panel
         GridLayout {
             columns: 2
+            /*
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.margins: 10
+            */
 
             ColumnLayout {
                 spacing: 5
@@ -56,8 +62,10 @@ Rectangle {
 
                 TextField {
                     id: startDate
+                    /*
                     Layout.fillWidth: true
-                    // Layout.fillHeight: true
+                    Layout.fillHeight: true
+                    */
                     enabled: false
                     text: "02-06-26"
                 }
@@ -72,8 +80,10 @@ Rectangle {
 
                 TextField {
                     id: endDate
+                    /*
                     Layout.fillWidth: true
-                    // Layout.fillHeight: true
+                    Layout.fillHeight: true
+                    */
                     enabled: false
                     text: "28-06-26"
                 }
@@ -89,7 +99,7 @@ Rectangle {
 
                 ComboBox {
                     id: taskStatus
-                    Layout.fillWidth: true
+                    // Layout.fillWidth: true
                     enabled: false
 
                     model: ["In Progress", "In Review", "To Do", "Paused", "Backlog", "Finished"]
@@ -112,7 +122,7 @@ Rectangle {
 
                 ComboBox {
                     id: priority
-                    Layout.fillWidth: true
+                    // Layout.fillWidth: true
                     enabled: false
 
                     model: ["High", "Medium", "Low"]
@@ -130,9 +140,11 @@ Rectangle {
 
         // Buttons Panel
         RowLayout {
+            /*
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.margins: 10
+            */
             Layout.alignment: Qt.AlignRight
             spacing: 5
 

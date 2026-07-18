@@ -9,10 +9,7 @@ Rectangle {
 
     color: "#30332E"
     radius: 4
-    border.color: "#F8D64F"
-    Layout.fillHeight: true
-    Layout.fillWidth: true
-//    margin.left: 10
+    // border.color: "#F8D64F"
 
     ColumnLayout {
         anchors.fill: parent

@@ -4,6 +4,13 @@ import QtQuick.Controls
 
 
 ApplicationWindow {
+    property int totalParts: 10
+    property int projectsListParts: 1
+    property int tasksListParts: 6
+    property int taskInfoParts: 3
+
+    property int padding: 5
+
     id: mainWindow
 
     color: "#30332E"
@@ -11,6 +18,10 @@ ApplicationWindow {
     height: 600
     visible: true
     title: "Task Manager Lite"
+    leftPadding: padding
+    topPadding: padding
+    rightPadding: padding
+    bottomPadding: padding
 
     minimumWidth: 400
     minimumHeight: 300
@@ -18,28 +29,29 @@ ApplicationWindow {
     ColumnLayout {
         anchors.fill: parent
 
-        GridLayout {
+        RowLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            columns: 10
+            spacing: 5
 
             ProjectsListView {
                 id: projectsListView
-//                Layout.preferredWidth: 1
+                Layout.fillHeight: true
+                Layout.preferredWidth: mainWindow.width * projectsListParts / mainWindow.totalParts
             }
 
             TasksListView {
                 id: tasksList
-                Layout.fillHeight: true
                 Layout.fillWidth: true
-                Layout.preferredWidth: 4
+                Layout.fillHeight: true
+                Layout.preferredWidth: mainWindow.width * tasksListParts / mainWindow.totalParts
             }
 
             TaskInfoView {
                 id: tasks
-                Layout.fillHeight: true
                 Layout.fillWidth: true
-                Layout.preferredWidth: 2
+                Layout.fillHeight: true
+                Layout.preferredWidth: mainWindow.width * taskInfoParts / mainWindow.totalParts
             }
 
         }

@@ -2,83 +2,62 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
+
 Rectangle {
-    id: taskList
-    color: "magenta"
+    id: root
+    color: "#798CA4"
     radius: 5
-    border.color: "#dddddd"
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 0
 
         // Actions Bar
-        RowLayout {
+        Item {
+            id: actionsBar
             Layout.fillWidth: true
-            Layout.margins: 5
-            spacing: 5
+            Layout.preferredHeight: sortButton.implicitHeight
+            Layout.margins: 10
 
             Button {
+                id: sortButton
                 text: "Sort"
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
             }
 
-            Item { Layout.fillWidth: true }
+            RowLayout {
+                anchors.centerIn: parent
+                spacing: 5
 
-            TextField {
-                id: searchField
-                placeholderText: "Search a Task..."
-                Layout.preferredWidth: 200
-                Layout.preferredHeight: searchBtn.implicitHeight
-                onTextChanged: console.log("Texto actual:", text)
+                TextField {
+                    id: searchField
+                    Layout.preferredWidth: 200
+                    Layout.preferredHeight: searchBtn.implicitHeight
+                    placeholderText: "Search a Task..."
+                    onTextChanged: console.log("Texto actual:", text)
+                }
+                Button {
+                    id: searchBtn
+                    text: "Search"
+                    onClicked: { /* tu lógica */ }
+                }
             }
+
             Button {
-                id: searchBtn
-                text: "Search"
-                onClicked: { /* tu lógica */ }
-            }
-
-            Item { Layout.fillWidth: true }
-
-            Button {
+                id: newTaskButton
                 text: "New Task"
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
                 onClicked: { /* tu lógica */ }
             }
         }
 
-        // Tasks List
-        ListView {
-            id: listView
+        Expandable {
+            id: expandable
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.margins: 5
-            clip: true
-            spacing: 2
 
-            ScrollBar.vertical: ScrollBar {}
-
-            model: ListModel {
-                ListElement { name: "Bill Smith";  number: "555 3264" }
-                ListElement { name: "John Brown";  number: "555 8426" }
-                ListElement { name: "Sam Wise";    number: "555 0473" }
-            }
-
-            delegate: Rectangle {
-                width: listView.width
-                height: 48
-                color: ListView.isCurrentItem ? "#d0e8ff" : "white"
-
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    text: name + ": " + number
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: listView.currentIndex = index
-                }
-            }
+            headerText: "In Progress"
         }
     }
 }
