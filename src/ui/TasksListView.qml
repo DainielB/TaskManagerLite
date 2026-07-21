@@ -52,12 +52,76 @@ Rectangle {
             }
         }
 
-        Expandable {
-            id: expandable
+        ScrollView {
+            id: scrollView
+            //contentWidth: root.width
+            //contentHeight: root.height
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            headerText: "In Progress"
+            ScrollBar.horizontal.interactive: false
+            ScrollBar.vertical.interactive: true
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+
+            ColumnLayout {
+                id: scrollColumn
+                width: scrollView.availableWidth   // 👈 ancho fijo, SIN anchors.fill
+                //anchors.fill: root
+
+                spacing: 400
+
+                Expandable {
+                    id: inProgress
+
+                    new_width: root.width
+                    expanded: true
+                    headerText: "In Progress"
+                }
+
+                Expandable {
+                    id: inReview
+
+                    new_width: root.width
+                    expanded: false
+                    headerText: "In Review"
+                }
+
+                Expandable {
+                    id: toDo
+
+                    new_width: root.width
+                    expanded: false
+                    headerText: "To Do"
+                }
+
+                Expandable {
+                    id: paused
+
+                    new_width: root.width
+                    expanded: false
+                    headerText: "Paused"
+                }
+
+                Expandable {
+                    id: backlog
+
+                    new_width: root.width
+                    expanded: false
+                    headerText: "Backlog"
+                }
+
+                Expandable {
+                    id: finished
+
+                    new_width: root.width
+                    expanded: false
+                    headerText: "Finished"
+                }
+
+            }
+
         }
+
     }
 }

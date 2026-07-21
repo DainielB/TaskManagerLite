@@ -9,7 +9,7 @@ ApplicationWindow {
     property int tasksListParts: 6
     property int taskInfoParts: 3
 
-    property int padding: 5
+    property int _padding: 5
 
     id: mainWindow
 
@@ -18,10 +18,10 @@ ApplicationWindow {
     height: 600
     visible: true
     title: "Task Manager Lite"
-    leftPadding: padding
-    topPadding: padding
-    rightPadding: padding
-    bottomPadding: padding
+    leftPadding: _padding
+    topPadding: _padding
+    rightPadding: _padding
+    bottomPadding: _padding
 
     minimumWidth: 400
     minimumHeight: 300

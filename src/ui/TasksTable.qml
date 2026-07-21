@@ -4,10 +4,9 @@ import QtQuick.Controls
 
 
 Rectangle {
-    Layout.fillWidth: true
-    Layout.fillHeight: true
 
     ColumnLayout {
+        anchors.fill: parent
 
         RowLayout {
             Text { text: "Task"; Layout.preferredWidth: 200 }
