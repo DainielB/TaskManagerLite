@@ -5,15 +5,14 @@ import QtQuick.Controls
 
 Rectangle {
     property int component_height: 36
-    property int new_spacing: 15
+    property int new_spacing: 5
 
     id: root
 
-    color: "yellow"
+    color: "transparent"
     // implicitWidth: 50
-    implicitHeight: 20
+    // implicitHeight: 20
 
-    /*
     ColumnLayout {
         anchors.fill: parent
         spacing: new_spacing
@@ -23,6 +22,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
+            spacing: new_spacing
 
             model: app_controller.task_table_controller.task_table_model
 
@@ -82,6 +82,5 @@ Rectangle {
             delegate: taskDelegate  // RowLayout con cada "columna" como componente distinto
         }
     }
-    */
 
 }

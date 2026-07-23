@@ -106,6 +106,9 @@ Rectangle {
         ScrollView {
             id: scrollView
 
+            // contentHeight: scrollColumn.implicitHeight + 100 // TODO: modify this
+            Component.onCompleted: console.log("scrollview width real:", scrollView.width, "implicitWidth:", implicitWidth, "scrollview height real:", scrollView.height, "implicitHeight:", implicitHeight)
+
             Layout.fillWidth: true
             Layout.fillHeight: true
 
@@ -114,16 +117,28 @@ Rectangle {
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
+            /*
+            background: Rectangle {
+                color: "orange"
+            }
+            */
+
             ColumnLayout {
                 id: scrollColumn
                 width: scrollView.availableWidth   // 👈 ancho fijo, SIN anchors.fill
 
-                spacing: 250
+                // spacing: 20
 
                 Expandable {
                     id: inProgress
 
-                    new_width: root.width
+                    Layout.alignment: Qt.AlignTop
+
+                    implicitWidth: scrollView.width
+                    implicitHeight: 200
+
+                    header_height: 50
+                    header_color: "blue"
                     expanded: true
                     headerText: "In Progress"
                 }
@@ -131,15 +146,24 @@ Rectangle {
                 Expandable {
                     id: inReview
 
-                    new_width: root.width
+                    implicitWidth: scrollView.width
+                    implicitHeight: 200
+
+                    header_height: 50
+                    header_color: "pink"
                     expanded: false
                     headerText: "In Review"
                 }
+                // Component.onCompleted: console.log("inReview width real:", inReview.width, "implicitWidth:", inReview.implicitWidth, "inReview height real:", inReview.height, "implicitHeight:", inReview.implicitHeight)
 
                 Expandable {
                     id: toDo
 
-                    new_width: root.width
+                    implicitWidth: scrollView.width
+                    implicitHeight: 200
+
+                    header_height: 50
+                    header_color: "purple"
                     expanded: false
                     headerText: "To Do"
                 }
@@ -147,7 +171,11 @@ Rectangle {
                 Expandable {
                     id: paused
 
-                    new_width: root.width
+                    implicitWidth: scrollView.width
+                    implicitHeight: 200
+
+                    header_height: 50
+                    header_color: "red"
                     expanded: false
                     headerText: "Paused"
                 }
@@ -155,7 +183,11 @@ Rectangle {
                 Expandable {
                     id: backlog
 
-                    new_width: root.width
+                    implicitWidth: scrollView.width
+                    implicitHeight: 200
+
+                    header_height: 50
+                    header_color: "green"
                     expanded: false
                     headerText: "Backlog"
                 }
@@ -163,7 +195,11 @@ Rectangle {
                 Expandable {
                     id: finished
 
-                    new_width: root.width
+                    implicitWidth: scrollView.width
+                    implicitHeight: 200
+
+                    header_height: 50
+                    header_color: "magenta"
                     expanded: false
                     headerText: "Finished"
                 }
