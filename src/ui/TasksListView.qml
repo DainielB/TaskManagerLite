@@ -105,17 +105,16 @@ Rectangle {
 
         ScrollView {
             id: scrollView
-
-            // contentHeight: scrollColumn.implicitHeight + 100 // TODO: modify this
-            Component.onCompleted: console.log("scrollview width real:", scrollView.width, "implicitWidth:", implicitWidth, "scrollview height real:", scrollView.height, "implicitHeight:", implicitHeight)
+            // Component.onCompleted: console.log("scrollview width real:", scrollView.width, "implicitWidth:", implicitWidth, "scrollview height real:", scrollView.height, "implicitHeight:", implicitHeight)
 
             Layout.fillWidth: true
             Layout.fillHeight: true
+            Layout.margins: 10
 
             ScrollBar.horizontal.interactive: false
             ScrollBar.vertical.interactive: true
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOff // ScrollBar is not visible but works
 
             /*
             background: Rectangle {
@@ -127,15 +126,15 @@ Rectangle {
                 id: scrollColumn
                 width: scrollView.availableWidth   // 👈 ancho fijo, SIN anchors.fill
 
-                // spacing: 20
+                spacing: 15
 
                 Expandable {
                     id: inProgress
 
-                    Layout.alignment: Qt.AlignTop
+                    //Layout.alignment: Qt.AlignTop
 
                     implicitWidth: scrollView.width
-                    implicitHeight: 200
+                    //implicitHeight: 200
 
                     header_height: 50
                     header_color: "blue"
@@ -147,7 +146,7 @@ Rectangle {
                     id: inReview
 
                     implicitWidth: scrollView.width
-                    implicitHeight: 200
+                    //implicitHeight: 200
 
                     header_height: 50
                     header_color: "pink"
@@ -160,7 +159,7 @@ Rectangle {
                     id: toDo
 
                     implicitWidth: scrollView.width
-                    implicitHeight: 200
+                    //implicitHeight: 200
 
                     header_height: 50
                     header_color: "purple"
@@ -172,7 +171,7 @@ Rectangle {
                     id: paused
 
                     implicitWidth: scrollView.width
-                    implicitHeight: 200
+                    //implicitHeight: 200
 
                     header_height: 50
                     header_color: "red"
@@ -184,7 +183,7 @@ Rectangle {
                     id: backlog
 
                     implicitWidth: scrollView.width
-                    implicitHeight: 200
+                    //implicitHeight: 200
 
                     header_height: 50
                     header_color: "green"
@@ -196,7 +195,7 @@ Rectangle {
                     id: finished
 
                     implicitWidth: scrollView.width
-                    implicitHeight: 200
+                    //implicitHeight: 200
 
                     header_height: 50
                     header_color: "magenta"

@@ -5,24 +5,24 @@ import QtQuick.Controls
 
 Rectangle {
     property int component_height: 36
-    property int new_spacing: 5
+    property int tasks_spacing: 5
+    readonly property alias contentHeight: listView.contentHeight
 
     id: root
-
     color: "transparent"
-    // implicitWidth: 50
-    // implicitHeight: 20
+
+    // Component.onCompleted: console.log("listView.contentHeight:", listView.contentHeight, "| count:", listView.count)
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: new_spacing
+        spacing: tasks_spacing
 
         ListView {
             id: listView
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-            spacing: new_spacing
+            spacing: tasks_spacing
 
             model: app_controller.task_table_controller.task_table_model
 
@@ -41,7 +41,7 @@ Rectangle {
                     RowLayout {
                         anchors.fill: parent
                         anchors.leftMargin: 10
-                        spacing: 30
+                        // spacing: 30
 
                         Text {
                             text: name // TODO: Esto es lo que hace que cuando se cree un proyecto nuevo,

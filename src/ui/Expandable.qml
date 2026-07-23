@@ -6,30 +6,38 @@ import QtQuick.Controls
 Rectangle {
     property int new_width
     property int new_height
-    property int header_height
-    property string header_color
-    property bool expanded: false
+    property int header_height: 50
+    property string header_color: "pink"
+    property bool expanded
     property string headerText: ""
-    property int _total_height: header.implicitHeight + (app_controller.task_table_controller.task_table_model.rowCount * tasksTable.implicitHeight)
+    property int _spacing: 5
+    property int _total_height: root.header_height + tasksTable.contentHeight + _spacing
 
     id: root
-    color: "orange" // "transparent"
+    color: "transparent" // "orange"
+    implicitHeight: expanded ? _total_height : root.header_height
 
     /*
     onExpandedChanged: {
-
+        console.log("headerText:", headerText,
+                     "| header_height:", header_height,
+                     "| tasksTable.contentHeight:", tasksTable.contentHeight,
+                     "| _total_height:", _total_height,
+                     "| root.implicitHeight:", implicitHeight,
+                     "| root.height:", height)
     }
     */
 
     ColumnLayout {
         anchors.fill: parent
+        spacing: 0
 
         // HEADER
         Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: false
-            implicitHeight: header_height
-            Component.onCompleted: console.log("header width real:", width, "implicitWidth:", implicitWidth, "header height real:", height, "implicitHeight:", implicitHeight)
+            height: header_height
+            // Component.onCompleted: console.log("header width real:", width, "implicitWidth:", implicitWidth, "header height real:", height, "implicitHeight:", implicitHeight)
 
             color: header_color
             border.width: 1
@@ -52,8 +60,8 @@ Rectangle {
                 Text {
                     id: arrow
                     //text: "▶"
-                    text: ">"
-                    font.bold: true
+                    text: root.expanded ? "v" : ">"
+                    //font.bold: true
                     font.pixelSize: 16
                     /*
                     rotation: d.rotationAngle
@@ -73,10 +81,7 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 onReleased: {
-                    console.log("EY", root._total_height)
                     root.expanded = !root.expanded
-                    root.implicitHeight = root.expanded ? 200 : root.header_height
-                    //header.height = root.expanded ? 20 : root.header_height
                 }
             }
 
@@ -86,14 +91,14 @@ Rectangle {
             id: tasksTable
 
             implicitWidth: 100
-            implicitHeight: root._total_height
+            //implicitHeight: 300
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.leftMargin: 40
+            Layout.topMargin: 5
 
-            // visible: root.expanded
-            height: root.expanded ? 10 : 0
-            // arrow.text = root.expanded ? ">" : "<"
+            tasks_spacing: 5
+            visible: root.expanded
         }
 
     }
