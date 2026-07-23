@@ -7,6 +7,12 @@ Rectangle {
     property int component_height: 36
     property int tasks_spacing: 5
     readonly property alias contentHeight: listView.contentHeight
+    readonly property int headerParts: 10
+    readonly property int taskCol: 3
+    readonly property int dateCol: 2
+    readonly property int statusCol: 2
+    readonly property int priorityCol: 2
+    readonly property int typeCol: 1
 
     id: root
     color: "transparent"
@@ -35,8 +41,8 @@ Rectangle {
                     color: "#9EACBD"
                     radius: 5
 
-                    border.width: 1
-                    border.color: "gray"
+                    border.width: 2
+                    border.color: "#F0803C" // "gray"
 
                     RowLayout {
                         anchors.fill: parent
@@ -44,30 +50,33 @@ Rectangle {
                         // spacing: 30
 
                         Text {
-                            text: name // TODO: Esto es lo que hace que cuando se cree un proyecto nuevo,
-                                        // los que ya hay en la lista se actualicen automáticamente con el nombre
-                                        // que se está poniendo en el textfield
+                            text: name
                             color: listView.isCurrentItem ? "black" : "white"
+                            Layout.preferredWidth: root.width * root.taskCol / root.headerParts
                         }
 
                         Text {
                             text: end_date
                             color: listView.isCurrentItem ? "black" : "white"
+                            Layout.preferredWidth: root.width * root.dateCol / root.headerParts
                         }
 
                         Text {
                             text: status
                             color: listView.isCurrentItem ? "black" : "white"
+                            Layout.preferredWidth: root.width * root.statusCol / root.headerParts
                         }
 
                         Text {
                             text: priority
                             color: listView.isCurrentItem ? "black" : "white"
+                            Layout.preferredWidth: root.width * root.priorityCol / root.headerParts
                         }
 
                         Text {
                             text: type
                             color: listView.isCurrentItem ? "black" : "white"
+                            Layout.preferredWidth: root.width * root.typeCol / root.headerParts
                         }
 
                     }

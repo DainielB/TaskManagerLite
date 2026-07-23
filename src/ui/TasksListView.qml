@@ -19,7 +19,6 @@ Rectangle {
         anchors.fill: parent
 
         // Actions Bar
-        /*
         Item {
             id: actionsBar
 
@@ -63,45 +62,59 @@ Rectangle {
         }
 
         // TABLE HEADER
-        RowLayout {
-            id: tableHeader
+        Rectangle {
+            id: tableHeaderBackground
+
             Layout.fillWidth: true
-            Layout.leftMargin: 10
+            //Layout.preferredWidth: root.width / 2
+            //Layout.leftMargin: 20
+            //Layout.rightMargin: 20
             Layout.preferredHeight: 30
             Layout.alignment: Qt.AlignVCenter
 
-            Text {
-                id: taskText
-                text: "TASK"
-                font.bold: true
-                Layout.preferredWidth: root.width * root.taskCol / root.headerParts
+            color: "#9EACBD" // #798DA4
+
+            RowLayout {
+                id: tableHeader
+
+                anchors.fill: parent
+                //anchors.leftMargin: 40
+                //anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+
+                Text {
+                    id: taskText
+                    text: "TASK"
+                    font.bold: true
+                    Layout.preferredWidth: root.width * root.taskCol / root.headerParts
+                }
+                Text {
+                    text: "END DATE"
+                    font.bold: true
+                    Layout.preferredWidth: root.width * root.dateCol / root.headerParts
+                    Layout.alignment: Qt.AlignHCenter
+                }
+                Text {
+                    text: "STATUS"
+                    font.bold: true
+                    Layout.preferredWidth: root.width * root.statusCol / root.headerParts
+                    Layout.alignment: Qt.AlignHCenter
+                }
+                Text {
+                    text: "PRIORITY"
+                    font.bold: true
+                    Layout.preferredWidth: root.width * root.priorityCol / root.headerParts
+                    Layout.alignment: Qt.AlignHCenter
+                }
+                Text {
+                    text: "TYPE"
+                    font.bold: true
+                    Layout.preferredWidth: root.width * root.typeCol / root.headerParts
+                    Layout.alignment: Qt.AlignHCenter
+                }
             }
-            Text {
-                text: "END DATE"
-                font.bold: true
-                Layout.preferredWidth: root.width * root.dateCol / root.headerParts
-                Layout.alignment: Qt.AlignHCenter
-            }
-            Text {
-                text: "STATUS"
-                font.bold: true
-                Layout.preferredWidth: root.width * root.statusCol / root.headerParts
-                Layout.alignment: Qt.AlignHCenter
-            }
-            Text {
-                text: "PRIORITY"
-                font.bold: true
-                Layout.preferredWidth: root.width * root.priorityCol / root.headerParts
-                Layout.alignment: Qt.AlignHCenter
-            }
-            Text {
-                text: "TYPE"
-                font.bold: true
-                Layout.preferredWidth: root.width * root.typeCol / root.headerParts
-                Layout.alignment: Qt.AlignHCenter
-            }
+
         }
-        */
 
         ScrollView {
             id: scrollView
@@ -131,13 +144,11 @@ Rectangle {
                 Expandable {
                     id: inProgress
 
-                    //Layout.alignment: Qt.AlignTop
-
-                    implicitWidth: scrollView.width
-                    //implicitHeight: 200
+                    //implicitWidth: scrollView.width
+                    Layout.fillWidth: true
 
                     header_height: 50
-                    header_color: "blue"
+                    header_color: "#30332E"
                     expanded: true
                     headerText: "In Progress"
                 }
@@ -145,11 +156,11 @@ Rectangle {
                 Expandable {
                     id: inReview
 
-                    implicitWidth: scrollView.width
-                    //implicitHeight: 200
+                    //implicitWidth: scrollView.width
+                    Layout.fillWidth: true
 
                     header_height: 50
-                    header_color: "pink"
+                    header_color: "#30332E"
                     expanded: false
                     headerText: "In Review"
                 }
@@ -158,11 +169,11 @@ Rectangle {
                 Expandable {
                     id: toDo
 
-                    implicitWidth: scrollView.width
-                    //implicitHeight: 200
+                    //implicitWidth: scrollView.width
+                    Layout.fillWidth: true
 
                     header_height: 50
-                    header_color: "purple"
+                    header_color: "#30332E"
                     expanded: false
                     headerText: "To Do"
                 }
@@ -170,11 +181,11 @@ Rectangle {
                 Expandable {
                     id: paused
 
-                    implicitWidth: scrollView.width
-                    //implicitHeight: 200
+                    //implicitWidth: scrollView.width
+                    Layout.fillWidth: true
 
                     header_height: 50
-                    header_color: "red"
+                    header_color: "#30332E"
                     expanded: false
                     headerText: "Paused"
                 }
@@ -182,11 +193,11 @@ Rectangle {
                 Expandable {
                     id: backlog
 
-                    implicitWidth: scrollView.width
-                    //implicitHeight: 200
+                    //implicitWidth: scrollView.width
+                    Layout.fillWidth: true
 
                     header_height: 50
-                    header_color: "green"
+                    header_color: "#30332E"
                     expanded: false
                     headerText: "Backlog"
                 }
@@ -194,11 +205,11 @@ Rectangle {
                 Expandable {
                     id: finished
 
-                    implicitWidth: scrollView.width
-                    //implicitHeight: 200
+                    //implicitWidth: scrollView.width
+                    Layout.fillWidth: true
 
                     header_height: 50
-                    header_color: "magenta"
+                    header_color: "#30332E"
                     expanded: false
                     headerText: "Finished"
                 }

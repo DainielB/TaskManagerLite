@@ -4,17 +4,18 @@ import QtQuick.Controls
 
 
 Rectangle {
-    property int new_width
-    property int new_height
     property int header_height: 50
     property string header_color: "pink"
+    property int header_border: 2
+    property string header_border_color: "#F8D64F"
+    property string header_text_color: "white"
     property bool expanded
     property string headerText: ""
     property int _spacing: 5
     property int _total_height: root.header_height + tasksTable.contentHeight + _spacing
 
     id: root
-    color: "transparent" // "orange"
+    color: "transparent"
     implicitHeight: expanded ? _total_height : root.header_height
 
     /*
@@ -40,8 +41,8 @@ Rectangle {
             // Component.onCompleted: console.log("header width real:", width, "implicitWidth:", implicitWidth, "header height real:", height, "implicitHeight:", implicitHeight)
 
             color: header_color
-            border.width: 1
-            border.color: "black"
+            border.width: header_border
+            border.color: header_border_color
 
             RowLayout {
                 id: header
@@ -59,10 +60,10 @@ Rectangle {
                 // TODO: modify this by a svg image
                 Text {
                     id: arrow
-                    //text: "▶"
                     text: root.expanded ? "v" : ">"
                     //font.bold: true
                     font.pixelSize: 16
+                    color: header_text_color
                     /*
                     rotation: d.rotationAngle
                     Behavior on rotation { NumberAnimation { duration: 150 } }
@@ -74,6 +75,7 @@ Rectangle {
                     font.pixelSize: 16
                     font.weight: Font.Bold
                     font.capitalization: Font.AllUppercase
+                    color: header_text_color
                 }
 
             }
