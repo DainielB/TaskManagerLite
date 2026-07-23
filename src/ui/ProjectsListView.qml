@@ -21,7 +21,7 @@ Rectangle {
             Layout.fillHeight: true
             Layout.margins: 5
             clip: true
-            spacing: 2
+            spacing: 50
             highlight: Rectangle { color: "#7286A0" }
             // spacing: (parent.height / projectsListModel.num_projects()) // Divide number of projects / screen height (?)
 

@@ -8,21 +8,30 @@ Rectangle {
     color: "#798CA4"
     radius: 5
 
+    readonly property int headerParts: 10
+    readonly property int taskCol: 3
+    readonly property int dateCol: 2
+    readonly property int statusCol: 2
+    readonly property int priorityCol: 2
+    readonly property int typeCol: 1
+
     ColumnLayout {
         anchors.fill: parent
 
         // Actions Bar
+        /*
         Item {
             id: actionsBar
+
             Layout.fillWidth: true
-            Layout.preferredHeight: sortButton.implicitHeight
-            Layout.margins: 10
+            Layout.preferredHeight: 50 // sortButton.implicitHeight
 
             Button {
                 id: sortButton
                 text: "Sort"
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10
             }
 
             RowLayout {
@@ -34,12 +43,12 @@ Rectangle {
                     Layout.preferredWidth: 200
                     Layout.preferredHeight: searchBtn.implicitHeight
                     placeholderText: "Search a Task..."
-                    onTextChanged: console.log("Texto actual:", text)
+                    //onTextChanged: console.log("Texto actual:", text)
                 }
                 Button {
                     id: searchBtn
                     text: "Search"
-                    onClicked: { /* tu lógica */ }
+                    onClicked: { }
                 }
             }
 
@@ -48,14 +57,55 @@ Rectangle {
                 text: "New Task"
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
-                onClicked: { /* tu lógica */ }
+                anchors.rightMargin: 10
+                onClicked: { }
             }
         }
 
+        // TABLE HEADER
+        RowLayout {
+            id: tableHeader
+            Layout.fillWidth: true
+            Layout.leftMargin: 10
+            Layout.preferredHeight: 30
+            Layout.alignment: Qt.AlignVCenter
+
+            Text {
+                id: taskText
+                text: "TASK"
+                font.bold: true
+                Layout.preferredWidth: root.width * root.taskCol / root.headerParts
+            }
+            Text {
+                text: "END DATE"
+                font.bold: true
+                Layout.preferredWidth: root.width * root.dateCol / root.headerParts
+                Layout.alignment: Qt.AlignHCenter
+            }
+            Text {
+                text: "STATUS"
+                font.bold: true
+                Layout.preferredWidth: root.width * root.statusCol / root.headerParts
+                Layout.alignment: Qt.AlignHCenter
+            }
+            Text {
+                text: "PRIORITY"
+                font.bold: true
+                Layout.preferredWidth: root.width * root.priorityCol / root.headerParts
+                Layout.alignment: Qt.AlignHCenter
+            }
+            Text {
+                text: "TYPE"
+                font.bold: true
+                Layout.preferredWidth: root.width * root.typeCol / root.headerParts
+                Layout.alignment: Qt.AlignHCenter
+            }
+        }
+        */
+
         ScrollView {
             id: scrollView
-            //contentWidth: root.width
-            //contentHeight: root.height
+
             Layout.fillWidth: true
             Layout.fillHeight: true
 
@@ -67,9 +117,8 @@ Rectangle {
             ColumnLayout {
                 id: scrollColumn
                 width: scrollView.availableWidth   // 👈 ancho fijo, SIN anchors.fill
-                //anchors.fill: root
 
-                spacing: 400
+                spacing: 250
 
                 Expandable {
                     id: inProgress

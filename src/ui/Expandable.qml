@@ -4,12 +4,18 @@ import QtQuick.Controls
 
 
 Rectangle {
-    property int new_width: 40
-    property int new_height: 50
+    property int new_width
+    property int new_height
     property bool expanded: false
     property string headerText: ""
 
     id: root
+
+    implicitWidth: new_width
+    implicitHeight: new_height
+    color: "red"
+    border.width: 1
+    border.color: "black"
 
     /*
     onExpandedChanged: {
@@ -21,22 +27,15 @@ Rectangle {
         anchors.fill: parent
 
         // HEADER
-        Rectangle {
-            id: header
-
-            Layout.preferredWidth: new_width
-            Layout.preferredHeight: new_height
-            Layout.leftMargin: 10
-
-            color: "#5B6E86"
-            border.width: 2
-            border.color: "#ccc"
-            visible: true
+        Item {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
             RowLayout {
-                //anchors.fill: parent
-                //anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
+                id: header
+                anchors.fill: parent
+                anchors.leftMargin: 30
+                //anchors.verticalCenter: parent.verticalCenter
 
                 /*
                 QtObject {
@@ -45,11 +44,11 @@ Rectangle {
                 }
                 */
 
+                // TODO: modify this by a svg image
                 Text {
                     id: arrow
                     text: "▶"
                     font.pixelSize: 16
-                    font.weight: Font.Bold
                     /*
                     rotation: d.rotationAngle
                     Behavior on rotation { NumberAnimation { duration: 150 } }
@@ -62,27 +61,31 @@ Rectangle {
                     font.weight: Font.Bold
                     font.capitalization: Font.AllUppercase
                 }
+
             }
 
             MouseArea {
                 anchors.fill: parent
                 onReleased: {
+                    console.log("EY")
                     root.expanded = !root.expanded
                 }
             }
 
         }
 
-        TasksTable {
-            id: tasksTable
+    }
 
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.leftMargin: 50
+    TasksTable {
+        id: tasksTable
 
-            visible: root.expanded
-        }
+        //Layout.fillWidth: true
+        //Layout.fillHeight: true
+        //Layout.leftMargin: 40
+        anchors.fill: root
+        anchors.leftMargin: 40
 
+        visible: root.expanded
     }
 
 }

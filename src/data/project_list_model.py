@@ -1,4 +1,3 @@
-import typing
 from enum import IntEnum, auto
 
 from PySide6.QtCore import (
@@ -18,7 +17,7 @@ class ProjectItemRoles(IntEnum):
     START_DATE = auto()
     CREATION_DATE = auto()
     STATE = auto()
-    COLOR = auto()
+    # COLOR = auto()
 
 
 _role_names = {
@@ -29,7 +28,7 @@ _role_names = {
     ProjectItemRoles.START_DATE: b'start_date',
     ProjectItemRoles.CREATION_DATE: b'creation_date',
     ProjectItemRoles.STATE: b'state',
-    ProjectItemRoles.COLOR: b'color',
+    # ProjectItemRoles.COLOR: b'color',
 }
 
 
@@ -53,7 +52,7 @@ class ProjectsListModel(QAbstractListModel):
 
         return len(self._projects)
 
-    def data(self, index: QModelIndex | QPersistentModelIndex, role: int = Qt.DisplayRole) -> typing.Any:
+    def data(self, index: QModelIndex | QPersistentModelIndex, role: int = Qt.DisplayRole):
         """Returns an appropriate value for the requested data.
         If the view requests an invalid index, an invalid variant is returned.
         Any valid index that corresponds to a string in the list causes that
