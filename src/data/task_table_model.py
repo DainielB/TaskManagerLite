@@ -1,3 +1,4 @@
+from datetime import date
 from enum import IntEnum, auto
 
 from PySide6.QtCore import (
@@ -83,7 +84,7 @@ class TaskTableModel(QAbstractListModel):
         return _role_names
 
     @Slot(str)
-    def add_task(self, task_name: str, end_date: str, status: str, priority: str, type: str) -> None:
+    def add_task(self, name: str, end_date: date, type: str, status: str = "", priority: str = "", description: str = "") -> None:
         """Adds a task to the task list at the specified index with the given name."""
 
         if len(self._tasks) == 0:
@@ -91,7 +92,7 @@ class TaskTableModel(QAbstractListModel):
         else:
             new_index = len(self._tasks)
 
-        new_task = { TaskItemRoles.NAME: task_name, TaskItemRoles.END_DATE: end_date, TaskItemRoles.STATUS: status, TaskItemRoles.PRIORITY: priority, TaskItemRoles.TYPE: type }
+        new_task = { TaskItemRoles.NAME: name, TaskItemRoles.END_DATE: end_date, TaskItemRoles.TYPE: type, TaskItemRoles.STATUS: status, TaskItemRoles.PRIORITY: priority, TaskItemRoles.DESCRIPTION: description }
 
         self.beginInsertRows(QModelIndex(), new_index, new_index)
         self._tasks.insert(new_index, new_task)

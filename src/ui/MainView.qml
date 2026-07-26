@@ -59,14 +59,29 @@ ApplicationWindow {
     }
 
     Loader {
-        id: dialogLoader
+        id: createProjectLoader
         active: false
 
         sourceComponent: Component {
             CreateProjectView {
-                id: projectDialog
-                onAccepted: app_controller.project_list_controller.add_new_project(projectDialog.projectName, projectDialog.projectDescription, projectDialog.limitDateInput.dateInput, projectDialog.projectColor)
-                onClosed: dialogLoader.active = false
+                id: newProjectDialog
+                onAccepted: app_controller.project_list_controller.add_new_project(newProjectDialog.projectName, newProjectDialog.projectDescription, newProjectDialog.limitDateInput.dateInput, newProjectDialog.projectColor)
+                onClosed: createProjectLoader.active = false
+            }
+        }
+
+        onLoaded: item.open()
+    }
+
+    Loader {
+        id: createTaskLoader
+        active: false
+
+        sourceComponent: Component {
+            CreateTaskView {
+                id: newTaskDialog
+                onAccepted: app_controller.task_table_controller.add_new_task(newTaskDialog.name, newTaskDialog.description, newTaskDialog.endDate.dateInput, newTaskDialog.status, newTaskDialog.type, newTaskDialog.priority)
+                onClosed: createTaskLoader.active = false
             }
         }
 

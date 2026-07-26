@@ -11,7 +11,7 @@ Rectangle {
     property string name: "Name of the task"
     property string description: "Description of the task"
     property string endDate: ""
-    property string state: ""
+    property string status: ""
     property string type: ""
 
     radius: 8

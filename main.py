@@ -7,6 +7,7 @@ from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtQuickControls2 import QQuickStyle
 
 from src.app.app_controller import AppController
+from src.app.validator import Validator
 
 
 if __name__ == "__main__":
@@ -19,6 +20,10 @@ if __name__ == "__main__":
     # Main controller
     app_controller = AppController(parent=app)
     qml_app_engine.rootContext().setContextProperty("app_controller", app_controller)
+
+    # Validator
+    validator = Validator()
+    qml_app_engine.rootContext().setContextProperty("validator", validator)
 
     current_file_path = Path(__file__)
     main_qml_path = current_file_path.parent / 'src/ui/MainView.qml'

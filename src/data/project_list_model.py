@@ -16,7 +16,7 @@ class ProjectItemRoles(IntEnum):
     END_DATE = auto()
     START_DATE = auto()
     CREATION_DATE = auto()
-    STATE = auto()
+    STATUS = auto()
     # COLOR = auto()
 
 
@@ -27,7 +27,7 @@ _role_names = {
     ProjectItemRoles.END_DATE: b'end_date',
     ProjectItemRoles.START_DATE: b'start_date',
     ProjectItemRoles.CREATION_DATE: b'creation_date',
-    ProjectItemRoles.STATE: b'state',
+    ProjectItemRoles.STATUS: b'status',
     # ProjectItemRoles.COLOR: b'color',
 }
 

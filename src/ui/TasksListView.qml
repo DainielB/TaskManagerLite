@@ -57,7 +57,8 @@ Rectangle {
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.rightMargin: 10
-                onClicked: { }
+
+                onReleased: createTaskLoader.active = true
             }
         }
 

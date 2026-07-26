@@ -7,5 +7,5 @@ class Entity:
     description: str = ""
     start_date: date = None
     end_date: date = None
-    date_of_creation: date = None
-    state: str = ""  # TODO: This has to be an Enum
+    _creation_date: date = None
+    status: str = ""  # TODO: This has to be an Enum

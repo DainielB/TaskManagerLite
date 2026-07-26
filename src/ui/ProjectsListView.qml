@@ -82,8 +82,7 @@ Rectangle {
                     width: 150
                     text: "+ New Project"
 
-//                    onReleased: projectDialog.open()
-                    onReleased: dialogLoader.active = true
+                    onReleased: createProjectLoader.active = true
                 }
             }
 
