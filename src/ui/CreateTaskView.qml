@@ -11,6 +11,8 @@ Dialog {
     property alias type: typeField
     property alias priority: priorityField
 
+    property bool formValid: nameField.acceptableInput && typeField.currentIndex !== 0
+
     id: root
     width: Overlay.overlay.width / 4
     height: Overlay.overlay.height / 2
@@ -50,17 +52,15 @@ Dialog {
         TextField {
             id: nameField
 
-            property bool isValid: nameField.text.length > 0
-
             Layout.fillWidth: true
             Layout.fillHeight: false
             placeholderText: "Task Name"
             focus: true
-            validator: validator
+            validator: input_validator
             background: Rectangle {
                 radius: 4
-                border.color: nameField.isValid ? "transparent" : "red"
-                border.width: nameField.isValid ? 1 : 2
+                border.color: nameField.acceptableInput ? "transparent" : "red"
+                border.width: nameField.acceptableInput ? 1 : 2
             }
         }
 
@@ -85,26 +85,6 @@ Dialog {
             Layout.fillWidth: true
             Layout.fillHeight: false
 
-            /*
-            ColumnLayout {
-                Layout.fillWidth: true
-                Layout.fillHeight: false
-                // spacing: 50
-
-                Label {
-                    text: "End Date"
-                    Layout.fillWidth: true
-                    color: "white"
-                }
-
-                DateInputView {
-                    id: dateField
-                    Layout.fillWidth: true
-                    enabled: true
-                }
-            }
-            */
-
             DateInputView {
                 id: dateField
                 Layout.fillWidth: true
@@ -117,6 +97,7 @@ Dialog {
                 Layout.fillWidth: true
                 Layout.preferredWidth: (grid.width - grid.columnSpacing) / 2
                 enabled: true
+
                 background: Rectangle {
                     color: "white"
                     radius: 4
@@ -128,12 +109,6 @@ Dialog {
                 ]
 
                 currentIndex: 0
-
-                onCurrentIndexChanged: {
-                    console.log("Índice:", currentIndex)
-                    console.log("Valor:", currentValue)
-                    console.log("Texto:", currentText)
-                }
             }
 
             ComboBox {
@@ -147,17 +122,13 @@ Dialog {
                     border.color: nameField.enabled ? "#21be2b" : "transparent"
                 }
 
+                //validator: input_validator
+
                 model: [
                     "Task Type", "Modeling", "Shading", "Rig", "Layout", "Animation", "FX", "Lighting", "Compositing"
                 ]
 
                 currentIndex: 0
-
-                onCurrentIndexChanged: {
-                    console.log("Índice:", currentIndex)
-                    console.log("Valor:", currentValue)
-                    console.log("Texto:", currentText)
-                }
             }
 
             ComboBox {
@@ -176,12 +147,6 @@ Dialog {
                 ]
 
                 currentIndex: 0
-
-                onCurrentIndexChanged: {
-                    console.log("Índice:", currentIndex)
-                    console.log("Valor:", currentValue)
-                    console.log("Texto:", currentText)
-                }
             }
 
         }
@@ -193,7 +158,7 @@ Dialog {
 
         Button {
             text: "Cancel"
-            flat: true
+            flat: false
             DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
             contentItem: Text { text: parent.text; color: "#aaaaaa" }
             background: Rectangle { color: "transparent" }
@@ -203,7 +168,7 @@ Dialog {
             text: "Accept"
             DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
             contentItem: Text { text: parent.text; color: "white"; font.bold: true }
-            enabled: nameField.isValid
+            enabled: root.formValid
             background: Rectangle {
                 color: enabled || parent.pressed ? "#637792" : "#7286A0"
                 radius: 4
@@ -211,8 +176,7 @@ Dialog {
         }
     }
 
-//    standardButtons: Dialog.Ok | Dialog.Cancel
 //    onReleased: app_controller.project_list_controller()
-//    onRejected: createProjectDialog.on_cancel()
+    onRejected: console.log("VALID", root.formValid)
 
 }

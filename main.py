@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     # Validator
     validator = Validator()
-    qml_app_engine.rootContext().setContextProperty("validator", validator)
+    qml_app_engine.rootContext().setContextProperty("input_validator", validator)
 
     current_file_path = Path(__file__)
     main_qml_path = current_file_path.parent / 'src/ui/MainView.qml'
