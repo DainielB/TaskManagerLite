@@ -4,8 +4,11 @@ import QtQuick.Controls
 import QtQuick.Controls.Universal
 
 Item {
-    id: root
+
     property var selectedDate: new Date()
+    //readonly property alias is_valid_input: dateInput.acceptableInput
+
+    id: root
     width: 200
     height: 50
 
@@ -19,14 +22,17 @@ Item {
             TextField {
                 id: dateInput
                 Layout.fillWidth: true
-                placeholderText: selectedDate.getDate() + "/" + (selectedDate.getMonth() + 1) + "/" + selectedDate.getFullYear()
-                onReleased: datePicker.open()
+                placeholderText: (selectedDate.getDate() + 1) + "/" + (selectedDate.getMonth() + 1) + "/" + selectedDate.getFullYear()
                 enabled: true
                 background: Rectangle {
                     color: "white"
                     radius: 4
                     border.color: nameField.enabled ? "#21be2b" : "transparent"
                 }
+
+                onReleased: datePicker.open()
+
+                // validator: date_validator
             }
         }
     }
@@ -63,7 +69,7 @@ Item {
                 Layout.fillWidth: true
 
                 delegate: Text {
-                    text: model.day
+                    text: model.day + 1
                     opacity: model.month === grid.month ? 1 : 0.3
                     font.bold: model.today
                     horizontalAlignment: Text.AlignHCenter
@@ -74,15 +80,16 @@ Item {
                         anchors.fill: parent
                         onClicked: {
                             root.selectedDate = model.date
-                            dateInput.placeholderText = model.date.getDate() + "/" +
+                            dateInput.placeholderText = (model.date.getDate() + 1) + "/" +
                                 (model.date.getMonth() + 1) + "/" +
                                 model.date.getFullYear()
-                            datePicker.close()   // cierra al seleccionar
+                            datePicker.close()
                         }
                     }
                 }
             }
 
+            // BOTTOM
             RowLayout {
                 Layout.fillWidth: true
 

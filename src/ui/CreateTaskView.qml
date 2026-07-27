@@ -11,7 +11,7 @@ Dialog {
     property alias type: typeField
     property alias priority: priorityField
 
-    property bool formValid: nameField.acceptableInput && typeField.currentIndex !== 0
+    property bool formValid: nameField.acceptableInput && typeField.currentIndex !== 0 && dateField.is_valid_input
 
     id: root
     width: Overlay.overlay.width / 4
@@ -90,6 +90,7 @@ Dialog {
                 Layout.fillWidth: true
                 Layout.preferredWidth: (grid.width - grid.columnSpacing) / 2
                 enabled: true
+                // date_validator: date_validator
             }
 
             ComboBox {
@@ -121,8 +122,6 @@ Dialog {
                     radius: 4
                     border.color: nameField.enabled ? "#21be2b" : "transparent"
                 }
-
-                //validator: input_validator
 
                 model: [
                     "Task Type", "Modeling", "Shading", "Rig", "Layout", "Animation", "FX", "Lighting", "Compositing"

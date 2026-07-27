@@ -21,9 +21,12 @@ if __name__ == "__main__":
     app_controller = AppController(parent=app)
     qml_app_engine.rootContext().setContextProperty("app_controller", app_controller)
 
-    # Validator
+    # Validators
     validator = Validator()
     qml_app_engine.rootContext().setContextProperty("input_validator", validator)
+
+    date_validator = Validator()
+    qml_app_engine.rootContext().setContextProperty("date_validator", date_validator)
 
     current_file_path = Path(__file__)
     main_qml_path = current_file_path.parent / 'src/ui/MainView.qml'
