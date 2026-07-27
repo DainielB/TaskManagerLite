@@ -11,7 +11,7 @@ Dialog {
     property alias type: typeField
     property alias priority: priorityField
 
-    property bool formValid: nameField.acceptableInput && typeField.currentIndex !== 0 && dateField.is_valid_input
+    property bool formValid: nameField.acceptableInput && typeField.currentIndex !== 0 // && dateField.is_valid_input
 
     id: root
     width: Overlay.overlay.width / 4

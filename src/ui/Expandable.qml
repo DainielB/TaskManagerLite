@@ -20,12 +20,7 @@ Rectangle {
 
     /*
     onExpandedChanged: {
-        console.log("headerText:", headerText,
-                     "| header_height:", header_height,
-                     "| tasksTable.contentHeight:", tasksTable.contentHeight,
-                     "| _total_height:", _total_height,
-                     "| root.implicitHeight:", implicitHeight,
-                     "| root.height:", height)
+
     }
     */
 
@@ -38,7 +33,6 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: false
             height: header_height
-            // Component.onCompleted: console.log("header width real:", width, "implicitWidth:", implicitWidth, "header height real:", height, "implicitHeight:", implicitHeight)
 
             color: header_color
             border.width: header_border
@@ -48,7 +42,6 @@ Rectangle {
                 id: header
                 anchors.fill: parent
                 anchors.leftMargin: 30
-                //anchors.verticalCenter: parent.verticalCenter
 
                 /*
                 QtObject {
@@ -93,7 +86,6 @@ Rectangle {
             id: tasksTable
 
             implicitWidth: 100
-            //implicitHeight: 300
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.leftMargin: 40
