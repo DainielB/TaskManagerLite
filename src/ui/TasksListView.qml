@@ -8,7 +8,7 @@ Rectangle {
     color: "#798CA4"
     radius: 5
 
-    readonly property int headerParts: 10
+    readonly property int headerParts: 14
     readonly property int taskCol: 3
     readonly property int dateCol: 2
     readonly property int statusCol: 2
@@ -67,9 +67,6 @@ Rectangle {
             id: tableHeaderBackground
 
             Layout.fillWidth: true
-            //Layout.preferredWidth: root.width / 2
-            //Layout.leftMargin: 20
-            //Layout.rightMargin: 20
             Layout.preferredHeight: 30
             Layout.alignment: Qt.AlignVCenter
 
@@ -79,47 +76,87 @@ Rectangle {
                 id: tableHeader
 
                 anchors.fill: parent
-                //anchors.leftMargin: 40
-                //anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
 
-                Text {
-                    id: taskText
-                    text: "TASK"
-                    font.bold: true
+                Button {
+                    Layout.fillWidth: false
                     Layout.preferredWidth: root.width * root.taskCol / root.headerParts
+                    Layout.alignment: Qt.AlignHCenter
+                    background: Rectangle {
+                        color: "transparent"
+                    }
+
+                    Text {
+                        id: taskText
+                        text: "TASK"
+                        font.bold: true
+                    }
+
+                    // hoverEnabled: true
+
+                    onReleased: {
+                        app_controller.task_table_controller.task_filter_proxy.set_sort_role("name", 0)
+                    }
+
                 }
-                Text {
-                    text: "END DATE"
-                    font.bold: true
+
+                Button {
                     Layout.preferredWidth: root.width * root.dateCol / root.headerParts
                     Layout.alignment: Qt.AlignHCenter
+                    background: Rectangle {
+                        color: "transparent"
+                    }
+
+                    Text {
+                        text: "END DATE"
+                        font.bold: true
+                    }
+
+                    onReleased: {
+                        app_controller.task_table_controller.task_filter_proxy.set_sort_role("end_date", 1)
+                    }
                 }
-                Text {
-                    text: "STATUS"
-                    font.bold: true
-                    Layout.preferredWidth: root.width * root.statusCol / root.headerParts
-                    Layout.alignment: Qt.AlignHCenter
-                }
-                Text {
-                    text: "PRIORITY"
-                    font.bold: true
+
+                Button {
                     Layout.preferredWidth: root.width * root.priorityCol / root.headerParts
                     Layout.alignment: Qt.AlignHCenter
+                    background: Rectangle {
+                        color: "transparent"
+                    }
+
+                    Text {
+                        text: "PRIORITY"
+                        font.bold: true
+                    }
+
+                    onReleased: {
+                        app_controller.task_table_controller.task_filter_proxy.set_sort_role("priority", 2)
+                    }
                 }
-                Text {
-                    text: "TYPE"
-                    font.bold: true
+
+                Button {
                     Layout.preferredWidth: root.width * root.typeCol / root.headerParts
                     Layout.alignment: Qt.AlignHCenter
+                    background: Rectangle {
+                        color: "transparent"
+                    }
+
+                    Text {
+                        text: "TYPE"
+                        font.bold: true
+                    }
+
+                    onReleased: {
+                        app_controller.task_table_controller.task_filter_proxy.set_sort_role("type", 3)
+                    }
                 }
+
             }
 
         }
 
         ScrollView {
             id: scrollView
-            // Component.onCompleted: console.log("scrollview width real:", scrollView.width, "implicitWidth:", implicitWidth, "scrollview height real:", scrollView.height, "implicitHeight:", implicitHeight)
 
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -138,14 +175,15 @@ Rectangle {
 
             ColumnLayout {
                 id: scrollColumn
-                width: scrollView.availableWidth   // 👈 ancho fijo, SIN anchors.fill
+                width: scrollView.availableWidth
 
                 spacing: 15
 
                 Expandable {
                     id: inProgress
 
-                    //implicitWidth: scrollView.width
+                    proxyModel: app_controller.task_table_controller.task_filter_proxy
+
                     Layout.fillWidth: true
 
                     header_height: 50
@@ -157,7 +195,8 @@ Rectangle {
                 Expandable {
                     id: inReview
 
-                    //implicitWidth: scrollView.width
+                    proxyModel: app_controller.task_table_controller.task_filter_proxy
+
                     Layout.fillWidth: true
 
                     header_height: 50
@@ -170,7 +209,8 @@ Rectangle {
                 Expandable {
                     id: toDo
 
-                    //implicitWidth: scrollView.width
+                    proxyModel: app_controller.task_table_controller.task_filter_proxy
+
                     Layout.fillWidth: true
 
                     header_height: 50
@@ -182,7 +222,8 @@ Rectangle {
                 Expandable {
                     id: paused
 
-                    //implicitWidth: scrollView.width
+                    proxyModel: app_controller.task_table_controller.task_filter_proxy
+
                     Layout.fillWidth: true
 
                     header_height: 50
@@ -194,7 +235,8 @@ Rectangle {
                 Expandable {
                     id: backlog
 
-                    //implicitWidth: scrollView.width
+                    proxyModel: app_controller.task_table_controller.task_filter_proxy
+
                     Layout.fillWidth: true
 
                     header_height: 50
@@ -206,7 +248,8 @@ Rectangle {
                 Expandable {
                     id: finished
 
-                    //implicitWidth: scrollView.width
+                    proxyModel: app_controller.task_table_controller.task_filter_proxy
+
                     Layout.fillWidth: true
 
                     header_height: 50

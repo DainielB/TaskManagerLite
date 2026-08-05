@@ -1,5 +1,4 @@
 from datetime import date
-from enum import IntEnum, auto
 
 from PySide6.QtCore import (
     Qt,
@@ -7,36 +6,11 @@ from PySide6.QtCore import (
     QModelIndex,
     QPersistentModelIndex,
     Slot,
+    QDate,
+    QDateTime
 )
 
-
-class TaskItemRoles(IntEnum):
-    ID = Qt.ItemDataRole.UserRole + 1
-    START_DATE = auto()
-    END_DATE = auto()
-    STATUS = auto()
-    DESCRIPTION = auto()
-    NAME = auto()
-    TYPE = auto()
-    PRIORITY = auto()
-    PROJECT = auto()
-    CREATION_DATE = auto()
-    # COLOR = auto()
-
-
-_role_names = {
-    TaskItemRoles.ID: b'id',
-    TaskItemRoles.START_DATE: b'start_date',
-    TaskItemRoles.END_DATE: b'end_date',
-    TaskItemRoles.STATUS: b'status',
-    TaskItemRoles.DESCRIPTION: b'description',
-    TaskItemRoles.NAME: b'name',
-    TaskItemRoles.TYPE: b'type',
-    TaskItemRoles.PRIORITY: b'priority',
-    TaskItemRoles.PROJECT: b'project',
-    TaskItemRoles.CREATION_DATE: b'creation_date',
-    # TaskItemRoles.COLOR: b'color',
-}
+from constants import TaskItemRoles, role_names
 
 
 class TaskTableModel(QAbstractListModel):
@@ -45,9 +19,9 @@ class TaskTableModel(QAbstractListModel):
         super().__init__()
         self._tasks: list = []
 
-        self.add_task("Project Task 1", "2025-01-01", "In Progress", "High", "Project 1")
-        self.add_task("Project Task 2", "2025-01-01", "In Progress", "Low", "Project 1")
-        self.add_task("Project Task 3", "2025-01-01", "In Progress", "Medium", "Project 1")
+        self.add_task("Broject Task 1", "2025-01-01", "High", "Modeling", "In Progress", "Project 1")
+        self.add_task("Aroject Task 2", "2025-01-01", "Low", "Lighting", "To Do", "Project 1")
+        self.add_task("Project Task 3", "2025-01-01", "Medium", "FX", "Backlog", "Project 1")
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         """
@@ -67,7 +41,7 @@ class TaskTableModel(QAbstractListModel):
         Any valid index that corresponds to a string in the list causes that
         string to be returned."""
 
-        if role not in list(_role_names):
+        if role not in list(role_names):
             return None
 
         try:
@@ -81,10 +55,10 @@ class TaskTableModel(QAbstractListModel):
         return None
 
     def roleNames(self) -> dict:
-        return _role_names
+        return role_names
 
     @Slot(str)
-    def add_task(self, name: str, end_date: date, type: str, status: str = "", priority: str = "", description: str = "") -> None:
+    def add_task(self, name: str, end_date: QDate, priority: str = "", type: str = "", status: str = "", description: str = "") -> None:
         """Adds a task to the task list at the specified index with the given name."""
 
         if len(self._tasks) == 0:
@@ -92,7 +66,7 @@ class TaskTableModel(QAbstractListModel):
         else:
             new_index = len(self._tasks)
 
-        new_task = { TaskItemRoles.NAME: name, TaskItemRoles.END_DATE: end_date, TaskItemRoles.TYPE: type, TaskItemRoles.STATUS: status, TaskItemRoles.PRIORITY: priority, TaskItemRoles.DESCRIPTION: description }
+        new_task = { TaskItemRoles.NAME: name, TaskItemRoles.END_DATE: end_date, TaskItemRoles.PRIORITY: priority, TaskItemRoles.TYPE: type, TaskItemRoles.STATUS: status, TaskItemRoles.DESCRIPTION: description }
 
         self.beginInsertRows(QModelIndex(), new_index, new_index)
         self._tasks.insert(new_index, new_task)

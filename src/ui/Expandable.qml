@@ -14,6 +14,8 @@ Rectangle {
     property int _spacing: 5
     property int _total_height: root.header_height + tasksTable.contentHeight + _spacing
 
+    property var proxyModel
+
     id: root
     color: "transparent"
     implicitHeight: expanded ? _total_height : root.header_height
@@ -93,6 +95,8 @@ Rectangle {
 
             tasks_spacing: 5
             visible: root.expanded
+
+            proxyModel: root.proxyModel
         }
 
     }

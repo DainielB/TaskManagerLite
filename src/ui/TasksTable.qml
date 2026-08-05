@@ -14,6 +14,8 @@ Rectangle {
     readonly property int priorityCol: 2
     readonly property int typeCol: 1
 
+    property var proxyModel
+
     id: root
     color: "transparent"
 
@@ -30,7 +32,9 @@ Rectangle {
             clip: true
             spacing: tasks_spacing
 
-            model: app_controller.task_table_controller.task_table_model
+            // model: app_controller.task_table_controller.task_table_model
+            // model: app_controller.task_table_controller.task_filter_proxy
+            model: root.proxyModel
 
             Component {
                 id: taskDelegate
@@ -60,13 +64,13 @@ Rectangle {
                             color: listView.isCurrentItem ? "black" : "white"
                             Layout.preferredWidth: root.width * root.dateCol / root.headerParts
                         }
-
+                        /*
                         Text {
                             text: status
                             color: listView.isCurrentItem ? "black" : "white"
                             Layout.preferredWidth: root.width * root.statusCol / root.headerParts
                         }
-
+                        */
                         Text {
                             text: priority
                             color: listView.isCurrentItem ? "black" : "white"
