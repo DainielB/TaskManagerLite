@@ -19,9 +19,9 @@ class TaskTableModel(QAbstractListModel):
         super().__init__()
         self._tasks: list = []
 
-        self.add_task("Broject Task 1", "2025-01-01", "High", "Modeling", "In Progress", "Project 1")
-        self.add_task("Aroject Task 2", "2025-01-01", "Low", "Lighting", "To Do", "Project 1")
-        self.add_task("Project Task 3", "2025-01-01", "Medium", "FX", "Backlog", "Project 1")
+        self.add_task("broject Task 1", QDate(2025, 8, 9), "High", "Modeling", "In Progress", "Project 1")
+        self.add_task("Aroject Task 2", QDate(2026, 1, 1), "Low", "Lighting", "To Do", "Project 1")
+        self.add_task("Project Task 3", QDate(2025, 6, 1), "Medium", "FX", "Backlog", "Project 1")
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         """
@@ -66,7 +66,7 @@ class TaskTableModel(QAbstractListModel):
         else:
             new_index = len(self._tasks)
 
-        new_task = { TaskItemRoles.NAME: name, TaskItemRoles.END_DATE: end_date, TaskItemRoles.PRIORITY: priority, TaskItemRoles.TYPE: type, TaskItemRoles.STATUS: status, TaskItemRoles.DESCRIPTION: description }
+        new_task = { TaskItemRoles.NAME: name, TaskItemRoles.END_DATE: end_date.toString(Qt.DateFormat.ISODate), TaskItemRoles.PRIORITY: priority, TaskItemRoles.TYPE: type, TaskItemRoles.STATUS: status, TaskItemRoles.DESCRIPTION: description }
 
         self.beginInsertRows(QModelIndex(), new_index, new_index)
         self._tasks.insert(new_index, new_task)
