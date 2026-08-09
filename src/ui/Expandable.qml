@@ -15,6 +15,7 @@ Rectangle {
     property int _total_height: root.header_height + tasksTable.contentHeight + _spacing
 
     property var proxyModel
+    property string status: ""
 
     id: root
     color: "transparent"
@@ -97,6 +98,7 @@ Rectangle {
             visible: root.expanded
 
             proxyModel: root.proxyModel
+            status: root.status
         }
 
     }

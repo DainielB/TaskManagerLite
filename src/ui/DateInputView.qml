@@ -6,6 +6,7 @@ import QtQuick.Controls.Universal
 Item {
 
     property var selectedDate: new Date()
+    readonly property string dateText: dateDelegateText.text
     //readonly property alias is_valid_input: dateInput.acceptableInput
 
     id: root
@@ -69,6 +70,7 @@ Item {
                 Layout.fillWidth: true
 
                 delegate: Text {
+                    id: dateDelegateText
                     text: model.day + 1
                     opacity: model.month === grid.month ? 1 : 0.3
                     font.bold: model.today

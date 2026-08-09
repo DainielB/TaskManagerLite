@@ -15,11 +15,10 @@ Rectangle {
     readonly property int typeCol: 1
 
     property var proxyModel
+    property string status: ""
 
     id: root
     color: "transparent"
-
-    // Component.onCompleted: console.log("listView.contentHeight:", listView.contentHeight, "| count:", listView.count)
 
     ColumnLayout {
         anchors.fill: parent
@@ -32,8 +31,6 @@ Rectangle {
             clip: true
             spacing: tasks_spacing
 
-            // model: app_controller.task_table_controller.task_table_model
-            // model: app_controller.task_table_controller.task_filter_proxy
             model: root.proxyModel
 
             Component {
@@ -78,7 +75,7 @@ Rectangle {
                         }
 
                         Text {
-                            text: type
+                            text: kind
                             color: listView.isCurrentItem ? "black" : "white"
                             Layout.preferredWidth: root.width * root.typeCol / root.headerParts
                         }

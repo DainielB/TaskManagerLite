@@ -8,10 +8,10 @@ Dialog {
     property alias description: descriptionField.text
     property alias endDate: dateField
     property alias status: statusField
-    property alias type: typeField
+    property alias kind: kindField
     property alias priority: priorityField
 
-    property bool formValid: nameField.acceptableInput && typeField.currentIndex !== 0 // && dateField.is_valid_input
+    property bool formValid: nameField.acceptableInput && kindField.currentIndex !== 0 // && dateField.is_valid_input
 
     id: root
     width: Overlay.overlay.width / 4
@@ -113,7 +113,7 @@ Dialog {
             }
 
             ComboBox {
-                id: typeField
+                id: kindField
                 Layout.fillWidth: true
                 Layout.preferredWidth: (grid.width - grid.columnSpacing) / 2
                 enabled: true
@@ -175,7 +175,7 @@ Dialog {
         }
     }
 
-//    onReleased: app_controller.project_list_controller()
-    onRejected: console.log("VALID", root.formValid)
+    // onAccepted: console.log("Task Created")
+    // onRejected: console.log("VALID", root.formValid)
 
 }

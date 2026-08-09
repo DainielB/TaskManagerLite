@@ -6,18 +6,21 @@ from PySide6.QtCore import (
     Qt,
 )
 
-from constants import TaskItemRoles, role_names
+from constants import TaskItemRoles, TaskStatus, role_names
 
 
 class TaskFilterProxy(QSortFilterProxyModel):
 
-    # def __init__(self, status, source_model, parent=None):
-    def __init__(self, source_model, parent=None):
+    def __init__(self, status: TaskStatus, source_model, parent=None):
+    # def __init__(self, source_model, parent=None):
         super().__init__(parent)
 
         self._sort_role = None
         self._filter_role = None
         self._source_column: int = 0
+        self._general_status: TaskStatus = status
+
+        # print(f"status: {source_model.data(0, TaskItemRoles.STATUS)}")
 
         self.setSourceModel(source_model)
         self.setDynamicSortFilter(True)
@@ -29,6 +32,7 @@ class TaskFilterProxy(QSortFilterProxyModel):
         role_name = role.encode('utf-8')
         self._sort_role: int = [k for k, v in role_names.items() if v == role_name][0]
         self.setSortRole(self._sort_role)
+        # self.sortRoleChanged.emit(self._sort_role)
         self.sort(source_column)
         # self.invalidate()
 
@@ -53,8 +57,7 @@ class TaskFilterProxy(QSortFilterProxyModel):
         print(f"left_data: {left_data}, right_data: {right_data}")
 
         if self.sortRole() == TaskItemRoles.END_DATE:
-            print(f"left_data type: {type(left_data)}, right_data type: {type(right_data)}")
-            return left_data < right_data
+            return QDate.fromString(left_data, Qt.DateFormat.ISODate) < QDate.fromString(right_data, Qt.DateFormat.ISODate)
         elif self.sortRole() == TaskItemRoles.NAME:
             return str(left_data).lower() < str(right_data).lower()
         else:
@@ -66,3 +69,10 @@ class TaskFilterProxy(QSortFilterProxyModel):
         # right_data = self.sourceModel().data(right, Qt.ItemDataRole.DisplayRole)
 
         return True
+
+    def filterAcceptsRow(self, source_row: int, source_parent: QModelIndex) -> bool:
+        model = self.sourceModel()
+        index = model.index(source_row, 0, source_parent)
+        task_status = model.data(index, TaskItemRoles.STATUS)
+        print(f"task_status == self._general_status -> {task_status == self._general_status}")
+        return task_status == self._general_status

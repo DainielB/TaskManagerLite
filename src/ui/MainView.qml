@@ -80,7 +80,7 @@ ApplicationWindow {
         sourceComponent: Component {
             CreateTaskView {
                 id: newTaskDialog
-                onAccepted: app_controller.task_table_controller.add_new_task(newTaskDialog.name, newTaskDialog.description, newTaskDialog.endDate.dateInput, newTaskDialog.status, newTaskDialog.type, newTaskDialog.priority)
+                onAccepted: app_controller.task_table_controller.add_new_task(newTaskDialog.name, newTaskDialog.endDate.dateField.dateText, newTaskDialog.priority.currentText, newTaskDialog.kind.currentText, newTaskDialog.status.currentText, newTaskDialog.description)
                 onClosed: createTaskLoader.active = false
             }
         }

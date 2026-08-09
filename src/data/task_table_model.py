@@ -7,10 +7,11 @@ from PySide6.QtCore import (
     QPersistentModelIndex,
     Slot,
     QDate,
-    QDateTime
 )
 
 from constants import TaskItemRoles, role_names
+from src.app.task_table_controller import TaskPriority, TaskStatus, TaskKind
+from src.data.task import Task
 
 
 class TaskTableModel(QAbstractListModel):
@@ -19,9 +20,12 @@ class TaskTableModel(QAbstractListModel):
         super().__init__()
         self._tasks: list = []
 
-        self.add_task("broject Task 1", QDate(2025, 8, 9), "High", "Modeling", "In Progress", "Project 1")
-        self.add_task("Aroject Task 2", QDate(2026, 1, 1), "Low", "Lighting", "To Do", "Project 1")
-        self.add_task("Project Task 3", QDate(2025, 6, 1), "Medium", "FX", "Backlog", "Project 1")
+        task_one = Task("Project Task 1", "2025-08-09", TaskPriority.HIGH, TaskKind.LIGHTING, TaskStatus.IN_PROGRESS, "Project 1")
+        self.add_task(task_one)
+        task_two = Task("Aroject Task 2", "2026-01-01", TaskPriority.LOW, TaskKind.ANIMATION, TaskStatus.TO_DO, "Project 1")
+        self.add_task(task_two)
+        task_three = Task("Project Task 3", "2025-06-01", TaskPriority.MEDIUM, TaskKind.FX, TaskStatus.BACKLOG, "Project 1")
+        self.add_task(task_three)
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         """
@@ -57,8 +61,9 @@ class TaskTableModel(QAbstractListModel):
     def roleNames(self) -> dict:
         return role_names
 
-    @Slot(str)
-    def add_task(self, name: str, end_date: QDate, priority: str = "", type: str = "", status: str = "", description: str = "") -> None:
+    '''
+    @Slot(str, str, str, str, str, str)
+    def add_task(self, name: str, end_date: str, priority: str, kind: str, status: str = "", description: str = "") -> None:
         """Adds a task to the task list at the specified index with the given name."""
 
         if len(self._tasks) == 0:
@@ -66,7 +71,23 @@ class TaskTableModel(QAbstractListModel):
         else:
             new_index = len(self._tasks)
 
-        new_task = { TaskItemRoles.NAME: name, TaskItemRoles.END_DATE: end_date.toString(Qt.DateFormat.ISODate), TaskItemRoles.PRIORITY: priority, TaskItemRoles.TYPE: type, TaskItemRoles.STATUS: status, TaskItemRoles.DESCRIPTION: description }
+        new_task = { TaskItemRoles.NAME: name, TaskItemRoles.END_DATE: end_date.toString(Qt.DateFormat.ISODate), TaskItemRoles.PRIORITY: priority, TaskItemRoles.KIND: kind, TaskItemRoles.STATUS: status, TaskItemRoles.DESCRIPTION: description }
+
+        self.beginInsertRows(QModelIndex(), new_index, new_index)
+        self._tasks.insert(new_index, new_task)
+        self.endInsertRows()
+    '''
+
+    @Slot(Task)
+    def add_task(self, task: Task) -> None:
+        """Adds a task to the task list at the specified index with the given name."""
+
+        if len(self._tasks) == 0:
+            new_index = 0
+        else:
+            new_index = len(self._tasks)
+
+        new_task = { TaskItemRoles.NAME: task.name, TaskItemRoles.END_DATE: task.end_date.toString(Qt.DateFormat.ISODate), TaskItemRoles.PRIORITY: task.priority.value, TaskItemRoles.KIND: task.kind.value, TaskItemRoles.STATUS: task.status, TaskItemRoles.DESCRIPTION: task.description }
 
         self.beginInsertRows(QModelIndex(), new_index, new_index)
         self._tasks.insert(new_index, new_task)

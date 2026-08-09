@@ -1,5 +1,8 @@
+from tkinter.constants import RIGHT
+from tokenize import COMMA
+
 from PySide6.QtCore import Qt
-from enum import IntEnum, auto
+from enum import IntEnum, Enum, auto
 
 
 class TaskItemRoles(IntEnum):
@@ -9,7 +12,7 @@ class TaskItemRoles(IntEnum):
     STATUS = auto()
     DESCRIPTION = auto()
     NAME = auto()
-    TYPE = auto()
+    KIND = auto()
     PRIORITY = auto()
     PROJECT = auto()
     CREATION_DATE = auto()
@@ -23,9 +26,36 @@ role_names: dict = {
     TaskItemRoles.STATUS: b'status',
     TaskItemRoles.DESCRIPTION: b'description',
     TaskItemRoles.NAME: b'name',
-    TaskItemRoles.TYPE: b'type',
+    TaskItemRoles.KIND: b'kind',
     TaskItemRoles.PRIORITY: b'priority',
     TaskItemRoles.PROJECT: b'project',
     TaskItemRoles.CREATION_DATE: b'creation_date',
     # TaskItemRoles.COLOR: b'color',
 }
+
+
+class TaskStatus(Enum):
+    IN_PROGRESS = "In Progress"
+    IN_REVIEW = "In Review"
+    TO_DO = "To Do"
+    PAUSED = "Paused"
+    BACKLOG = "Backlog"
+    FINISHED = "Finished"
+
+
+class TaskKind(Enum):
+    MODELING = "Modeling"
+    SHADING = "Shading"
+    RIG = "Rig"
+    LAYOUT = "Layout"
+    ANIMATION = "Animation"
+    FX = "FX"
+    LIGHTING = "Lighting"
+    COMPOSITING = "Compositing"
+
+
+class TaskPriority(Enum):
+    LOW = "Low"
+    MEDIUM = "Medium"
+    HIGH = "High"
+    CRITICAL = "Critical"

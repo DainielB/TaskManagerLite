@@ -147,7 +147,7 @@ Rectangle {
                     }
 
                     onReleased: {
-                        app_controller.task_table_controller.task_filter_proxy.set_sort_role("type", 3)
+                        app_controller.task_table_controller.task_filter_proxy.set_sort_role("kind", 3)
                     }
                 }
 
@@ -182,7 +182,7 @@ Rectangle {
                 Expandable {
                     id: inProgress
 
-                    proxyModel: app_controller.task_table_controller.task_filter_proxy
+                    proxyModel: app_controller.task_table_controller.in_progress_proxy
 
                     Layout.fillWidth: true
 
@@ -190,12 +190,13 @@ Rectangle {
                     header_color: "#30332E"
                     expanded: true
                     headerText: "In Progress"
+                    status: "In Progress"
                 }
 
                 Expandable {
                     id: inReview
 
-                    proxyModel: app_controller.task_table_controller.task_filter_proxy
+                    proxyModel: app_controller.task_table_controller.in_review_proxy
 
                     Layout.fillWidth: true
 
@@ -203,13 +204,13 @@ Rectangle {
                     header_color: "#30332E"
                     expanded: false
                     headerText: "In Review"
+                    status: "In Review"
                 }
-                // Component.onCompleted: console.log("inReview width real:", inReview.width, "implicitWidth:", inReview.implicitWidth, "inReview height real:", inReview.height, "implicitHeight:", inReview.implicitHeight)
 
                 Expandable {
                     id: toDo
 
-                    proxyModel: app_controller.task_table_controller.task_filter_proxy
+                    proxyModel: app_controller.task_table_controller.to_do_proxy
 
                     Layout.fillWidth: true
 
@@ -217,12 +218,13 @@ Rectangle {
                     header_color: "#30332E"
                     expanded: false
                     headerText: "To Do"
+                    status: "To Do"
                 }
 
                 Expandable {
                     id: paused
 
-                    proxyModel: app_controller.task_table_controller.task_filter_proxy
+                    proxyModel: app_controller.task_table_controller.paused_proxy
 
                     Layout.fillWidth: true
 
@@ -230,12 +232,13 @@ Rectangle {
                     header_color: "#30332E"
                     expanded: false
                     headerText: "Paused"
+                    status: "Paused"
                 }
 
                 Expandable {
                     id: backlog
 
-                    proxyModel: app_controller.task_table_controller.task_filter_proxy
+                    proxyModel: app_controller.task_table_controller.backlog_proxy
 
                     Layout.fillWidth: true
 
@@ -243,12 +246,13 @@ Rectangle {
                     header_color: "#30332E"
                     expanded: false
                     headerText: "Backlog"
+                    status: "Backlog"
                 }
 
                 Expandable {
                     id: finished
 
-                    proxyModel: app_controller.task_table_controller.task_filter_proxy
+                    proxyModel: app_controller.task_table_controller.finished_proxy
 
                     Layout.fillWidth: true
 
@@ -256,6 +260,7 @@ Rectangle {
                     header_color: "#30332E"
                     expanded: false
                     headerText: "Finished"
+                    status: "Finished"
                 }
 
             }
