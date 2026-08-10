@@ -9,7 +9,7 @@ class Validator(QValidator):
         super().__init__(parent)
 
     def validate(self, input_str: str, pos: int) -> object:
-        print(f"input: {input_str}, pos: {pos}")
+        # print(f"input: {input_str}, pos: {pos}")
 
         if input_str.strip() == "":
             # Intermediate state, as otherwise the text field does not allow the last character to be deleted.
@@ -27,7 +27,7 @@ class DateValidator(QValidator):
         super().__init__(parent)
 
     def validate(self, input_str: str, pos: int) -> object:
-        print(f"date input: {input_str}, pos: {pos}")
+        # print(f"date input: {input_str}, pos: {pos}")
 
         input_date: date = date.fromisoformat(input_str)
 

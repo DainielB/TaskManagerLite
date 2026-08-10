@@ -25,6 +25,8 @@ class TaskTableController(QObject):
         self._backlog_proxy = TaskFilterProxy(TaskStatus.BACKLOG, self._task_table_model)
         self._finished_proxy = TaskFilterProxy(TaskStatus.FINISHED, self._task_table_model)
 
+        self._selected_task: Task = None
+
     @Property(QObject, constant=True)
     def task_table_model(self):
         return self._task_table_model
@@ -58,6 +60,14 @@ class TaskTableController(QObject):
     @Property(QObject, constant=True)
     def finished_proxy(self):
         return self._finished_proxy
+
+    @property
+    def selected_task(self) -> Task:
+        return self._selected_task
+
+    @selected_task.setter
+    def selected_task(self, task: Task) -> None:
+        self._selected_task = task
 
     @Slot(str, str, str, str, str, str)
     def add_new_task(self, name: str, end_date: str, priority: str, kind: str, status: str = "", description: str = "") -> None:

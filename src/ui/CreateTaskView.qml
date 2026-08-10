@@ -11,6 +11,7 @@ Dialog {
     property alias kind: kindField
     property alias priority: priorityField
 
+    property bool is_modal
     property bool formValid: nameField.acceptableInput && kindField.currentIndex !== 0 // && dateField.is_valid_input
 
     id: root
@@ -18,7 +19,7 @@ Dialog {
     height: Overlay.overlay.height / 2
     title: qsTr("Create Task")
     visible: true
-    modal: true
+    modal: is_modal
     closePolicy: Popup.CloseOnEscape
     anchors.centerIn: Overlay.overlay
 
@@ -89,7 +90,7 @@ Dialog {
                 id: dateField
                 Layout.fillWidth: true
                 Layout.preferredWidth: (grid.width - grid.columnSpacing) / 2
-                enabled: true
+                is_enabled: true
                 // date_validator: date_validator
             }
 

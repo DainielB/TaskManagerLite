@@ -84,12 +84,16 @@ Rectangle {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: listView.currentIndex = index
+                        onReleased: {
+                            listView.currentIndex = index
+                            app_controller.task_table_controller.selectedTask = model.id
+                            console.log(model.id)
+                        }
                     }
                 }
             }
 
-            delegate: taskDelegate  // RowLayout con cada "columna" como componente distinto
+            delegate: taskDelegate
         }
     }
 

@@ -8,7 +8,6 @@ from PySide6.QtCore import (
 )
 
 from constants import TaskItemRoles, role_names, TaskPriority, TaskStatus, TaskKind
-# from src.app.task_table_controller import TaskPriority, TaskStatus, TaskKind
 from src.data.task import Task
 
 
@@ -38,10 +37,12 @@ class TaskTableModel(QAbstractListModel):
         return len(self._tasks)
 
     def data(self, index: QModelIndex | QPersistentModelIndex, role: int = Qt.DisplayRole):
-        """Returns an appropriate value for the requested data.
+        """
+        Returns an appropriate value for the requested data.
         If the view requests an invalid index, an invalid variant is returned.
         Any valid index that corresponds to a string in the list causes that
-        string to be returned."""
+        string to be returned.
+        """
 
         if role not in list(role_names):
             return None
@@ -58,23 +59,6 @@ class TaskTableModel(QAbstractListModel):
 
     def roleNames(self) -> dict:
         return role_names
-
-    '''
-    @Slot(str, str, str, str, str, str)
-    def add_task(self, name: str, end_date: str, priority: str, kind: str, status: str = "", description: str = "") -> None:
-        """Adds a task to the task list at the specified index with the given name."""
-
-        if len(self._tasks) == 0:
-            new_index = 0
-        else:
-            new_index = len(self._tasks)
-
-        new_task = { TaskItemRoles.NAME: name, TaskItemRoles.END_DATE: end_date.toString(Qt.DateFormat.ISODate), TaskItemRoles.PRIORITY: priority, TaskItemRoles.KIND: kind, TaskItemRoles.STATUS: status, TaskItemRoles.DESCRIPTION: description }
-
-        self.beginInsertRows(QModelIndex(), new_index, new_index)
-        self._tasks.insert(new_index, new_task)
-        self.endInsertRows()
-    '''
 
     @Slot(Task)
     def add_task(self, task: Task) -> None:

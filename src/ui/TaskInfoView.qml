@@ -1,75 +1,57 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-// import QtQuick.Controls.Universal
 
 
 Rectangle {
-    // Universal.theme: Universal.Light
+    id: root
+    radius: 8
+    border.color: "#F0803C"
+    color: "#9EACBD"
 
-    id: projectsList
     property string name: "Name of the task"
     property string description: "Description of the task"
     property string endDate: ""
     property string status: ""
     property string type: ""
+    property bool _enabled: false
 
-    radius: 8
-    border.color: "#dddddd"
+    function enableButtons(enabled: bool) {
+        cancelTask.enabled = enabled
+        taskName.enabled = enabled
+        taskDescription.enabled = enabled
+        startDate.enabled = enabled
+        endDate.enabled = enabled
+        taskStatus.enabled = enabled
+        priority.enabled = enabled
+    }
 
     ColumnLayout {
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        Layout.margins: 10
-        spacing: 5
+        anchors.fill: parent
+        anchors.margins: 10
+        spacing: 10
 
         TextField {
             id: taskName
-            /*
             Layout.fillWidth: true
             Layout.fillHeight: false
-            */
-            text: name
-            enabled: false
+            placeholderText: name
+            enabled: root._enabled // false
         }
 
-        TextField {
+        TextArea {
             id: taskDescription
-            /*
-            Layout.margins: 10
             Layout.fillWidth: true
             Layout.fillHeight: true
-            */
-            text: description
-            enabled: false
+            placeholderText: description
+            enabled: root._enabled // false
         }
 
         // Task Info Panel
         GridLayout {
             columns: 2
-            /*
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.margins: 10
-            */
-
-            ColumnLayout {
-                spacing: 5
-
-                Label {
-                    text: "Start Date"
-                }
-
-                TextField {
-                    id: startDate
-                    /*
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    */
-                    enabled: false
-                    text: "02-06-26"
-                }
-            }
 
             ColumnLayout {
                 spacing: 5
@@ -78,15 +60,24 @@ Rectangle {
                     text: "End Date"
                 }
 
+                DateInputView {
+                    id: endDate
+                    Layout.fillWidth: true
+                    Layout.fillHeight: false
+                    // Layout.preferredWidth: (grid.width - grid.columnSpacing) / 2
+                    is_enabled: root._enabled
+                    // date_validator: date_validator
+                }
+
+                /*
                 TextField {
                     id: endDate
-                    /*
                     Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    */
-                    enabled: false
+                    Layout.fillHeight: false
+                    enabled: root._enabled // false
                     text: "28-06-26"
                 }
+                */
 
             }
 
@@ -99,10 +90,37 @@ Rectangle {
 
                 ComboBox {
                     id: taskStatus
-                    // Layout.fillWidth: true
-                    enabled: false
+                    Layout.fillWidth: true
+                    enabled: root._enabled // false
 
-                    model: ["In Progress", "In Review", "To Do", "Paused", "Backlog", "Finished"]
+                    model: [
+                        "To Do", "In Progress", "In Review", "Paused", "Backlog", "Finished"
+                    ]
+                    currentIndex: 0
+
+                    onCurrentIndexChanged: {
+                        console.log("Índice:", currentIndex)
+                        console.log("Valor:", currentValue)
+                        console.log("Texto:", currentText)
+                    }
+                }
+            }
+
+            ColumnLayout {
+                spacing: 5
+
+                Label {
+                    text: "Task Type"
+                }
+
+                ComboBox {
+                    id: taskType
+                    Layout.fillWidth: true
+                    enabled: root._enabled // false
+
+                    model: [
+                        "Modeling", "Shading", "Rig", "Layout", "Animation", "FX", "Lighting", "Compositing"
+                    ]
                     currentIndex: 0
 
                     onCurrentIndexChanged: {
@@ -122,10 +140,12 @@ Rectangle {
 
                 ComboBox {
                     id: priority
-                    // Layout.fillWidth: true
-                    enabled: false
+                    Layout.fillWidth: true
+                    enabled: root._enabled // false
 
-                    model: ["High", "Medium", "Low"]
+                    model: [
+                        "Low", "Medium", "High", "Urgent"
+                    ]
                     currentIndex: 0
 
                     onCurrentIndexChanged: {
@@ -140,32 +160,23 @@ Rectangle {
 
         // Buttons Panel
         RowLayout {
-            /*
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.margins: 10
-            */
             Layout.alignment: Qt.AlignRight
             spacing: 5
-
-            /*
-            Button {
-                text: "Edit"
-            }
-            */
 
             Button {
                 id: cancelTask
                 text: "Cancel"
-                enabled: false
+                enabled: root._enabled // false
                 onReleased: taskInfo.cancel_button_released(editTask, cancelTask, [taskName, taskDescription, startDate, endDate, taskStatus, priority])
             }
 
             Button {
                 id: editTask
-                text: "Edit"
-                onReleased: taskInfo.edit_button_released(editTask, [cancelTask, taskName, taskDescription, startDate, endDate, taskStatus, priority])
+                text: root._enabled ? "Save" : "Edit"
+                enabled: true
+                onReleased: root._enabled = !root._enabled // root.enableButtons(true)
             }
         }
     }
+
 }

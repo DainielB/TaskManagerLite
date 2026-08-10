@@ -7,6 +7,7 @@ Item {
 
     property var selectedDate: new Date()
     readonly property alias dateText: dateInput.placeholderText
+    property bool is_enabled: true
 
     id: root
     width: 200
@@ -23,11 +24,11 @@ Item {
                 id: dateInput
                 Layout.fillWidth: true
                 placeholderText: selectedDate.getFullYear() + "-" + (selectedDate.getMonth() + 1) + "-" + (selectedDate.getDate() + 1)
-                enabled: true
+                enabled: is_enabled
                 background: Rectangle {
                     color: "white"
                     radius: 4
-                    border.color: nameField.enabled ? "#21be2b" : "transparent"
+                    // border.color: nameField.enabled ? "#21be2b" : "transparent"
                 }
 
                 onTextEdited: dateInput.text = ""
