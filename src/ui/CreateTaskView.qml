@@ -6,7 +6,7 @@ import QtQuick.Controls
 Dialog {
     property alias name: nameField.text
     property alias description: descriptionField.text
-    property alias endDate: dateField
+    property alias endDate: dateField.dateText
     property alias status: statusField
     property alias kind: kindField
     property alias priority: priorityField

@@ -6,7 +6,7 @@ from PySide6.QtCore import(
     Qt
 )
 
-from constants import TaskStatus, TaskPriority, TaskKind
+from constants import TaskStatus
 from src.data.task_table_model import TaskTableModel
 from src.data.task import Task
 from src.data.task_filter_proxy import TaskFilterProxy
@@ -17,7 +17,6 @@ class TaskTableController(QObject):
     def __init__(self, parent=None):
         super().__init__(parent)
         self._task_table_model = TaskTableModel()
-        # self._task_filter_proxy = TaskFilterProxy(self._task_table_model)
 
         self._in_progress_proxy = TaskFilterProxy(TaskStatus.IN_PROGRESS, self._task_table_model)
         self._in_review_proxy = TaskFilterProxy(TaskStatus.IN_REVIEW, self._task_table_model)
@@ -65,8 +64,6 @@ class TaskTableController(QObject):
         """
         Adds a task to the task table with the given info.
         """
-        print(f"end_date: {end_date}")
         new_task = Task(name, end_date, priority, kind, status, description)
 
-        # self._task_table_model.add_task(new_task.name, end_date, new_task.priority, new_task.type, new_task.status, new_task.description)
         self._task_table_model.add_task(new_task)

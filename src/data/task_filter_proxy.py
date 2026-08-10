@@ -12,15 +12,12 @@ from constants import TaskItemRoles, TaskStatus, role_names
 class TaskFilterProxy(QSortFilterProxyModel):
 
     def __init__(self, status: TaskStatus, source_model, parent=None):
-    # def __init__(self, source_model, parent=None):
         super().__init__(parent)
 
         self._sort_role = None
         self._filter_role = None
         self._source_column: int = 0
         self._general_status: TaskStatus = status
-
-        # print(f"status: {source_model.data(0, TaskItemRoles.STATUS)}")
 
         self.setSourceModel(source_model)
         self.setDynamicSortFilter(True)
@@ -74,5 +71,5 @@ class TaskFilterProxy(QSortFilterProxyModel):
         model = self.sourceModel()
         index = model.index(source_row, 0, source_parent)
         task_status = model.data(index, TaskItemRoles.STATUS)
-        print(f"task_status == self._general_status -> {task_status == self._general_status}")
+
         return task_status == self._general_status

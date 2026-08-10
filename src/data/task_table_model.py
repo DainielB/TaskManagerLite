@@ -1,5 +1,3 @@
-from datetime import date
-
 from PySide6.QtCore import (
     Qt,
     QAbstractListModel,
@@ -9,8 +7,8 @@ from PySide6.QtCore import (
     QDate,
 )
 
-from constants import TaskItemRoles, role_names
-from src.app.task_table_controller import TaskPriority, TaskStatus, TaskKind
+from constants import TaskItemRoles, role_names, TaskPriority, TaskStatus, TaskKind
+# from src.app.task_table_controller import TaskPriority, TaskStatus, TaskKind
 from src.data.task import Task
 
 
@@ -20,11 +18,11 @@ class TaskTableModel(QAbstractListModel):
         super().__init__()
         self._tasks: list = []
 
-        task_one = Task("Project Task 1", "2025-08-09", TaskPriority.HIGH, TaskKind.LIGHTING, TaskStatus.IN_PROGRESS, "Project 1")
+        task_one = Task("Project Task 1", "2025-09-08", TaskPriority.HIGH, TaskKind.LIGHTING, TaskStatus.IN_PROGRESS, "Project 1")
         self.add_task(task_one)
         task_two = Task("Aroject Task 2", "2026-01-01", TaskPriority.LOW, TaskKind.ANIMATION, TaskStatus.TO_DO, "Project 1")
         self.add_task(task_two)
-        task_three = Task("Project Task 3", "2025-06-01", TaskPriority.MEDIUM, TaskKind.FX, TaskStatus.BACKLOG, "Project 1")
+        task_three = Task("Project Task 3", "2025-12-01", TaskPriority.MEDIUM, TaskKind.FX, TaskStatus.BACKLOG, "Project 1")
         self.add_task(task_three)
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:

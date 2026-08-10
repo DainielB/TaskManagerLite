@@ -1,8 +1,9 @@
-from tkinter.constants import RIGHT
-from tokenize import COMMA
-
 from PySide6.QtCore import Qt
 from enum import IntEnum, Enum, auto
+
+
+# VARIABLES
+DATE_FORMAT: str = "yyyy-M-d"
 
 
 class TaskItemRoles(IntEnum):

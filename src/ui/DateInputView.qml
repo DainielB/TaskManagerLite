@@ -6,8 +6,7 @@ import QtQuick.Controls.Universal
 Item {
 
     property var selectedDate: new Date()
-    readonly property string dateText: dateDelegateText.text
-    //readonly property alias is_valid_input: dateInput.acceptableInput
+    readonly property alias dateText: dateInput.placeholderText
 
     id: root
     width: 200
@@ -23,13 +22,15 @@ Item {
             TextField {
                 id: dateInput
                 Layout.fillWidth: true
-                placeholderText: (selectedDate.getDate() + 1) + "/" + (selectedDate.getMonth() + 1) + "/" + selectedDate.getFullYear()
+                placeholderText: selectedDate.getFullYear() + "-" + (selectedDate.getMonth() + 1) + "-" + (selectedDate.getDate() + 1)
                 enabled: true
                 background: Rectangle {
                     color: "white"
                     radius: 4
                     border.color: nameField.enabled ? "#21be2b" : "transparent"
                 }
+
+                onTextEdited: dateInput.text = ""
 
                 onReleased: datePicker.open()
 
