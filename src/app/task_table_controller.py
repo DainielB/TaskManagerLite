@@ -1,35 +1,40 @@
+from uuid import UUID
+
 from PySide6.QtCore import(
     Property,
-    QDate,
     QObject,
+    Signal,
     Slot,
-    Qt
 )
 
 from constants import TaskStatus
-from src.data.task_table_model import TaskTableModel
 from src.data.task import Task
 from src.data.task_filter_proxy import TaskFilterProxy
 
 
 class TaskTableController(QObject):
 
-    def __init__(self, parent=None):
+    taskClicked = Signal(Task)
+
+    def __init__(self, model, parent=None):
         super().__init__(parent)
-        self._task_table_model = TaskTableModel()
 
-        self._in_progress_proxy = TaskFilterProxy(TaskStatus.IN_PROGRESS, self._task_table_model)
-        self._in_review_proxy = TaskFilterProxy(TaskStatus.IN_REVIEW, self._task_table_model)
-        self._to_do_proxy = TaskFilterProxy(TaskStatus.TO_DO, self._task_table_model)
-        self._paused_proxy = TaskFilterProxy(TaskStatus.PAUSED, self._task_table_model)
-        self._backlog_proxy = TaskFilterProxy(TaskStatus.BACKLOG, self._task_table_model)
-        self._finished_proxy = TaskFilterProxy(TaskStatus.FINISHED, self._task_table_model)
+        self._model = model
 
-        self._selected_task: Task = None
+        self._in_progress_proxy = TaskFilterProxy(TaskStatus.IN_PROGRESS, self._model)
+        self._in_review_proxy = TaskFilterProxy(TaskStatus.IN_REVIEW, self._model)
+        self._to_do_proxy = TaskFilterProxy(TaskStatus.TO_DO, self._model)
+        self._paused_proxy = TaskFilterProxy(TaskStatus.PAUSED, self._model)
+        self._backlog_proxy = TaskFilterProxy(TaskStatus.BACKLOG, self._model)
+        self._finished_proxy = TaskFilterProxy(TaskStatus.FINISHED, self._model)
+
+        self._selected_task_id: UUID = None
+
+        # self.taskClicked.connect(self.get_task_by_id)
 
     @Property(QObject, constant=True)
     def task_table_model(self):
-        return self._task_table_model
+        return self._model
 
     '''
     @Property(QObject, constant=True)
@@ -62,12 +67,12 @@ class TaskTableController(QObject):
         return self._finished_proxy
 
     @property
-    def selected_task(self) -> Task:
-        return self._selected_task
+    def selected_task_id(self) -> UUID:
+        return self._selected_task_id
 
-    @selected_task.setter
-    def selected_task(self, task: Task) -> None:
-        self._selected_task = task
+    @selected_task_id.setter
+    def selected_task_id(self, id: UUID) -> None:
+        self._selected_task_id = id
 
     @Slot(str, str, str, str, str, str)
     def add_new_task(self, name: str, end_date: str, priority: str, kind: str, status: str = "", description: str = "") -> None:
@@ -76,4 +81,4 @@ class TaskTableController(QObject):
         """
         new_task = Task(name, end_date, priority, kind, status, description)
 
-        self._task_table_model.add_task(new_task)
+        self._model.add_task(new_task)

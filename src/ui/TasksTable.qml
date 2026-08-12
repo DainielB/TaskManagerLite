@@ -86,8 +86,11 @@ Rectangle {
                         anchors.fill: parent
                         onReleased: {
                             listView.currentIndex = index
-                            app_controller.task_table_controller.selectedTask = model.id
-                            console.log(model.id)
+                            app_controller.task_info_controller.load_task(model.id)
+                            /*
+                            app_controller.task_table_controller.selected_task_id = model.id
+                            app_controller.task_table_controller.send_task_to_info_view(model.id)
+                            */
                         }
                     }
                 }

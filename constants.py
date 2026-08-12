@@ -6,7 +6,7 @@ from enum import IntEnum, Enum, auto
 DATE_FORMAT: str = "yyyy-M-d"
 
 
-class TaskItemRoles(IntEnum):
+class TaskRoles(IntEnum):
     ID = Qt.ItemDataRole.UserRole + 1
     START_DATE = auto()
     END_DATE = auto()
@@ -15,23 +15,23 @@ class TaskItemRoles(IntEnum):
     NAME = auto()
     KIND = auto()
     PRIORITY = auto()
-    PROJECT = auto()
+    # PROJECT = auto()
     CREATION_DATE = auto()
     # COLOR = auto()
 
 
 role_names: dict = {
-    TaskItemRoles.ID: b'id',
-    TaskItemRoles.START_DATE: b'start_date',
-    TaskItemRoles.END_DATE: b'end_date',
-    TaskItemRoles.STATUS: b'status',
-    TaskItemRoles.DESCRIPTION: b'description',
-    TaskItemRoles.NAME: b'name',
-    TaskItemRoles.KIND: b'kind',
-    TaskItemRoles.PRIORITY: b'priority',
-    TaskItemRoles.PROJECT: b'project',
-    TaskItemRoles.CREATION_DATE: b'creation_date',
-    # TaskItemRoles.COLOR: b'color',
+    TaskRoles.ID: b'id',
+    TaskRoles.START_DATE: b'start_date',
+    TaskRoles.END_DATE: b'end_date',
+    TaskRoles.STATUS: b'status',
+    TaskRoles.DESCRIPTION: b'description',
+    TaskRoles.NAME: b'name',
+    TaskRoles.KIND: b'kind',
+    TaskRoles.PRIORITY: b'priority',
+    # TaskRoles.PROJECT: b'project',
+    TaskRoles.CREATION_DATE: b'creation_date',
+    # TaskRoles.COLOR: b'color',
 }
 
 

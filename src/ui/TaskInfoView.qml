@@ -36,6 +36,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: false
             placeholderText: name
+            // text: app_controller.task_info_controller.selected_task.name
             enabled: root._enabled // false
         }
 
@@ -176,6 +177,15 @@ Rectangle {
                 enabled: true
                 onReleased: root._enabled = !root._enabled // root.enableButtons(true)
             }
+        }
+    }
+
+    Connections {
+        target: app_controller.task_info_controller
+
+        function onTaskClicked(obj) {
+            // appWin.currTime = msg;
+            console.log("NAME: ", obj['name'])
         }
     }
 

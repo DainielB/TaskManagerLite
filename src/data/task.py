@@ -1,4 +1,6 @@
-from PySide6.QtCore import QDate, Qt
+from uuid import UUID, uuid4
+
+from PySide6.QtCore import QDate
 
 from .entity import Entity
 from constants import (
@@ -11,23 +13,16 @@ from constants import (
 
 class Task(Entity):
 
-    def __init__(self, name: str, end_date: str, priority: str, kind: str, status: str, description: str = "") -> None:
-        super().__init__()
+    def __init__(self, name: str, end_date: str, priority: str, kind: str, status: str, description: str) -> None:
+        super().__init__(name, QDate.fromString(end_date, DATE_FORMAT), TaskStatus(status), description)
 
-        self._id: str
-        self._name: str = name
-        self._start_date: QDate # Sets when Task status is TaskStatus.IN_PROGRESS
-        self._end_date: QDate = QDate.fromString(end_date, DATE_FORMAT)
         self._priority: TaskPriority = TaskPriority(priority) if priority != "Priority" else TaskPriority.LOW
         self._kind: TaskKind = TaskKind(kind)
-        self._status: TaskStatus = TaskStatus(status) if status != "Initial Status" else TaskStatus.TO_DO
-
-        self._description: str = ""
-        self._creation_date: QDate = QDate.currentDate()
+        # self._status: TaskStatus = TaskStatus(status) if status != "Initial Status" else TaskStatus.TO_DO
         # self.color: str = color
 
     def __str__(self) -> str:
-        return f"TASK\r\n name: {self.name}, end_date: {self.end_date}, priority: {self.priority}, kind: {self.kind}, status: {self.status}, description: {self.description}, "
+        return f"TASK\r\n id: {self.id}, name: {self.name}, end_date: {self.end_date}, priority: {self.priority}, kind: {self.kind}, status: {self.status}, description: {self.description}\n "
 
     @property
     def priority(self) -> TaskPriority:

@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from uuid import UUID, uuid4
 
 from PySide6.QtCore import QDate, Qt
 
@@ -9,16 +10,16 @@ from .entity import Entity
 class Project(Entity):
 
     def __init__(self, name: str, description: str, end_date: str, color: str) -> None:
-        super().__init__()
+        # super().__init__()
 
-        self._id: str
+        self._id: UUID = uuid4()
         self._name: str = name
         self._start_date: QDate # Sets when Project status is created
         self._end_date: QDate = QDate.fromString(end_date, Qt.DateFormat.ISODate)
         # self._status: str
         self._description: str = description
-        self._creation_date: QDate
+        self._creation_date: QDate = QDate.currentDate()
         # self.color: str = color
 
     def __str__(self) -> str:
-        return f"name: {self.name}, description: {self.description}, end_date: {self.end_date}, color: {self.color}"
+        return f"id: {self.id}, name: {self.name}, description: {self.description}, end_date: {self.end_date}"

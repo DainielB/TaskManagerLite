@@ -6,7 +6,7 @@ from PySide6.QtCore import (
     Qt,
 )
 
-from constants import TaskItemRoles, TaskStatus, role_names
+from constants import TaskRoles, TaskStatus, role_names
 
 
 class TaskFilterProxy(QSortFilterProxyModel):
@@ -53,12 +53,12 @@ class TaskFilterProxy(QSortFilterProxyModel):
 
         print(f"left_data: {left_data}, right_data: {right_data}")
 
-        if self.sortRole() == TaskItemRoles.END_DATE:
+        if self.sortRole() == TaskRoles.END_DATE:
             return QDate.fromString(left_data, Qt.DateFormat.ISODate) < QDate.fromString(right_data, Qt.DateFormat.ISODate)
-        elif self.sortRole() == TaskItemRoles.NAME:
+        elif self.sortRole() == TaskRoles.NAME:
             return str(left_data).lower() < str(right_data).lower()
         else:
-            # elif self.sortRole() == TaskItemRoles.PRIORITY:
+            # elif self.sortRole() == TaskRoles.PRIORITY:
             return left_data < right_data
 
     def filterAcceptsColumn(self, source_column: int, source_parent: QModelIndex) -> bool:
@@ -70,6 +70,6 @@ class TaskFilterProxy(QSortFilterProxyModel):
     def filterAcceptsRow(self, source_row: int, source_parent: QModelIndex) -> bool:
         model = self.sourceModel()
         index = model.index(source_row, 0, source_parent)
-        task_status = model.data(index, TaskItemRoles.STATUS)
+        task_status = model.data(index, TaskRoles.STATUS)
 
         return task_status == self._general_status
