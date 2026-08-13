@@ -16,6 +16,8 @@ Rectangle {
     property string type: ""
     property bool _enabled: false
 
+    property var selectedTask: {}
+
     function enableButtons(enabled: bool) {
         cancelTask.enabled = enabled
         taskName.enabled = enabled
@@ -184,8 +186,13 @@ Rectangle {
         target: app_controller.task_info_controller
 
         function onTaskClicked(obj) {
-            // appWin.currTime = msg;
-            console.log("NAME: ", obj['name'])
+            taskName.text = obj["NAME"]
+            taskDescription.text = obj["DESCRIPTION"]
+            endDate.dateInput.text = obj["END_DATE"] // TODO: Find a way of setting the new date in the endDate textfield
+            // console.log("END DATE", obj["END_DATE"])
+            taskStatus.currentValue = obj["STATUS"]
+            taskType.currentValue = obj["KIND"]
+            priority.currentValue = obj["PRIORITY"]
         }
     }
 

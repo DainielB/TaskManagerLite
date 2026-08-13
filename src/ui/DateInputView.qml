@@ -8,6 +8,7 @@ Item {
     property var selectedDate: new Date()
     readonly property alias dateText: dateInput.placeholderText
     property bool is_enabled: true
+    property string new_date: ""
 
     id: root
     width: 200
