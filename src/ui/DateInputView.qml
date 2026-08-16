@@ -5,10 +5,10 @@ import QtQuick.Controls.Universal
 
 Item {
 
-    property var selectedDate: new Date()
-    readonly property alias dateText: dateInput.placeholderText
+    property var _selectedDate: new Date()
+    // readonly property alias dateText: dateInput.placeholderText
     property bool is_enabled: true
-    property string new_date: ""
+    property var new_date: _selectedDate.getFullYear() + "-" + (_selectedDate.getMonth() + 1) + "-" + (_selectedDate.getDate() + 1)
 
     id: root
     width: 200
@@ -24,7 +24,7 @@ Item {
             TextField {
                 id: dateInput
                 Layout.fillWidth: true
-                placeholderText: selectedDate.getFullYear() + "-" + (selectedDate.getMonth() + 1) + "-" + (selectedDate.getDate() + 1)
+                placeholderText: new_date
                 enabled: is_enabled
                 background: Rectangle {
                     color: "white"
@@ -67,8 +67,8 @@ Item {
 
             MonthGrid {
                 id: grid
-                month: root.selectedDate.getMonth()
-                year: root.selectedDate.getFullYear()
+                month: root._selectedDate.getMonth()
+                year: root._selectedDate.getFullYear()
                 locale: Qt.locale("es_ES")
                 Layout.fillWidth: true
 
@@ -78,13 +78,13 @@ Item {
                     opacity: model.month === grid.month ? 1 : 0.3
                     font.bold: model.today
                     horizontalAlignment: Text.AlignHCenter
-                    color: model.date.getTime() === root.selectedDate.getTime()
+                    color: model.date.getTime() === root._selectedDate.getTime()
                            ? "blue" : "orange"
 
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            root.selectedDate = model.date
+                            root._selectedDate = model.date
                             dateInput.placeholderText = (model.date.getDate() + 1) + "/" +
                                 (model.date.getMonth() + 1) + "/" +
                                 model.date.getFullYear()

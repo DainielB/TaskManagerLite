@@ -23,7 +23,7 @@ Rectangle {
         taskName.enabled = enabled
         taskDescription.enabled = enabled
         startDate.enabled = enabled
-        endDate.enabled = enabled
+        dateInputView.enabled = enabled
         taskStatus.enabled = enabled
         priority.enabled = enabled
     }
@@ -64,23 +64,13 @@ Rectangle {
                 }
 
                 DateInputView {
-                    id: endDate
+                    id: dateInputView
                     Layout.fillWidth: true
                     Layout.fillHeight: false
                     // Layout.preferredWidth: (grid.width - grid.columnSpacing) / 2
                     is_enabled: root._enabled
                     // date_validator: date_validator
                 }
-
-                /*
-                TextField {
-                    id: endDate
-                    Layout.fillWidth: true
-                    Layout.fillHeight: false
-                    enabled: root._enabled // false
-                    text: "28-06-26"
-                }
-                */
 
             }
 
@@ -170,7 +160,7 @@ Rectangle {
                 id: cancelTask
                 text: "Cancel"
                 enabled: root._enabled // false
-                onReleased: taskInfo.cancel_button_released(editTask, cancelTask, [taskName, taskDescription, startDate, endDate, taskStatus, priority])
+                onReleased: root._enabled = !root._enabled // taskInfo.cancel_button_released(editTask, cancelTask, [taskName, taskDescription, startDate, dateInputView, taskStatus, priority])
             }
 
             Button {
@@ -188,8 +178,7 @@ Rectangle {
         function onTaskClicked(obj) {
             taskName.text = obj["NAME"]
             taskDescription.text = obj["DESCRIPTION"]
-            endDate.dateInput.text = obj["END_DATE"] // TODO: Find a way of setting the new date in the endDate textfield
-            // console.log("END DATE", obj["END_DATE"])
+            dateInputView.new_date = obj["END_DATE"] // TODO: Find a way of setting the new date in the endDate textfield
             taskStatus.currentValue = obj["STATUS"]
             taskType.currentValue = obj["KIND"]
             priority.currentValue = obj["PRIORITY"]

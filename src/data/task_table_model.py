@@ -108,8 +108,6 @@ class TaskTableModel(QAbstractListModel):
 
     @Slot(UUID)
     def get_task_by_id(self, id: UUID) -> Task:
-        # print(f"ID type: {type(id)}")
-
         # task_id = uuid.UUID(id)
 
         for task in self._tasks:
