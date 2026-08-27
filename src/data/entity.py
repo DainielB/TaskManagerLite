@@ -1,14 +1,15 @@
 from abc import ABC, abstractmethod
 from uuid import UUID, uuid4
 
-from PySide6.QtCore import QDate
+from PySide6.QtCore import QDate, QObject
 
 from constants import TaskStatus
 
 
-class Entity(ABC):
+class Entity(QObject):
 
     def __init__(self, name: str, end_date: QDate, status: TaskStatus = TaskStatus.TO_DO, description: str = "") -> None:
+        super().__init__()
         self._id: UUID = uuid4()
         self._name: str = name
         self._start_date: QDate = None # Set when TaskStatus changes to IN_PROGRESS
@@ -17,9 +18,11 @@ class Entity(ABC):
         self._description: str = description
         self._creation_date: QDate = QDate.currentDate()
 
+    '''
     @abstractmethod
     def __str__(self) -> str:
         ...
+    '''
 
     @property
     def id(self) -> UUID:

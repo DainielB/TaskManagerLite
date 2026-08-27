@@ -13,6 +13,7 @@ from constants import (
     TaskPriority,
     TaskStatus,
     TaskKind,
+    DATE_FORMAT
 )
 from src.data.task import Task
 
@@ -39,12 +40,17 @@ class TaskTableModel(QAbstractListModel):
         the number of children of parent.
         """
 
+        '''
         if parent.isValid():
             return 0
+        '''
 
         return len(self._tasks)
 
-    def data(self, index: QModelIndex | QPersistentModelIndex, role: int = Qt.DisplayRole) -> Task:
+    def columnCount(self, parent: QModelIndex | QPersistentModelIndex) -> int:
+        return 1
+
+    def data(self, index: QModelIndex | QPersistentModelIndex, role: int = Qt.DisplayRole):
         """
         Returns an appropriate value for the requested data.
         If the view requests an invalid index, an invalid variant is returned.
@@ -52,12 +58,14 @@ class TaskTableModel(QAbstractListModel):
         string to be returned.
         """
 
-        if role not in list(role_names):
+        if not index.isValid() or not (0 <= index.row() < len(self._tasks)):
+            return None
+
+        if role not in role_names:
             return None
 
         task = self._tasks[index.row()]
 
-        '''
         if role == TaskRoles.ID:
             return task.id
         elif role == TaskRoles.START_DATE:
@@ -65,26 +73,17 @@ class TaskTableModel(QAbstractListModel):
         elif role == TaskRoles.END_DATE:
             return task.end_date.toString(DATE_FORMAT)
         elif role == TaskRoles.STATUS:
-            return str(task.status)
+            return task.status.value
         elif role == TaskRoles.DESCRIPTION:
             return task.description
         elif role == TaskRoles.NAME:
             return task.name
         elif role == TaskRoles.KIND:
-            return str(task.kind)
+            return task.kind.value
         elif role == TaskRoles.PRIORITY:
-            return str(task.priority)
+            return task.priority.value
         elif role == TaskRoles.CREATION_DATE:
             return task.creation_date.toString(DATE_FORMAT)
-        '''
-
-        try:
-            task = self._tasks[index.row()]
-        except IndexError:
-            return None # Set an error message
-
-        if role in task:
-            return task[role]
 
         return None
 
@@ -95,15 +94,13 @@ class TaskTableModel(QAbstractListModel):
     def add_task(self, task: Task) -> None:
         """Adds a task to the task list at the specified index with the given name."""
 
+        new_index = len(self._tasks)
+
         if len(self._tasks) == 0:
             new_index = 0
-        else:
-            new_index = len(self._tasks)
-
-        new_task = { TaskRoles.ID: task.id, TaskRoles.NAME: task.name, TaskRoles.END_DATE: task.end_date.toString(Qt.DateFormat.ISODate), TaskRoles.PRIORITY: task.priority.value, TaskRoles.KIND: task.kind.value, TaskRoles.STATUS: task.status, TaskRoles.DESCRIPTION: task.description }
 
         self.beginInsertRows(QModelIndex(), new_index, new_index)
-        self._tasks.insert(new_index, new_task)
+        self._tasks.append(task)
         self.endInsertRows()
 
     @Slot(UUID)
@@ -111,7 +108,7 @@ class TaskTableModel(QAbstractListModel):
         # task_id = uuid.UUID(id)
 
         for task in self._tasks:
-            if id == task[TaskRoles.ID]:
+            if str(id) == str(task.id):
                 return task
 
         return None

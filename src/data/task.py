@@ -1,6 +1,6 @@
 from uuid import UUID, uuid4
 
-from PySide6.QtCore import QDate
+from PySide6.QtCore import QDate, QObject, Property
 
 from .entity import Entity
 from constants import (

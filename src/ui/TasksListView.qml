@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import TaskFilterProxy
 
 
 Rectangle {
@@ -179,10 +180,16 @@ Rectangle {
 
                 spacing: 15
 
+                TaskProxyModel {
+                    id: inProgressProxy
+                    source_model: app_controller.task_table_controller.task_table_model
+                    status: "In Progress"
+                }
+
                 Expandable {
                     id: inProgress
 
-                    proxyModel: app_controller.task_table_controller.in_progress_proxy
+                    proxyModel: inProgressProxy
 
                     Layout.fillWidth: true
 
@@ -193,10 +200,16 @@ Rectangle {
                     status: "In Progress"
                 }
 
+                TaskProxyModel {
+                    id: inReviewProxy
+                    source_model: app_controller.task_table_controller.task_table_model
+                    status: "In Review"
+                }
+
                 Expandable {
                     id: inReview
 
-                    proxyModel: app_controller.task_table_controller.in_review_proxy
+                    proxyModel: inReviewProxy // app_controller.task_table_controller.in_review_proxy
 
                     Layout.fillWidth: true
 
@@ -207,10 +220,16 @@ Rectangle {
                     status: "In Review"
                 }
 
+                TaskProxyModel {
+                    id: toDoProxy
+                    source_model: app_controller.task_table_controller.task_table_model
+                    status: "To Do"
+                }
+
                 Expandable {
                     id: toDo
 
-                    proxyModel: app_controller.task_table_controller.to_do_proxy
+                    proxyModel: toDoProxy // app_controller.task_table_controller.to_do_proxy
 
                     Layout.fillWidth: true
 
@@ -221,10 +240,16 @@ Rectangle {
                     status: "To Do"
                 }
 
+                TaskProxyModel {
+                    id: pausedProxy
+                    source_model: app_controller.task_table_controller.task_table_model
+                    status: "Paused"
+                }
+
                 Expandable {
                     id: paused
 
-                    proxyModel: app_controller.task_table_controller.paused_proxy
+                    proxyModel: pausedProxy // app_controller.task_table_controller.paused_proxy
 
                     Layout.fillWidth: true
 
@@ -235,10 +260,16 @@ Rectangle {
                     status: "Paused"
                 }
 
+                TaskProxyModel {
+                    id: backlogProxy
+                    source_model: app_controller.task_table_controller.task_table_model
+                    status: "Backlog"
+                }
+
                 Expandable {
                     id: backlog
 
-                    proxyModel: app_controller.task_table_controller.backlog_proxy
+                    proxyModel: backlogProxy // app_controller.task_table_controller.backlog_proxy
 
                     Layout.fillWidth: true
 
@@ -249,10 +280,16 @@ Rectangle {
                     status: "Backlog"
                 }
 
+                TaskProxyModel {
+                    id: finishedProxy
+                    source_model: app_controller.task_table_controller.task_table_model
+                    status: "Finished"
+                }
+
                 Expandable {
                     id: finished
 
-                    proxyModel: app_controller.task_table_controller.finished_proxy
+                    proxyModel: finishedProxy // app_controller.task_table_controller.finished_proxy
 
                     Layout.fillWidth: true
 

@@ -48,34 +48,26 @@ Rectangle {
                     RowLayout {
                         anchors.fill: parent
                         anchors.leftMargin: 10
-                        // spacing: 30
 
                         Text {
-                            text: name
+                            text: model.name
                             color: listView.isCurrentItem ? "black" : "white"
                             Layout.preferredWidth: root.width * root.taskCol / root.headerParts
                         }
 
                         Text {
-                            text: end_date
+                            text: model.end_date
                             color: listView.isCurrentItem ? "black" : "white"
                             Layout.preferredWidth: root.width * root.dateCol / root.headerParts
                         }
-                        /*
                         Text {
-                            text: status
-                            color: listView.isCurrentItem ? "black" : "white"
-                            Layout.preferredWidth: root.width * root.statusCol / root.headerParts
-                        }
-                        */
-                        Text {
-                            text: priority
+                            text: model.priority
                             color: listView.isCurrentItem ? "black" : "white"
                             Layout.preferredWidth: root.width * root.priorityCol / root.headerParts
                         }
 
                         Text {
-                            text: kind
+                            text: model.kind
                             color: listView.isCurrentItem ? "black" : "white"
                             Layout.preferredWidth: root.width * root.typeCol / root.headerParts
                         }

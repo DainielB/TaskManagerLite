@@ -7,7 +7,7 @@ from PySide6.QtCore import(
     Slot,
 )
 
-from constants import TaskStatus
+from constants import TaskRoles, TaskStatus
 from src.data.task import Task
 from src.data.task_filter_proxy import TaskFilterProxy
 
@@ -21,12 +21,43 @@ class TaskTableController(QObject):
 
         self._model = model
 
+        '''
         self._in_progress_proxy = TaskFilterProxy(TaskStatus.IN_PROGRESS, self._model)
+        self._in_progress_proxy.setFilterKeyColumn(0)
+        self._in_progress_proxy.setDynamicSortFilter(True)
+        self._in_progress_proxy.setFilterRole(TaskRoles.STATUS)
+        self._in_progress_proxy.setSortRole(TaskRoles.STATUS)
+
         self._in_review_proxy = TaskFilterProxy(TaskStatus.IN_REVIEW, self._model)
+        self._in_review_proxy.setFilterKeyColumn(0)
+        self._in_review_proxy.setDynamicSortFilter(True)
+        self._in_review_proxy.setFilterRole(TaskRoles.STATUS)
+        self._in_review_proxy.setSortRole(TaskRoles.STATUS)
+
         self._to_do_proxy = TaskFilterProxy(TaskStatus.TO_DO, self._model)
+        self._to_do_proxy.setFilterKeyColumn(0)
+        self._to_do_proxy.setDynamicSortFilter(True)
+        self._to_do_proxy.setFilterRole(TaskRoles.STATUS)
+        self._to_do_proxy.setSortRole(TaskRoles.STATUS)
+
         self._paused_proxy = TaskFilterProxy(TaskStatus.PAUSED, self._model)
+        self._paused_proxy.setFilterKeyColumn(0)
+        self._paused_proxy.setDynamicSortFilter(True)
+        self._paused_proxy.setFilterRole(TaskRoles.STATUS)
+        self._paused_proxy.setSortRole(TaskRoles.STATUS)
+
         self._backlog_proxy = TaskFilterProxy(TaskStatus.BACKLOG, self._model)
+        self._backlog_proxy.setFilterKeyColumn(0)
+        self._backlog_proxy.setDynamicSortFilter(True)
+        self._backlog_proxy.setFilterRole(TaskRoles.STATUS)
+        self._backlog_proxy.setSortRole(TaskRoles.STATUS)
+
         self._finished_proxy = TaskFilterProxy(TaskStatus.FINISHED, self._model)
+        self._finished_proxy.setFilterKeyColumn(0)
+        self._finished_proxy.setDynamicSortFilter(True)
+        self._finished_proxy.setFilterRole(TaskRoles.STATUS)
+        self._finished_proxy.setSortRole(TaskRoles.STATUS)
+        '''
 
         self._selected_task_id: UUID = None
 
@@ -42,6 +73,7 @@ class TaskTableController(QObject):
         return self._task_filter_proxy
     '''
 
+    '''
     @Property(QObject, constant=True)
     def in_progress_proxy(self):
         return self._in_progress_proxy
@@ -65,6 +97,7 @@ class TaskTableController(QObject):
     @Property(QObject, constant=True)
     def finished_proxy(self):
         return self._finished_proxy
+    '''
 
     @property
     def selected_task_id(self) -> UUID:

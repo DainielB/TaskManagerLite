@@ -167,7 +167,10 @@ Rectangle {
                 id: editTask
                 text: root._enabled ? "Save" : "Edit"
                 enabled: true
-                onReleased: root._enabled = !root._enabled // root.enableButtons(true)
+                onReleased: {
+                    app_controller.task_info_controller.save_task(taskName.text, taskDescription.text, dateInputView.new_date, taskStatus.currentValue, taskType.currentValue, priority.currentValue)
+                    root._enabled = !root._enabled // root.enableButtons(true)
+                }
             }
         }
     }
