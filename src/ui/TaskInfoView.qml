@@ -38,8 +38,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: false
             placeholderText: name
-            // text: app_controller.task_info_controller.selected_task.name
-            enabled: root._enabled // false
+            enabled: root._enabled
         }
 
         TextArea {
@@ -47,7 +46,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
             placeholderText: description
-            enabled: root._enabled // false
+            enabled: root._enabled
         }
 
         // Task Info Panel
@@ -92,9 +91,11 @@ Rectangle {
                     currentIndex: 0
 
                     onCurrentIndexChanged: {
+                    /*
                         console.log("Índice:", currentIndex)
                         console.log("Valor:", currentValue)
                         console.log("Texto:", currentText)
+                    */
                     }
                 }
             }
@@ -117,9 +118,7 @@ Rectangle {
                     currentIndex: 0
 
                     onCurrentIndexChanged: {
-                        console.log("Índice:", currentIndex)
-                        console.log("Valor:", currentValue)
-                        console.log("Texto:", currentText)
+
                     }
                 }
             }
@@ -142,9 +141,7 @@ Rectangle {
                     currentIndex: 0
 
                     onCurrentIndexChanged: {
-                        console.log("Índice:", currentIndex)
-                        console.log("Valor:", currentValue)
-                        console.log("Texto:", currentText)
+
                     }
                 }
             }
@@ -160,16 +157,32 @@ Rectangle {
                 id: cancelTask
                 text: "Cancel"
                 enabled: root._enabled // false
-                onReleased: root._enabled = !root._enabled // taskInfo.cancel_button_released(editTask, cancelTask, [taskName, taskDescription, startDate, dateInputView, taskStatus, priority])
+                onReleased: root._enabled = !root._enabled
             }
 
             Button {
                 id: editTask
-                text: root._enabled ? "Save" : "Edit"
+                text: "Edit"
                 enabled: true
+                visible: !root._enabled
                 onReleased: {
-                    app_controller.task_info_controller.save_task(taskName.text, taskDescription.text, dateInputView.new_date, taskStatus.currentValue, taskType.currentValue, priority.currentValue)
+                    // console.log("root.proxyModel FROM QML: ", root.proxyModel)
+                    // root.proxyModel.get_task_index("TESTINGGG") // May be here I can get the index and then pass it as a reference to load_task()
+                    // app_controller.task_info_controller.save_task(taskName.text, taskDescription.text, dateInputView.new_date, taskStatus.currentValue, taskType.currentValue, priority.currentValue)
                     root._enabled = !root._enabled // root.enableButtons(true)
+                }
+            }
+
+            Button {
+                id: saveTask
+                text: "Save"
+                enabled: root._enabled
+                visible: root._enabled
+                onReleased: {
+                    // console.log("root.proxyModel FROM QML: ", root.proxyModel)
+                    // root.proxyModel.get_task_index("TESTINGGG") // May be here I can get the index and then pass it as a reference to load_task()
+                    app_controller.task_info_controller.save_task(taskName.text, taskDescription.text, dateInputView.new_date, taskStatus.currentValue, taskType.currentValue, priority.currentValue)
+                    root._enabled = !root._enabled
                 }
             }
         }

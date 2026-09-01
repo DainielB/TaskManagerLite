@@ -1,6 +1,7 @@
+from typing import Any
 from uuid import UUID
+
 from PySide6.QtCore import (
-    Qt,
     QAbstractListModel,
     QModelIndex,
     QPersistentModelIndex,
@@ -50,7 +51,7 @@ class TaskTableModel(QAbstractListModel):
     def columnCount(self, parent: QModelIndex | QPersistentModelIndex) -> int:
         return 1
 
-    def data(self, index: QModelIndex | QPersistentModelIndex, role: int = Qt.DisplayRole):
+    def data(self, index: QModelIndex | QPersistentModelIndex, role: int):
         """
         Returns an appropriate value for the requested data.
         If the view requests an invalid index, an invalid variant is returned.
@@ -84,11 +85,19 @@ class TaskTableModel(QAbstractListModel):
             return task.priority.value
         elif role == TaskRoles.CREATION_DATE:
             return task.creation_date.toString(DATE_FORMAT)
+        elif role == TaskRoles.TASK:
+            return task
 
         return None
 
     def roleNames(self) -> dict:
         return role_names
+
+    def setData(self, index: QModelIndex, value: Any, role: int) -> bool:
+
+        self.dataChanged.emit(index, index, list(self.roleNames().keys())) # or self.roleNames().keys()
+
+        return super().setData(index, value, role)
 
     @Slot(Task)
     def add_task(self, task: Task) -> None:
@@ -104,11 +113,20 @@ class TaskTableModel(QAbstractListModel):
         self.endInsertRows()
 
     @Slot(UUID)
-    def get_task_by_id(self, id: UUID) -> Task:
-        # task_id = uuid.UUID(id)
-
+    def get_task_by_id(self, task_id: UUID) -> Task:
         for task in self._tasks:
-            if str(id) == str(task.id):
+            if str(task_id) == str(task.id):
                 return task
 
         return None
+
+    def get_index_task(self, task_id: UUID) -> QModelIndex:
+
+        row_count: int = self.rowCount()
+
+        for row in range(row_count):
+            index = self.index(row, 0)
+            if self.data(index, TaskRoles.ID) == task_id:
+                return index
+
+        return QModelIndex()

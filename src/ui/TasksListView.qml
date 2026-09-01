@@ -166,7 +166,7 @@ Rectangle {
             ScrollBar.horizontal.interactive: false
             ScrollBar.vertical.interactive: true
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff // ScrollBar is not visible but works
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOff // ScrollBar is not visible but it works
 
             /*
             background: Rectangle {
@@ -209,7 +209,7 @@ Rectangle {
                 Expandable {
                     id: inReview
 
-                    proxyModel: inReviewProxy // app_controller.task_table_controller.in_review_proxy
+                    proxyModel: inReviewProxy
 
                     Layout.fillWidth: true
 
@@ -229,7 +229,7 @@ Rectangle {
                 Expandable {
                     id: toDo
 
-                    proxyModel: toDoProxy // app_controller.task_table_controller.to_do_proxy
+                    proxyModel: toDoProxy
 
                     Layout.fillWidth: true
 
@@ -249,7 +249,7 @@ Rectangle {
                 Expandable {
                     id: paused
 
-                    proxyModel: pausedProxy // app_controller.task_table_controller.paused_proxy
+                    proxyModel: pausedProxy
 
                     Layout.fillWidth: true
 
@@ -269,7 +269,7 @@ Rectangle {
                 Expandable {
                     id: backlog
 
-                    proxyModel: backlogProxy // app_controller.task_table_controller.backlog_proxy
+                    proxyModel: backlogProxy
 
                     Layout.fillWidth: true
 
@@ -289,7 +289,7 @@ Rectangle {
                 Expandable {
                     id: finished
 
-                    proxyModel: finishedProxy // app_controller.task_table_controller.finished_proxy
+                    proxyModel: finishedProxy
 
                     Layout.fillWidth: true
 

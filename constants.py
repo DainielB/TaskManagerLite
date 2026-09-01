@@ -16,9 +16,9 @@ class TaskRoles(IntEnum):
     NAME = auto()
     KIND = auto()
     PRIORITY = auto()
-    # PROJECT = auto()
     CREATION_DATE = auto()
     # COLOR = auto()
+    TASK = auto()
 
 
 role_names: dict = {
@@ -30,9 +30,9 @@ role_names: dict = {
     TaskRoles.NAME: b'name',
     TaskRoles.KIND: b'kind',
     TaskRoles.PRIORITY: b'priority',
-    # TaskRoles.PROJECT: b'project',
     TaskRoles.CREATION_DATE: b'creation_date',
     # TaskRoles.COLOR: b'color',
+    TaskRoles.TASK: b'task',
 }
 
 

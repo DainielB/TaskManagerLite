@@ -2,13 +2,19 @@ from uuid import UUID
 
 from PySide6.QtCore import(
     QDate,
+    QModelIndex,
     QObject,
     Signal,
     Slot,
-    Qt
 )
 
-from constants import DATE_FORMAT, TaskKind, TaskPriority, TaskRoles, TaskStatus
+from constants import (
+    DATE_FORMAT,
+    TaskKind,
+    TaskPriority,
+    TaskRoles,
+    TaskStatus,
+)
 from src.data.task import Task
 
 
@@ -16,7 +22,13 @@ class TaskInfoController(QObject):
 
     taskClicked = Signal("QVariant")
     taskEdited = Signal("QVariant")
-    # statusModified = Signal(str)
+
+    nameChanged = Signal(str)
+    descriptionChanged = Signal(str)
+    endDateChanged = Signal(QDate)
+    statusChanged = Signal(str)
+    kindChanged = Signal(str)
+    priorityChanged = Signal(str)
 
     def __init__(self, model, parent=None):
         super().__init__(parent)
@@ -31,6 +43,7 @@ class TaskInfoController(QObject):
     @selected_task.setter
     def selected_task(self, task: Task) -> None:
          self._selected_task = task
+         # self.taskClicked.emit(task)
 
     @Slot(UUID)
     def load_task(self, id) -> None:
@@ -49,30 +62,35 @@ class TaskInfoController(QObject):
         self.taskClicked.emit(task_dict)
 
     @Slot(str, str, str, str, str, str)
-    def save_task(self, name: str, description: str, end_date: str, status: str, kind: str, priority: str) -> None:
+    def save_task(self, new_name: str, new_description: str, new_end_date: str, new_status: str, new_kind: str, new_priority: str) -> None:
 
-        if name != self.selected_task.name:
-            self.selected_task.name = name
+        if not self.selected_task:
+            return
 
-        if description != self.selected_task.description:
-            self.selected_task.description = description
+        if new_name != self.selected_task.name:
+            self.selected_task.name = new_name
+            self.nameChanged.emit(new_name)
 
-        if end_date != self.selected_task.end_date.toString(DATE_FORMAT):
-            self.selected_task.end_date = QDate.fromString(end_date, DATE_FORMAT)
+        if new_description != self.selected_task.description:
+            self.selected_task.description = new_description
+            self.descriptionChanged.emit(new_description)
 
-        if TaskStatus(status) != self.selected_task.status:
-            self.selected_task.status = TaskStatus(status)
+        if new_end_date != self.selected_task.end_date.toString(DATE_FORMAT):
+            self.selected_task.end_date = QDate.fromString(new_end_date, DATE_FORMAT)
+            self.endDateChanged.emit(new_end_date)
 
-        if TaskKind(kind) != self.selected_task.kind:
-            self.selected_task.kind = TaskKind(kind)
+        if TaskStatus(new_status) != self.selected_task.status:
+            self.selected_task.status = TaskStatus(new_status)
+            self.statusChanged.emit(new_status)
 
-        if TaskPriority(priority) != self.selected_task.priority:
-            self.selected_task.priority = TaskPriority(priority)
+        if TaskKind(new_kind) != self.selected_task.kind:
+            self.selected_task.kind = TaskKind(new_kind)
+            self.kindChanged.emit(new_kind)
 
-        print(self.selected_task)
+        if TaskPriority(new_priority) != self.selected_task.priority:
+            self.selected_task.priority = TaskPriority(new_priority)
+            self.priorityChanged.emit(new_priority)
 
-    def _has_changed(self, new_value, old_value) -> bool:
-        """
-        Checks if any change exists for not to connect with the database if not necessary.
-        """
-        return new_value != old_value
+        # self.taskEdited.emit(self.selected_task)
+        index = self._model.get_index_task(self.selected_task.id)
+        self._model.setData(index, self.selected_task, TaskRoles.ID)
