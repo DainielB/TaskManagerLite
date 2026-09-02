@@ -81,8 +81,9 @@ Rectangle {
 
                 Button {
                     Layout.fillWidth: false
-                    Layout.preferredWidth: root.width * root.taskCol / root.headerParts
+                    Layout.fillHeight: true
                     Layout.alignment: Qt.AlignHCenter
+                    Layout.preferredWidth: root.width * root.taskCol / root.headerParts
                     background: Rectangle {
                         color: "transparent"
                     }
@@ -91,17 +92,21 @@ Rectangle {
                         id: taskText
                         text: "TASK"
                         font.bold: true
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
                     }
 
                     // hoverEnabled: true
 
                     onReleased: {
-                        app_controller.task_table_controller.task_filter_proxy.set_sort_role("name", 0)
+                        // app_controller.task_table_controller.task_filter_proxy.set_sort_role("name", 0)
+                        console.log("TASK")
                     }
 
                 }
 
                 Button {
+                    Layout.fillHeight: true
                     Layout.preferredWidth: root.width * root.dateCol / root.headerParts
                     Layout.alignment: Qt.AlignHCenter
                     background: Rectangle {
@@ -111,14 +116,18 @@ Rectangle {
                     Text {
                         text: "END DATE"
                         font.bold: true
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
                     }
 
                     onReleased: {
-                        app_controller.task_table_controller.task_filter_proxy.set_sort_role("end_date", 1)
+                        // app_controller.task_table_controller.task_filter_proxy.set_sort_role("end_date", 1)
+                        console.log("END DATE")
                     }
                 }
 
                 Button {
+                    Layout.fillHeight: true
                     Layout.preferredWidth: root.width * root.priorityCol / root.headerParts
                     Layout.alignment: Qt.AlignHCenter
                     background: Rectangle {
@@ -128,14 +137,18 @@ Rectangle {
                     Text {
                         text: "PRIORITY"
                         font.bold: true
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
                     }
 
                     onReleased: {
-                        app_controller.task_table_controller.task_filter_proxy.set_sort_role("priority", 2)
+                        // app_controller.task_table_controller.task_filter_proxy.set_sort_role("priority", 2)
+                        console.log("PRIORITY")
                     }
                 }
 
                 Button {
+                    Layout.fillHeight: true
                     Layout.preferredWidth: root.width * root.typeCol / root.headerParts
                     Layout.alignment: Qt.AlignHCenter
                     background: Rectangle {
@@ -145,10 +158,13 @@ Rectangle {
                     Text {
                         text: "TYPE"
                         font.bold: true
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
                     }
 
                     onReleased: {
-                        app_controller.task_table_controller.task_filter_proxy.set_sort_role("kind", 3)
+                        // app_controller.task_table_controller.task_filter_proxy.set_sort_role("kind", 3)
+                        console.log("TYPE")
                     }
                 }
 

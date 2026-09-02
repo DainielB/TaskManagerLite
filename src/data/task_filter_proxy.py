@@ -26,6 +26,7 @@ class TaskFilterProxy(QSortFilterProxyModel):
         self.setDynamicSortFilter(True)
         self.setSortCaseSensitivity(Qt.CaseSensitive)
         self.setFilterCaseSensitivity(Qt.CaseInsensitive)
+        self.setFilterKeyColumn(-1) # Search all columns
 
     def set_source_model(self, model):
         if not model:

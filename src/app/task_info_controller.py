@@ -47,7 +47,7 @@ class TaskInfoController(QObject):
 
     @Slot(UUID)
     def load_task(self, id) -> None:
-        task = self._model.get_task_by_id(id)
+        task: Task = self._model.get_task_by_id(id)
         self.selected_task = task
         task_dict = {
             TaskRoles.ID.name: str(task.id),
