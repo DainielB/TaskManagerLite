@@ -18,10 +18,20 @@ Rectangle {
     readonly property int typeCol: 1
 
     property var allProxies: [inProgressProxy, inReviewProxy, toDoProxy, pausedProxy, backlogProxy, finishedProxy]
+    property var allExpandables: [inProgress, inReview, toDo, paused, backlog, finished]
 
     function sortAllBy(role) {
         for (let i = 0; i < allProxies.length; i++) {
             allProxies[i].set_sort_role(role)
+        }
+    }
+
+    function filterAllBy(text) {
+        for (let i = 0; i < allProxies.length; i++) {
+            allProxies[i].search_all_by(text)
+        }
+        for (let i = 0; i < allExpandables.length; i++) {
+            allExpandables[i].expanded = true
         }
     }
 
@@ -35,6 +45,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 50 // sortButton.implicitHeight
 
+            /*
             Button {
                 id: sortButton
                 text: "Sort"
@@ -42,6 +53,7 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.leftMargin: 10
             }
+            */
 
             RowLayout {
                 anchors.centerIn: parent
@@ -52,13 +64,22 @@ Rectangle {
                     Layout.preferredWidth: 200
                     Layout.preferredHeight: searchBtn.implicitHeight
                     placeholderText: "Search a Task..."
-                    //onTextChanged: console.log("Texto actual:", text)
+                    onTextChanged: searchTimer.restart()
                 }
+
+                Timer {
+                    id: searchTimer
+                    interval: 250
+                    onTriggered: root.filterAllBy(searchField.text)
+                }
+
+                /*
                 Button {
                     id: searchBtn
                     text: "Search"
                     onClicked: { }
                 }
+                */
             }
 
             Button {
@@ -108,7 +129,6 @@ Rectangle {
                     // hoverEnabled: true
 
                     onReleased: {
-                        // app_controller.task_table_controller.task_filter_proxy.set_sort_role("name", 0)
                         root.sortAllBy("name")
                     }
 
@@ -130,7 +150,6 @@ Rectangle {
                     }
 
                     onReleased: {
-                        // app_controller.task_table_controller.task_filter_proxy.set_sort_role("end_date", 1)
                         root.sortAllBy("end_date")
                     }
                 }
@@ -151,7 +170,6 @@ Rectangle {
                     }
 
                     onReleased: {
-                        // app_controller.task_table_controller.task_filter_proxy.set_sort_role("priority", 2)
                         root.sortAllBy("priority")
                     }
                 }
@@ -172,7 +190,6 @@ Rectangle {
                     }
 
                     onReleased: {
-                        // app_controller.task_table_controller.task_filter_proxy.set_sort_role("kind", 3)
                         root.sortAllBy("kind")
                     }
                 }

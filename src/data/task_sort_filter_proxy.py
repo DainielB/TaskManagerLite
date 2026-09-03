@@ -5,7 +5,8 @@ from PySide6.QtCore import (
     Slot,
     QModelIndex,
     Qt,
-    QObject
+    QObject,
+    QRegularExpression
 )
 
 from PySide6.QtQml import QmlElement
@@ -24,15 +25,20 @@ class TaskSortFilterProxy(QSortFilterProxyModel):
         super().__init__(parent)
 
         self._sort_role = None
-        self._filter_role = None
+        # self._filter_role = None
         self._source_model = None
         self._status: str = None
         self._current_sort_field: str = None
+        self._search_text: str = ""
 
         self.setDynamicSortFilter(True)
-        self.setSortCaseSensitivity(Qt.CaseSensitive)
-        self.setFilterCaseSensitivity(Qt.CaseInsensitive)
+        self.setSortCaseSensitivity(Qt.CaseSensitivity.CaseSensitive)
+        self.setFilterCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         self.setFilterKeyColumn(-1) # Search all columns
+
+        self.setFilterRegularExpression(
+            QRegularExpression(self._search_text, QRegularExpression.CaseInsensitiveOption)
+        )
 
     def get_source_model(self):
         return self._source_model
@@ -55,35 +61,6 @@ class TaskSortFilterProxy(QSortFilterProxyModel):
 
     status = Property(str, fget=get_status, fset=set_status)
 
-    @Slot(str)
-    def set_sort_role(self, role: str):
-        role_name = role.encode('utf-8')
-
-        matches = [k for k, v in role_names.items() if v == role_name]
-        if not matches:
-            return
-
-        self._sort_role: int = matches[0]
-        self.setSortRole(self._sort_role)
-
-        if self._current_sort_field == role:
-            new_order = Qt.SortOrder.AscendingOrder if self.sortOrder() == Qt.SortOrder.DescendingOrder else Qt.SortOrder.DescendingOrder
-        else:
-            new_order = Qt.SortOrder.DescendingOrder
-
-        self._current_sort_field = role
-        self.sort(0, new_order)
-        # self.invalidate()
-
-    '''
-    @Slot(str, int)
-    def set_filter_role(self, role: str, source_column: int):
-        self._filter_role = role.encode('utf-8')
-        filter_index: int = [k for k, v in role_names.items() if v == self._sort_role][0]
-        self.setFilterRole(role_index)
-        self.sort(source_column)
-    '''
-
     def lessThan(self, source_left: QModelIndex, source_right: QModelIndex) -> bool:
         model = self.get_source_model()
         left_data = model.data(source_left, self._sort_role)
@@ -102,8 +79,48 @@ class TaskSortFilterProxy(QSortFilterProxyModel):
         return super().lessThan(source_left, source_right)
 
     def filterAcceptsRow(self, source_row: int, source_parent: QModelIndex) -> bool:
+
+        if not self._source_model:
+            return False
+
         source_index = self._source_model.index(source_row, COLUMN_NUM, source_parent)
-        # source_index = self.sourceModel().index(source_row, COLUMN_NUM, source_parent)
+
+        # STATUS Filter
         status = self._source_model.data(source_index, TaskRoles.STATUS)
 
-        return status == self._status
+        if status != self._status:
+            return False
+
+        # TEXT Filter
+        if self._search_text:
+            name = self._source_model.data(source_index, TaskRoles.NAME) or ""
+            if self._search_text.lower() not in str(name).lower():
+                return False
+
+        # return status == self._status
+        return True
+
+    @Slot(str)
+    def set_sort_role(self, role: str) -> None:
+        role_name = role.encode('utf-8')
+
+        matches = [k for k, v in role_names.items() if v == role_name]
+        if not matches:
+            return
+
+        self._sort_role: int = matches[0]
+        self.setSortRole(self._sort_role)
+
+        if self._current_sort_field == role:
+            new_order = Qt.SortOrder.AscendingOrder if self.sortOrder() == Qt.SortOrder.DescendingOrder else Qt.SortOrder.DescendingOrder
+        else:
+            new_order = Qt.SortOrder.DescendingOrder
+
+        self._current_sort_field = role
+        self.sort(0, new_order)
+        # self.invalidate()
+
+    @Slot(str)
+    def search_all_by(self, text_input: str) -> None:
+        self._search_text = text_input
+        self.invalidateFilter()
