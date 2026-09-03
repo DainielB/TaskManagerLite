@@ -3,7 +3,7 @@ from enum import IntEnum, Enum, auto
 
 
 # VARIABLES
-DATE_FORMAT: str = "yyyy-M-d"
+DATE_FORMAT: str = "yyyy-MM-dd"
 COLUMN_NUM: int = 0
 
 
@@ -55,9 +55,16 @@ class TaskKind(Enum):
     LIGHTING = "Lighting"
     COMPOSITING = "Compositing"
 
-
+'''
 class TaskPriority(Enum):
     LOW = "Low"
     MEDIUM = "Medium"
     HIGH = "High"
     URGENT = "Urgent"
+'''
+
+class TaskPriority(IntEnum):
+    Low = 0
+    Medium = 1
+    High = 2
+    Urgent = 3

@@ -8,7 +8,7 @@ from PySide6.QtQuickControls2 import QQuickStyle
 
 from src.app.app_controller import AppController
 from src.app.validator import Validator
-from src.data.task_filter_proxy import TaskFilterProxy
+from src.data.task_sort_filter_proxy import TaskSortFilterProxy
 
 
 if __name__ == "__main__":
@@ -28,8 +28,6 @@ if __name__ == "__main__":
 
     date_validator = Validator()
     qml_app_engine.rootContext().setContextProperty("date_validator", date_validator)
-
-    qmlRegisterType(TaskFilterProxy, "TaskFilterProxy", 1, 0, "TaskProxyModel")
 
     current_file_path = Path(__file__)
     main_qml_path = current_file_path.parent / 'src/ui/MainView.qml'

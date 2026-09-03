@@ -25,14 +25,16 @@ class TaskTableModel(QAbstractListModel):
         super().__init__()
         self._tasks: list = []
 
-        task_one = Task("Project Task 1", "2025-09-08", TaskPriority.HIGH, TaskKind.LIGHTING, TaskStatus.IN_PROGRESS, "Project 1")
+        task_one = Task("Project Task 4", "2025-09-08", TaskPriority.High, TaskKind.LIGHTING, TaskStatus.IN_PROGRESS, "Project 1")
         self.add_task(task_one)
-        task_two = Task("Aroject Task 2", "2026-01-01", TaskPriority.LOW, TaskKind.ANIMATION, TaskStatus.TO_DO, "Project 1")
+        task_two = Task("Project Task 2", "2026-01-01", TaskPriority.Medium, TaskKind.ANIMATION, TaskStatus.TO_DO, "Project 1")
         self.add_task(task_two)
-        task_three = Task("Project Task 3", "2025-12-01", TaskPriority.MEDIUM, TaskKind.FX, TaskStatus.BACKLOG, "Project 1")
+        task_three = Task("Project Task 3", "2025-12-01", TaskPriority.Medium, TaskKind.FX, TaskStatus.BACKLOG, "Project 1")
         self.add_task(task_three)
-        task_four = Task("Project Task 4", "2025-12-01", TaskPriority.URGENT, TaskKind.MODELING, TaskStatus.IN_PROGRESS, "Project 1")
+        task_four = Task("Project Task", "2026-12-01", TaskPriority.Urgent, TaskKind.MODELING, TaskStatus.IN_PROGRESS, "Project 1")
         self.add_task(task_four)
+        task_five = Task("Bueno esto qué", "2026-04-19", TaskPriority.Low, TaskKind.LAYOUT, TaskStatus.TO_DO, "Project 1")
+        self.add_task(task_five)
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         """
@@ -82,7 +84,7 @@ class TaskTableModel(QAbstractListModel):
         elif role == TaskRoles.KIND:
             return task.kind.value
         elif role == TaskRoles.PRIORITY:
-            return task.priority.value
+            return task.priority.name
         elif role == TaskRoles.CREATION_DATE:
             return task.creation_date.toString(DATE_FORMAT)
         elif role == TaskRoles.TASK:

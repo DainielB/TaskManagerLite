@@ -1,7 +1,8 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import TaskFilterProxy
+
+import TaskProxyModel 1.0
 
 
 Rectangle {
@@ -15,6 +16,14 @@ Rectangle {
     readonly property int statusCol: 2
     readonly property int priorityCol: 2
     readonly property int typeCol: 1
+
+    property var allProxies: [inProgressProxy, inReviewProxy, toDoProxy, pausedProxy, backlogProxy, finishedProxy]
+
+    function sortAllBy(role) {
+        for (let i = 0; i < allProxies.length; i++) {
+            allProxies[i].set_sort_role(role)
+        }
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -100,7 +109,7 @@ Rectangle {
 
                     onReleased: {
                         // app_controller.task_table_controller.task_filter_proxy.set_sort_role("name", 0)
-                        console.log("TASK")
+                        root.sortAllBy("name")
                     }
 
                 }
@@ -122,7 +131,7 @@ Rectangle {
 
                     onReleased: {
                         // app_controller.task_table_controller.task_filter_proxy.set_sort_role("end_date", 1)
-                        console.log("END DATE")
+                        root.sortAllBy("end_date")
                     }
                 }
 
@@ -143,7 +152,7 @@ Rectangle {
 
                     onReleased: {
                         // app_controller.task_table_controller.task_filter_proxy.set_sort_role("priority", 2)
-                        console.log("PRIORITY")
+                        root.sortAllBy("priority")
                     }
                 }
 
@@ -164,7 +173,7 @@ Rectangle {
 
                     onReleased: {
                         // app_controller.task_table_controller.task_filter_proxy.set_sort_role("kind", 3)
-                        console.log("TYPE")
+                        root.sortAllBy("kind")
                     }
                 }
 
@@ -196,7 +205,7 @@ Rectangle {
 
                 spacing: 15
 
-                TaskProxyModel {
+                TaskSortFilterProxy {
                     id: inProgressProxy
                     source_model: app_controller.task_table_controller.task_table_model
                     status: "In Progress"
@@ -216,7 +225,7 @@ Rectangle {
                     status: "In Progress"
                 }
 
-                TaskProxyModel {
+                TaskSortFilterProxy {
                     id: inReviewProxy
                     source_model: app_controller.task_table_controller.task_table_model
                     status: "In Review"
@@ -236,7 +245,7 @@ Rectangle {
                     status: "In Review"
                 }
 
-                TaskProxyModel {
+                TaskSortFilterProxy {
                     id: toDoProxy
                     source_model: app_controller.task_table_controller.task_table_model
                     status: "To Do"
@@ -256,7 +265,7 @@ Rectangle {
                     status: "To Do"
                 }
 
-                TaskProxyModel {
+                TaskSortFilterProxy {
                     id: pausedProxy
                     source_model: app_controller.task_table_controller.task_table_model
                     status: "Paused"
@@ -276,7 +285,7 @@ Rectangle {
                     status: "Paused"
                 }
 
-                TaskProxyModel {
+                TaskSortFilterProxy {
                     id: backlogProxy
                     source_model: app_controller.task_table_controller.task_table_model
                     status: "Backlog"
@@ -296,7 +305,7 @@ Rectangle {
                     status: "Backlog"
                 }
 
-                TaskProxyModel {
+                TaskSortFilterProxy {
                     id: finishedProxy
                     source_model: app_controller.task_table_controller.task_table_model
                     status: "Finished"

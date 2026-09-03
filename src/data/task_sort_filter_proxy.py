@@ -8,25 +8,34 @@ from PySide6.QtCore import (
     QObject
 )
 
-from constants import COLUMN_NUM, TaskRoles, role_names, COLUMN_NUM
+from PySide6.QtQml import QmlElement
+
+from constants import COLUMN_NUM, TaskRoles, role_names
 
 
-class TaskFilterProxy(QSortFilterProxyModel):
+QML_IMPORT_NAME = "TaskProxyModel"
+QML_IMPORT_MAJOR_VERSION = 1
+QML_IMPORT_MINOR_VERSION = 0
 
-    # def __init__(self, status: TaskStatus, source_model, parent=None):
+@QmlElement
+class TaskSortFilterProxy(QSortFilterProxyModel):
+
     def __init__(self, parent=None):
         super().__init__(parent)
 
         self._sort_role = None
         self._filter_role = None
-        self._source_column: int = 0
         self._source_model = None
         self._status: str = None
+        self._current_sort_field: str = None
 
         self.setDynamicSortFilter(True)
         self.setSortCaseSensitivity(Qt.CaseSensitive)
         self.setFilterCaseSensitivity(Qt.CaseInsensitive)
         self.setFilterKeyColumn(-1) # Search all columns
+
+    def get_source_model(self):
+        return self._source_model
 
     def set_source_model(self, model):
         if not model:
@@ -35,20 +44,35 @@ class TaskFilterProxy(QSortFilterProxyModel):
         self.setSourceModel(model)
         self._source_model = model
 
-    source_model = Property(QObject, fget=lambda self: self.source_model, fset=set_source_model)
+    source_model = Property(QObject, fget=get_source_model, fset=set_source_model)
+
+    def get_status(self):
+        return self._status
 
     def set_status(self, new_status: str):
         self._status = new_status
+        # self.invalidateFilter()
 
-    status = Property(str, fget= lambda self: self.status, fset=set_status)
+    status = Property(str, fget=get_status, fset=set_status)
 
-    @Slot(str, int)
-    def set_sort_role(self, role: str, source_column: int):
+    @Slot(str)
+    def set_sort_role(self, role: str):
         role_name = role.encode('utf-8')
-        self._sort_role: int = [k for k, v in role_names.items() if v == role_name][0]
+
+        matches = [k for k, v in role_names.items() if v == role_name]
+        if not matches:
+            return
+
+        self._sort_role: int = matches[0]
         self.setSortRole(self._sort_role)
-        # self.sortRoleChanged.emit(self._sort_role)
-        self.sort(source_column)
+
+        if self._current_sort_field == role:
+            new_order = Qt.SortOrder.AscendingOrder if self.sortOrder() == Qt.SortOrder.DescendingOrder else Qt.SortOrder.DescendingOrder
+        else:
+            new_order = Qt.SortOrder.DescendingOrder
+
+        self._current_sort_field = role
+        self.sort(0, new_order)
         # self.invalidate()
 
     '''
@@ -61,24 +85,21 @@ class TaskFilterProxy(QSortFilterProxyModel):
     '''
 
     def lessThan(self, source_left: QModelIndex, source_right: QModelIndex) -> bool:
-        print(f"Comparing: {source_left.data(self._sort_role)}, {source_right.data(self._sort_role)}")
-
-        print(f"sortRole: {self.sortRole()}")
-
-        model = self.sourceModel()
+        model = self.get_source_model()
         left_data = model.data(source_left, self._sort_role)
         right_data = model.data(source_right, self._sort_role)
         sort_role: int = self.sortRole()
 
-        print(f"left_data: {left_data}, right_data: {right_data}")
-
-        if sort_role == TaskRoles.END_DATE:
+        if sort_role == TaskRoles.NAME:
+            return str(left_data) < str(right_data)
+        elif sort_role == TaskRoles.END_DATE:
             return QDate.fromString(left_data, Qt.DateFormat.ISODate) < QDate.fromString(right_data, Qt.DateFormat.ISODate)
-        elif sort_role == TaskRoles.NAME:
-            return str(left_data).lower() < str(right_data).lower()
-        else:
-            # elif sort_role == TaskRoles.PRIORITY:
-            return left_data < right_data
+        elif sort_role == TaskRoles.PRIORITY:
+            return source_left < source_right
+        elif sort_role == TaskRoles.KIND:
+            return str(left_data) < str(right_data)
+
+        return super().lessThan(source_left, source_right)
 
     def filterAcceptsRow(self, source_row: int, source_parent: QModelIndex) -> bool:
         source_index = self._source_model.index(source_row, COLUMN_NUM, source_parent)

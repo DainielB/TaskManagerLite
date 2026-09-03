@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 from uuid import UUID, uuid4
 
 from PySide6.QtCore import QDate, QObject
@@ -17,12 +16,6 @@ class Entity(QObject):
         self._status: TaskStatus = status
         self._description: str = description
         self._creation_date: QDate = QDate.currentDate()
-
-    '''
-    @abstractmethod
-    def __str__(self) -> str:
-        ...
-    '''
 
     @property
     def id(self) -> UUID:

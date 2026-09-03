@@ -1,6 +1,4 @@
-from uuid import UUID, uuid4
-
-from PySide6.QtCore import QDate, QObject, Property
+from PySide6.QtCore import QDate
 
 from .entity import Entity
 from constants import (
@@ -16,7 +14,7 @@ class Task(Entity):
     def __init__(self, name: str, end_date: str, priority: str, kind: str, status: str, description: str) -> None:
         super().__init__(name, QDate.fromString(end_date, DATE_FORMAT), TaskStatus(status), description)
 
-        self._priority: TaskPriority = TaskPriority(priority) if priority != "Priority" else TaskPriority.LOW
+        self._priority: TaskPriority = TaskPriority(priority) if priority != "Priority" else TaskPriority.Low
         self._kind: TaskKind = TaskKind(kind)
         # self._status: TaskStatus = TaskStatus(status) if status != "Initial Status" else TaskStatus.TO_DO
         # self.color: str = color
