@@ -3,7 +3,7 @@ from enum import IntEnum, Enum, auto
 
 
 # VARIABLES
-DATE_FORMAT: str = "yyyy-MM-dd"
+DATE_FORMAT: str = "yyyy-M-d"
 COLUMN_NUM: int = 0
 
 

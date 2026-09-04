@@ -2,7 +2,6 @@ from uuid import UUID
 
 from PySide6.QtCore import(
     QDate,
-    QModelIndex,
     QObject,
     Signal,
     Slot,

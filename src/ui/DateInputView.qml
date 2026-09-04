@@ -6,7 +6,6 @@ import QtQuick.Controls.Universal
 Item {
 
     property var _selectedDate: new Date()
-    // readonly property alias dateText: dateInput.placeholderText
     property bool is_enabled: true
     property var new_date: _selectedDate.getFullYear() + "-" + (_selectedDate.getMonth() + 1) + "-" + (_selectedDate.getDate() + 1)
 
@@ -78,16 +77,16 @@ Item {
                     opacity: model.month === grid.month ? 1 : 0.3
                     font.bold: model.today
                     horizontalAlignment: Text.AlignHCenter
-                    color: model.date.getTime() === root._selectedDate.getTime()
-                           ? "blue" : "orange"
+                    color: model.date.getDate() === root._selectedDate.getDate() ? "blue" : "orange"
 
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
                             root._selectedDate = model.date
-                            dateInput.placeholderText = (model.date.getDate() + 1) + "/" +
-                                (model.date.getMonth() + 1) + "/" +
-                                model.date.getFullYear()
+                            dateInput.placeholderText = model.date.getFullYear() + "-" +
+                                (model.date.getMonth() + 1) + "-" +
+                                (model.date.getDate() + 1)
+
                             datePicker.close()
                         }
                     }

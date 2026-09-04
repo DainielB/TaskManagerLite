@@ -11,7 +11,12 @@ from PySide6.QtCore import (
 
 from PySide6.QtQml import QmlElement
 
-from constants import COLUMN_NUM, TaskRoles, role_names
+from constants import (
+    COLUMN_NUM,
+    TaskRoles,
+    role_names,
+    DATE_FORMAT,
+)
 
 
 QML_IMPORT_NAME = "TaskProxyModel"
@@ -70,7 +75,7 @@ class TaskSortFilterProxy(QSortFilterProxyModel):
         if sort_role == TaskRoles.NAME:
             return str(left_data) < str(right_data)
         elif sort_role == TaskRoles.END_DATE:
-            return QDate.fromString(left_data, Qt.DateFormat.ISODate) < QDate.fromString(right_data, Qt.DateFormat.ISODate)
+            return QDate.fromString(left_data, DATE_FORMAT) < QDate.fromString(right_data, DATE_FORMAT)
         elif sort_role == TaskRoles.PRIORITY:
             return source_left < source_right
         elif sort_role == TaskRoles.KIND:
