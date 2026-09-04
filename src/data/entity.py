@@ -7,13 +7,13 @@ from constants import TaskStatus
 
 class Entity(QObject):
 
-    def __init__(self, name: str, end_date: QDate, status: TaskStatus = TaskStatus.TO_DO, description: str = "") -> None:
+    def __init__(self, name: str, end_date: QDate, description: str = "") -> None:
         super().__init__()
         self._id: UUID = uuid4()
         self._name: str = name
         self._start_date: QDate = None # Set when TaskStatus changes to IN_PROGRESS
         self._end_date: QDate = end_date
-        self._status: TaskStatus = status
+        # self._status: TaskStatus = status
         self._description: str = description
         self._creation_date: QDate = QDate.currentDate()
 

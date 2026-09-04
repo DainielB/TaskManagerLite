@@ -62,7 +62,7 @@ Rectangle {
                 TextField {
                     id: searchField
                     Layout.preferredWidth: 200
-                    Layout.preferredHeight: searchBtn.implicitHeight
+                    Layout.preferredHeight: newTaskButton.implicitHeight
                     placeholderText: "Search a Task..."
                     onTextChanged: searchTimer.restart()
                 }

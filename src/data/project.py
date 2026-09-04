@@ -16,7 +16,6 @@ class Project(Entity):
         self._name: str = name
         self._start_date: QDate # Sets when Project status is created
         self._end_date: QDate = QDate.fromString(end_date, Qt.DateFormat.ISODate)
-        # self._status: str
         self._description: str = description
         self._creation_date: QDate = QDate.currentDate()
         # self.color: str = color

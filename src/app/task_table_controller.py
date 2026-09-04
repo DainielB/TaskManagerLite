@@ -35,6 +35,7 @@ class TaskTableController(QObject):
         """
         Adds a task to the task table with the given info.
         """
+
         new_task = Task(name, end_date, priority, kind, status, description)
 
         self._model.add_task(new_task)

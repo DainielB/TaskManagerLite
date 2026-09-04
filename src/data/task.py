@@ -12,11 +12,11 @@ from constants import (
 class Task(Entity):
 
     def __init__(self, name: str, end_date: str, priority: str, kind: str, status: str, description: str) -> None:
-        super().__init__(name, QDate.fromString(end_date, DATE_FORMAT), TaskStatus(status), description)
+        super().__init__(name, QDate.fromString(end_date, DATE_FORMAT), description)
 
         self._priority: TaskPriority = TaskPriority(priority) if priority != "Priority" else TaskPriority.Low
         self._kind: TaskKind = TaskKind(kind)
-        # self._status: TaskStatus = TaskStatus(status) if status != "Initial Status" else TaskStatus.TO_DO
+        self._status: TaskStatus = TaskStatus(status) if status != "Initial Status" else TaskStatus.TO_DO
         # self.color: str = color
 
     def __str__(self) -> str:
