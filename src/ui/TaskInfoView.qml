@@ -15,8 +15,7 @@ Rectangle {
     property string status: ""
     property string type: ""
     property bool _enabled: false
-
-    property var selectedTask: {}
+    property bool _hasSelectedTask: false
 
     function enableButtons(enabled: bool) {
         cancelTask.enabled = enabled
@@ -83,7 +82,7 @@ Rectangle {
                 ComboBox {
                     id: taskStatus
                     Layout.fillWidth: true
-                    enabled: root._enabled // false
+                    enabled: root._enabled
 
                     model: [
                         "To Do", "In Progress", "In Review", "Paused", "Backlog", "Finished"
@@ -91,11 +90,7 @@ Rectangle {
                     currentIndex: 0
 
                     onCurrentIndexChanged: {
-                    /*
-                        console.log("Índice:", currentIndex)
-                        console.log("Valor:", currentValue)
-                        console.log("Texto:", currentText)
-                    */
+
                     }
                 }
             }
@@ -110,7 +105,7 @@ Rectangle {
                 ComboBox {
                     id: taskType
                     Layout.fillWidth: true
-                    enabled: root._enabled // false
+                    enabled: root._enabled
 
                     model: [
                         "Modeling", "Shading", "Rig", "Layout", "Animation", "FX", "Lighting", "Compositing"
@@ -133,7 +128,7 @@ Rectangle {
                 ComboBox {
                     id: priority
                     Layout.fillWidth: true
-                    enabled: root._enabled // false
+                    enabled: root._enabled
 
                     model: [
                         "Low", "Medium", "High", "Urgent"
@@ -150,13 +145,27 @@ Rectangle {
 
         // Buttons Panel
         RowLayout {
-            Layout.alignment: Qt.AlignRight
+            Layout.fillWidth: true
             spacing: 5
+
+            Button {
+                id: startTask
+                text: "Start"
+                // enabled: root._enabled
+                visible: app_controller.task_info_controller.taskSelected // root._hasSelectedTask && taskStatus.currentValue !== "In Progress"
+                onReleased: {
+                    app_controller.task_info_controller.start_task()
+                }
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
 
             Button {
                 id: cancelTask
                 text: "Cancel"
-                enabled: root._enabled // false
+                enabled: root._enabled
                 onReleased: root._enabled = !root._enabled
             }
 
@@ -166,10 +175,7 @@ Rectangle {
                 enabled: true
                 visible: !root._enabled
                 onReleased: {
-                    // console.log("root.proxyModel FROM QML: ", root.proxyModel)
-                    // root.proxyModel.get_task_index("TESTINGGG") // May be here I can get the index and then pass it as a reference to load_task()
-                    // app_controller.task_info_controller.save_task(taskName.text, taskDescription.text, dateInputView.new_date, taskStatus.currentValue, taskType.currentValue, priority.currentValue)
-                    root._enabled = !root._enabled // root.enableButtons(true)
+                   root._enabled = !root._enabled
                 }
             }
 
@@ -179,8 +185,6 @@ Rectangle {
                 enabled: root._enabled
                 visible: root._enabled
                 onReleased: {
-                    // console.log("root.proxyModel FROM QML: ", root.proxyModel)
-                    // root.proxyModel.get_task_index("TESTINGGG") // May be here I can get the index and then pass it as a reference to load_task()
                     app_controller.task_info_controller.save_task(taskName.text, taskDescription.text, dateInputView.new_date, taskStatus.currentValue, taskType.currentValue, priority.currentValue)
                     root._enabled = !root._enabled
                 }
@@ -192,6 +196,8 @@ Rectangle {
         target: app_controller.task_info_controller
 
         function onTaskClicked(obj) {
+            root._hasSelectedTask = true
+
             taskName.text = obj["NAME"]
             taskDescription.text = obj["DESCRIPTION"]
             dateInputView.new_date = obj["END_DATE"] // TODO: Find a way of setting the new date in the endDate textfield

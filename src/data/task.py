@@ -20,7 +20,7 @@ class Task(Entity):
         # self.color: str = color
 
     def __str__(self) -> str:
-        return f"TASK\r\n id: {self.id}, name: {self.name}, end_date: {self.end_date}, priority: {self.priority}, kind: {self.kind}, status: {self.status}, description: {self.description}\n "
+        return f"TASK\r\n id: {self.id}, name: {self.name}, end_date: {self.end_date}, start_date: {self.start_date}, priority: {self.priority}, kind: {self.kind}, status: {self.status}, description: {self.description}\n "
 
     @property
     def priority(self) -> TaskPriority:

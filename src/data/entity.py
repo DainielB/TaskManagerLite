@@ -11,9 +11,8 @@ class Entity(QObject):
         super().__init__()
         self._id: UUID = uuid4()
         self._name: str = name
-        self._start_date: QDate = None # Set when TaskStatus changes to IN_PROGRESS
+        self._start_date: QDate = None
         self._end_date: QDate = end_date
-        # self._status: TaskStatus = status
         self._description: str = description
         self._creation_date: QDate = QDate.currentDate()
 
@@ -50,8 +49,11 @@ class Entity(QObject):
         return self._status
 
     @status.setter
-    def status(self, status: TaskStatus) -> None:
-        self._status = status
+    def status(self, new_status: TaskStatus) -> None:
+        if new_status == TaskStatus.IN_PROGRESS and self.status != TaskStatus.IN_PROGRESS:
+            self.start_date = QDate.currentDate()
+
+        self._status = new_status
 
     @property
     def description(self) -> str:
@@ -64,9 +66,3 @@ class Entity(QObject):
     @property
     def creation_date(self) -> QDate:
         return self._creation_date
-
-    """
-    @creation_date.setter
-    def creation_date(self, creation_date: QDate) -> None:
-        self._creation_date = creation_date
-    """

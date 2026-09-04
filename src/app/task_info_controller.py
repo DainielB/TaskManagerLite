@@ -1,6 +1,7 @@
 from uuid import UUID
 
 from PySide6.QtCore import(
+    Property,
     QDate,
     QObject,
     Signal,
@@ -20,7 +21,7 @@ from src.data.task import Task
 class TaskInfoController(QObject):
 
     taskClicked = Signal("QVariant")
-    taskEdited = Signal("QVariant")
+    taskSelectedSignal = Signal(bool)
 
     nameChanged = Signal(str)
     descriptionChanged = Signal(str)
@@ -42,7 +43,14 @@ class TaskInfoController(QObject):
     @selected_task.setter
     def selected_task(self, task: Task) -> None:
          self._selected_task = task
-         # self.taskClicked.emit(task)
+         self.taskSelectedSignal.emit(self._is_task_selected())
+
+    def _is_task_selected(self) -> bool:
+        if self._selected_task is None:
+            return False
+        return self._selected_task.status != TaskStatus.IN_PROGRESS
+
+    taskSelected = Property(bool, _is_task_selected, notify=taskSelectedSignal)
 
     @Slot(UUID)
     def load_task(self, id) -> None:
@@ -55,13 +63,13 @@ class TaskInfoController(QObject):
             TaskRoles.END_DATE.name: QDate.toString(task.end_date, DATE_FORMAT),
             TaskRoles.STATUS.name: str(task.status.value),
             TaskRoles.KIND.name: str(task.kind.value),
-            TaskRoles.PRIORITY.name: str(task.priority.value)
+            TaskRoles.PRIORITY.name: str(task.priority.name)
         }
 
         self.taskClicked.emit(task_dict)
 
     @Slot(str, str, str, str, str, str)
-    def save_task(self, new_name: str, new_description: str, new_end_date: str, new_status: str, new_kind: str, new_priority: str) -> None:
+    def save_task(self, new_name: str = "", new_description: str = "", new_end_date: str = "", new_status: str = "", new_kind: str = "", new_priority: str = "") -> None:
 
         if not self.selected_task:
             return
@@ -81,15 +89,24 @@ class TaskInfoController(QObject):
         if TaskStatus(new_status) != self.selected_task.status:
             self.selected_task.status = TaskStatus(new_status)
             self.statusChanged.emit(new_status)
+            self.taskSelectedSignal.emit(self._is_task_selected())
 
         if TaskKind(new_kind) != self.selected_task.kind:
             self.selected_task.kind = TaskKind(new_kind)
             self.kindChanged.emit(new_kind)
 
-        if TaskPriority(new_priority) != self.selected_task.priority:
+        if TaskPriority(new_priority) != self.selected_task.priority.name:
             self.selected_task.priority = TaskPriority(new_priority)
             self.priorityChanged.emit(new_priority)
 
-        # self.taskEdited.emit(self.selected_task)
+        self._set_data()
+
+    @Slot()
+    def start_task(self) -> None:
+        self._selected_task.status = TaskStatus.IN_PROGRESS
+        self._set_data()
+        self.load_task(self._selected_task.id)
+
+    def _set_data(self) -> None:
         index = self._model.get_index_task(self.selected_task.id)
         self._model.setData(index, self.selected_task, TaskRoles.ID)

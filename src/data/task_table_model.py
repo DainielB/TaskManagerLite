@@ -96,8 +96,7 @@ class TaskTableModel(QAbstractListModel):
         return role_names
 
     def setData(self, index: QModelIndex, value: Any, role: int) -> bool:
-
-        self.dataChanged.emit(index, index, list(self.roleNames().keys())) # or self.roleNames().keys()
+        self.dataChanged.emit(index, index, list(self.roleNames().keys()))
 
         return super().setData(index, value, role)
 

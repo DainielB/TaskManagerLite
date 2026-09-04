@@ -43,7 +43,7 @@ Rectangle {
                     radius: 5
 
                     border.width: 2
-                    border.color: "#F0803C" // "gray"
+                    border.color: "#F0803C"
 
                     RowLayout {
                         anchors.fill: parent
