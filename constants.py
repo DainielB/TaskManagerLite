@@ -1,10 +1,37 @@
 from PySide6.QtCore import Qt
-from enum import IntEnum, Enum, auto
+from enum import (
+    IntEnum,
+    Enum,
+    auto,
+)
+from pathlib import Path
 
 
 # VARIABLES
 DATE_FORMAT: str = "yyyy-M-d"
 COLUMN_NUM: int = 0
+DB_PATH: Path = Path("TaskManagerLite.db")
+
+
+class ProjectRoles(IntEnum):
+    ID = Qt.ItemDataRole.UserRole + 1
+    NAME = auto()
+    DESCRIPTION = auto()
+    END_DATE = auto()
+    START_DATE = auto()
+    CREATION_DATE = auto()
+    STATUS = auto()
+    PROJECT = auto()
+
+project_role_names = {
+    ProjectRoles.ID: b'id',
+    ProjectRoles.NAME: b'name',
+    ProjectRoles.DESCRIPTION: b'description',
+    ProjectRoles.END_DATE: b'end_date',
+    ProjectRoles.START_DATE: b'start_date',
+    ProjectRoles.CREATION_DATE: b'creation_date',
+    ProjectRoles.STATUS: b'status',
+}
 
 
 class TaskRoles(IntEnum):
@@ -17,11 +44,9 @@ class TaskRoles(IntEnum):
     KIND = auto()
     PRIORITY = auto()
     CREATION_DATE = auto()
-    # COLOR = auto()
     TASK = auto()
 
-
-role_names: dict = {
+task_role_names: dict = {
     TaskRoles.ID: b'id',
     TaskRoles.START_DATE: b'start_date',
     TaskRoles.END_DATE: b'end_date',
@@ -31,7 +56,6 @@ role_names: dict = {
     TaskRoles.KIND: b'kind',
     TaskRoles.PRIORITY: b'priority',
     TaskRoles.CREATION_DATE: b'creation_date',
-    # TaskRoles.COLOR: b'color',
     TaskRoles.TASK: b'task',
 }
 

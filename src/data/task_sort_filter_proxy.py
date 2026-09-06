@@ -14,7 +14,7 @@ from PySide6.QtQml import QmlElement
 from constants import (
     COLUMN_NUM,
     TaskRoles,
-    role_names,
+    task_role_names,
     DATE_FORMAT,
 )
 
@@ -109,7 +109,7 @@ class TaskSortFilterProxy(QSortFilterProxyModel):
     def set_sort_role(self, role: str) -> None:
         role_name = role.encode('utf-8')
 
-        matches = [k for k, v in role_names.items() if v == role_name]
+        matches = [k for k, v in task_role_names.items() if v == role_name]
         if not matches:
             return
 

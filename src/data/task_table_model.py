@@ -10,30 +10,38 @@ from PySide6.QtCore import (
 
 from constants import (
     TaskRoles,
-    role_names,
+    task_role_names,
     TaskPriority,
     TaskStatus,
     TaskKind,
     DATE_FORMAT
 )
+from src.data.project import Project
 from src.data.task import Task
+from src.data.task_repository import TaskRepository
 
 
 class TaskTableModel(QAbstractListModel):
 
-    def __init__(self):
+    # def __init__(self):
+    def __init__(self, repository: TaskRepository, parent=None):
         super().__init__()
-        self._tasks: list = []
 
-        task_one = Task("Project Task 4", "2025-09-08", TaskPriority.High, TaskKind.LIGHTING, TaskStatus.IN_PROGRESS, "Project 1")
+        self._repository: TaskRepository = repository
+        # self._tasks: list = []
+        self._tasks: list[Task] = self._repository.get_all_tasks()
+
+        project: Project = Project("Test Project", "2027-02-17", "This is the project description")
+
+        task_one = Task("Project Task 4", "2025-09-08", TaskPriority.High, TaskKind.LIGHTING, TaskStatus.IN_PROGRESS, "Task description 1", project.id)
         self.add_task(task_one)
-        task_two = Task("Project Task 2", "2026-01-01", TaskPriority.Medium, TaskKind.ANIMATION, TaskStatus.TO_DO, "Project 1")
+        task_two = Task("Project Task 2", "2026-01-01", TaskPriority.Medium, TaskKind.ANIMATION, TaskStatus.TO_DO, "Task description 2", project.id)
         self.add_task(task_two)
-        task_three = Task("Project Task 3", "2025-12-01", TaskPriority.Medium, TaskKind.FX, TaskStatus.BACKLOG, "Project 1")
+        task_three = Task("Project Task 3", "2025-12-01", TaskPriority.Medium, TaskKind.FX, TaskStatus.BACKLOG, "Task description 3", project.id)
         self.add_task(task_three)
-        task_four = Task("Project Task", "2026-12-01", TaskPriority.Urgent, TaskKind.MODELING, TaskStatus.IN_PROGRESS, "Project 1")
+        task_four = Task("Project Task", "2026-12-01", TaskPriority.Urgent, TaskKind.MODELING, TaskStatus.IN_PROGRESS, "Task description 4", project.id)
         self.add_task(task_four)
-        task_five = Task("Bueno esto qué", "2026-04-19", TaskPriority.Low, TaskKind.LAYOUT, TaskStatus.TO_DO, "Project 1")
+        task_five = Task("Bueno esto qué", "2026-04-19", TaskPriority.Low, TaskKind.LAYOUT, TaskStatus.TO_DO, "Task description 5", project.id)
         self.add_task(task_five)
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
@@ -64,7 +72,7 @@ class TaskTableModel(QAbstractListModel):
         if not index.isValid() or not (0 <= index.row() < len(self._tasks)):
             return None
 
-        if role not in role_names:
+        if role not in task_role_names:
             return None
 
         task = self._tasks[index.row()]
@@ -93,9 +101,15 @@ class TaskTableModel(QAbstractListModel):
         return None
 
     def roleNames(self) -> dict:
-        return role_names
+        return task_role_names
 
     def setData(self, index: QModelIndex, value: Any, role: int) -> bool:
+        if not index.isValid():
+            return False
+
+        task = self._tasks[index.row()]
+        self._repository.update_task(task)
+
         self.dataChanged.emit(index, index, list(self.roleNames().keys()))
 
         return super().setData(index, value, role)
@@ -111,9 +125,22 @@ class TaskTableModel(QAbstractListModel):
 
         self.beginInsertRows(QModelIndex(), new_index, new_index)
         self._tasks.append(task)
+        self._repository.add_task(task)
         self.endInsertRows()
 
-    @Slot(UUID)
+    '''
+    @Slot(int)
+    def remove_task(self, row: int) -> None:
+        if not (0 <= row < len(self._tasks)):
+            return
+
+        self.beginRemoveRows(QModelIndex(), row, row)
+        task = self._tasks.pop(row)
+        self._repository.delete_task(task.id)
+        self.endRemoveRows()
+    '''
+
+    # @Slot(UUID)
     def get_task_by_id(self, task_id: UUID) -> Task:
         for task in self._tasks:
             if str(task_id) == str(task.id):

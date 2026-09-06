@@ -65,7 +65,7 @@ ApplicationWindow {
         sourceComponent: Component {
             CreateProjectView {
                 id: newProjectDialog
-                onAccepted: app_controller.project_list_controller.add_new_project(newProjectDialog.projectName, newProjectDialog.projectDescription, newProjectDialog.limitDateInput.dateInput, newProjectDialog.projectColor)
+                onAccepted: app_controller.project_list_controller.add_new_project(newProjectDialog.projectName, newProjectDialog.limitDateInput.dateInput, newProjectDialog.projectDescription)
                 onClosed: createProjectLoader.active = false
             }
         }

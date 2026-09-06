@@ -3,12 +3,12 @@ from pathlib import Path
 
 from PySide6.QtCore import QUrl
 from PySide6.QtGui import QGuiApplication
-from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterType
+from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtQuickControls2 import QQuickStyle
 
 from src.app.app_controller import AppController
 from src.app.validator import Validator
-from src.data.task_sort_filter_proxy import TaskSortFilterProxy
+# from src.data.
 
 
 if __name__ == "__main__":

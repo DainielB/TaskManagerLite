@@ -9,6 +9,7 @@ class Entity(QObject):
 
     def __init__(self, name: str, end_date: QDate, description: str = "") -> None:
         super().__init__()
+
         self._id: UUID = uuid4()
         self._name: str = name
         self._start_date: QDate = None
