@@ -10,7 +10,7 @@ from constants import DB_PATH
 class TaskRepository(DB_Repository):
 
     def __init__(self) -> None:
-
+        ...
 
     def get_all_tasks(self) -> list[Task]:
         conn = self._connect()
