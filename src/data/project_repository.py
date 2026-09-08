@@ -15,18 +15,15 @@ class ProjectRepository(DB_Repository):
         rows = cursor.fetchall()
         conn.close()
 
-        return [self._row_to_project(row) for row in rows]
+        return [self.row_to_object(row) for row in rows]
 
     def add(self, object: Project) -> None:
         conn = self._connect()
         conn.execute("""
-            INSERT INTO projects (id, name, description, status, priority, kind,
-                                start_date, end_date, creation_date, project_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO projects (id, name, description,  end_date, creation_date)
+            VALUES (?, ?, ?, ?, ?)
         """, (
-            str(object.id), object.name, object.description, object.status,
-            int(object.priority), object.kind, object.start_date, object.end_date,
-            object.creation_date, str(object.project_id) if object.project_id else None,
+            str(object.id), object.name, object.description, object.end_date.toString(), object.creation_date.toString()
         ))
         conn.commit()
         conn.close()
@@ -35,13 +32,10 @@ class ProjectRepository(DB_Repository):
         conn = self._connect()
         conn.execute("""
             UPDATE projects
-            SET name=?, description=?, status=?, priority=?, kind=?,
-                start_date=?, end_date=?, project_id=?
+            SET name=?, description=?, start_date=?, end_date=?
             WHERE id=?
         """, (
-            object.name, object.description, object.status, int(object.priority),
-            object.kind, object.start_date, object.end_date,
-            str(object.project_id) if object.project_id else None, str(object.id),
+            object.name, object.description, object.start_date, object.end_date
         ))
         conn.commit()
         conn.close()
@@ -54,14 +48,7 @@ class ProjectRepository(DB_Repository):
 
     def row_to_object(self, row) -> Project:
         return Project(
-                    id=UUID(row["id"]),
                     name=row["name"],
-                    description=row["description"],
-                    status=row["status"],
-                    priority=row["priority"],
-                    kind=row["kind"],
-                    start_date=row["start_date"],
                     end_date=row["end_date"],
-                    creation_date=row["creation_date"],
-                    project_id=UUID(row["project_id"]) if row["project_id"] else None,
+                    description=row["description"],
                 )

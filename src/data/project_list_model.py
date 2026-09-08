@@ -6,8 +6,9 @@ from PySide6.QtCore import (
     Slot,
 )
 
-from constants import ProjectRoles, project_role_names
-# from src.data.project_repository import ProjectRepository
+from constants import ProjectRoles, project_role_names, DATE_FORMAT
+from src.data.project import Project
+from src.data.project_repository import ProjectRepository
 
 
 class ProjectsListModel(QAbstractListModel):
@@ -16,10 +17,13 @@ class ProjectsListModel(QAbstractListModel):
     # def __init__(self, repository: ProjectRepository, parent=None):
         super().__init__()
 
-        # self._repository: ProjectRepository = repository
-        self._projects: list = []
+        self._repository: ProjectRepository = ProjectRepository()
+        self._projects: list = self._repository.get_all()
 
-        self.add_project("Test Project 1")
+        '''
+        project_one: Project = Project("Test Project", "2027-02-17", "This is the project description")
+        self.add_project(project_one)
+        '''
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         """
@@ -59,11 +63,11 @@ class ProjectsListModel(QAbstractListModel):
         elif role == ProjectRoles.DESCRIPTION:
             return project.description
         elif role == ProjectRoles.END_DATE:
-            return project.end_date
+            return project.end_date.toString(DATE_FORMAT)
         elif role == ProjectRoles.START_DATE:
-            return project.start_date
+            return project.start_date.toString(DATE_FORMAT)
         elif role == ProjectRoles.CREATION_DATE:
-            return project.creation_date
+            return project.creation_date.toString(DATE_FORMAT)
         elif role == ProjectRoles.STATUS:
             return project.status
         elif role == ProjectRoles.PROJECT:
@@ -75,7 +79,7 @@ class ProjectsListModel(QAbstractListModel):
         return project_role_names
 
     @Slot(str)
-    def add_project(self, project_name: str) -> None:
+    def add_project(self, project: Project) -> None:
     # def add_project(self, project: Project) -> None:
         """Adds a project to the project list at the specified index with the given name."""
 
@@ -84,10 +88,10 @@ class ProjectsListModel(QAbstractListModel):
         if len(self._projects) == 0:
             new_index = 0
 
-        new_project = { ProjectRoles.NAME: project_name }
+        # new_project = { ProjectRoles.NAME: project_name }
 
         self.beginInsertRows(QModelIndex(), new_index, new_index)
-        self._projects.insert(new_index, new_project)
+        self._projects.insert(new_index, project)
         # self._projects.append(project)
-        # self._repository.add_project(project)
+        self._repository.add(project)
         self.endInsertRows()

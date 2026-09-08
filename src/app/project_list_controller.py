@@ -8,6 +8,7 @@ class ProjectListController(QObject):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+
         self._project_list_model = ProjectsListModel()
 
     @Property(QObject, constant=True)

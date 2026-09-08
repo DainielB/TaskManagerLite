@@ -16,33 +16,18 @@ from constants import (
     TaskKind,
     DATE_FORMAT
 )
-from src.data.project import Project
 from src.data.task import Task
 from src.data.task_repository import TaskRepository
 
 
 class TaskTableModel(QAbstractListModel):
 
-    # def __init__(self):
-    def __init__(self, repository: TaskRepository, parent=None):
+    def __init__(self):
+    # def __init__(self, repository: TaskRepository, parent=None):
         super().__init__()
 
-        self._repository: TaskRepository = repository
-        # self._tasks: list = []
+        self._repository: TaskRepository = TaskRepository()
         self._tasks: list[Task] = self._repository.get_all()
-
-        project: Project = Project("Test Project", "2027-02-17", "This is the project description")
-
-        task_one = Task("Project Task 4", "2025-09-08", TaskPriority.High.name, TaskKind.LIGHTING.value, TaskStatus.IN_PROGRESS.value, "Task description 1", project.id)
-        self.add_task(task_one)
-        task_two = Task("Project Task 2", "2026-01-01", TaskPriority.Medium.name, TaskKind.ANIMATION.value, TaskStatus.TO_DO.value, "Task description 2", project.id)
-        self.add_task(task_two)
-        task_three = Task("Project Task 3", "2025-12-01", TaskPriority.Medium.name, TaskKind.FX.value, TaskStatus.BACKLOG.value, "Task description 3", project.id)
-        self.add_task(task_three)
-        task_four = Task("Project Task", "2026-12-01", TaskPriority.Urgent.name, TaskKind.MODELING.value, TaskStatus.IN_PROGRESS.value, "Task description 4", project.id)
-        self.add_task(task_four)
-        task_five = Task("Bueno esto qué", "2026-04-19", TaskPriority.Low.name, TaskKind.LAYOUT.value, TaskStatus.TO_DO.value, "Task description 5", project.id)
-        self.add_task(task_five)
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         """
@@ -50,11 +35,6 @@ class TaskTableModel(QAbstractListModel):
         When the parent is valid it means that rowCount is returning
         the number of children of parent.
         """
-
-        '''
-        if parent.isValid():
-            return 0
-        '''
 
         return len(self._tasks)
 

@@ -16,9 +16,33 @@ class Task(Entity):
     def __init__(self, name: str, end_date: str, priority: str, kind: str, status: str, description: str, project_id: UUID) -> None:
         super().__init__(name, QDate.fromString(end_date, DATE_FORMAT), description)
 
-        self._priority: TaskPriority = priority if priority != "Priority" else TaskPriority.Low
-        self._kind: TaskKind = kind
-        self._status: TaskStatus = status if status != "Initial Status" else TaskStatus.TO_DO
+        if isinstance(priority, TaskPriority):
+            self._priority = priority
+        elif priority in (None, "Priority"):
+            self._priority = TaskPriority.Low
+        elif isinstance(priority, str) and priority.startswith("TaskPriority."):
+            self._priority = TaskPriority[priority.split(".", 1)[1]]
+        elif isinstance(priority, str) and priority.isdigit():
+            self._priority = TaskPriority(int(priority))
+        else:
+            self._priority = TaskPriority[priority]
+
+        if isinstance(kind, TaskKind):
+            self._kind = kind
+        elif isinstance(kind, str) and kind.startswith("TaskKind."):
+            self._kind = TaskKind[kind.split(".", 1)[1]]
+        else:
+            self._kind = TaskKind(kind)
+
+        if isinstance(status, TaskStatus):
+            self._status = status
+        elif status in (None, "Initial Status"):
+            self._status = TaskStatus.TO_DO
+        elif isinstance(status, str) and status.startswith("TaskStatus."):
+            self._status = TaskStatus[status.split(".", 1)[1]]
+        else:
+            self._status = TaskStatus(status)
+
         self._project_id: UUID = project_id
 
     def __str__(self) -> str:

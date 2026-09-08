@@ -152,7 +152,7 @@ Rectangle {
                 id: startTask
                 text: "Start"
                 // enabled: root._enabled
-                visible: app_controller.task_info_controller.taskSelected // root._hasSelectedTask && taskStatus.currentValue !== "In Progress"
+                visible: app_controller.task_info_controller.taskSelected
                 onReleased: {
                     app_controller.task_info_controller.start_task()
                 }
@@ -200,7 +200,7 @@ Rectangle {
 
             taskName.text = obj["NAME"]
             taskDescription.text = obj["DESCRIPTION"]
-            dateInputView.new_date = obj["END_DATE"] // TODO: Find a way of setting the new date in the endDate textfield
+            dateInputView.new_date = obj["END_DATE"]
             taskStatus.currentValue = obj["STATUS"]
             taskType.currentValue = obj["KIND"]
             priority.currentValue = obj["PRIORITY"]

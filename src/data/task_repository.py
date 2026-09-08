@@ -1,6 +1,4 @@
-import sqlite3
 from uuid import UUID
-from pathlib import Path
 
 from src.data.db_repository import DB_Repository
 from src.data.task import Task

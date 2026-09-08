@@ -7,10 +7,10 @@ wheels/
 *.egg-info
 debug.*
 .vscode/
+.zed/
 
 # Virtual environments
 .venv
 
 # Files
 *.txt
-.zed/settings.json
