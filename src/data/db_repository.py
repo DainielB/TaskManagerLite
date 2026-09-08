@@ -1,4 +1,4 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 import sqlite3
 from uuid import UUID
 
@@ -7,7 +7,7 @@ from PySide6.QtCore import QObject
 from constants import DB_PATH
 
 
-class DB_Repository:
+class DB_Repository(ABC):
 
     def _connect(self) -> sqlite3.Connection:
         conn = sqlite3.connect(DB_PATH)

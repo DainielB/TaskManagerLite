@@ -10,8 +10,6 @@ class ProjectRepository(DB_Repository):
         ...
 
     def get_all(self) -> list[Project]:
-        # return super().get_all()
-
         conn = self._connect()
         cursor = conn.execute("SELECT * FROM projects")
         rows = cursor.fetchall()
@@ -20,8 +18,6 @@ class ProjectRepository(DB_Repository):
         return [self._row_to_project(row) for row in rows]
 
     def add(self, object: Project) -> None:
-        # return super().add(object)
-
         conn = self._connect()
         conn.execute("""
             INSERT INTO projects (id, name, description, status, priority, kind,
@@ -36,8 +32,6 @@ class ProjectRepository(DB_Repository):
         conn.close()
 
     def update(self, object: Project) -> None:
-        # return super().update(object)
-
         conn = self._connect()
         conn.execute("""
             UPDATE projects
@@ -53,16 +47,12 @@ class ProjectRepository(DB_Repository):
         conn.close()
 
     def delete(self, object_id: UUID) -> None:
-        # return super().delete(object_id)
-
         conn = self._connect()
         conn.execute("DELETE FROM projects WHERE id=?", (str(object_id),))
         conn.commit()
         conn.close()
 
     def row_to_object(self, row) -> Project:
-        # return super().row_to_object(row)
-
         return Project(
                     id=UUID(row["id"]),
                     name=row["name"],

@@ -29,19 +29,19 @@ class TaskTableModel(QAbstractListModel):
 
         self._repository: TaskRepository = repository
         # self._tasks: list = []
-        self._tasks: list[Task] = self._repository.get_all_tasks()
+        self._tasks: list[Task] = self._repository.get_all()
 
         project: Project = Project("Test Project", "2027-02-17", "This is the project description")
 
-        task_one = Task("Project Task 4", "2025-09-08", TaskPriority.High, TaskKind.LIGHTING, TaskStatus.IN_PROGRESS, "Task description 1", project.id)
+        task_one = Task("Project Task 4", "2025-09-08", TaskPriority.High.name, TaskKind.LIGHTING.value, TaskStatus.IN_PROGRESS.value, "Task description 1", project.id)
         self.add_task(task_one)
-        task_two = Task("Project Task 2", "2026-01-01", TaskPriority.Medium, TaskKind.ANIMATION, TaskStatus.TO_DO, "Task description 2", project.id)
+        task_two = Task("Project Task 2", "2026-01-01", TaskPriority.Medium.name, TaskKind.ANIMATION.value, TaskStatus.TO_DO.value, "Task description 2", project.id)
         self.add_task(task_two)
-        task_three = Task("Project Task 3", "2025-12-01", TaskPriority.Medium, TaskKind.FX, TaskStatus.BACKLOG, "Task description 3", project.id)
+        task_three = Task("Project Task 3", "2025-12-01", TaskPriority.Medium.name, TaskKind.FX.value, TaskStatus.BACKLOG.value, "Task description 3", project.id)
         self.add_task(task_three)
-        task_four = Task("Project Task", "2026-12-01", TaskPriority.Urgent, TaskKind.MODELING, TaskStatus.IN_PROGRESS, "Task description 4", project.id)
+        task_four = Task("Project Task", "2026-12-01", TaskPriority.Urgent.name, TaskKind.MODELING.value, TaskStatus.IN_PROGRESS.value, "Task description 4", project.id)
         self.add_task(task_four)
-        task_five = Task("Bueno esto qué", "2026-04-19", TaskPriority.Low, TaskKind.LAYOUT, TaskStatus.TO_DO, "Task description 5", project.id)
+        task_five = Task("Bueno esto qué", "2026-04-19", TaskPriority.Low.name, TaskKind.LAYOUT.value, TaskStatus.TO_DO.value, "Task description 5", project.id)
         self.add_task(task_five)
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
@@ -125,7 +125,7 @@ class TaskTableModel(QAbstractListModel):
 
         self.beginInsertRows(QModelIndex(), new_index, new_index)
         self._tasks.append(task)
-        self._repository.add_task(task)
+        self._repository.add(task)
         self.endInsertRows()
 
     '''

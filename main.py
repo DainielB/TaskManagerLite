@@ -8,7 +8,6 @@ from PySide6.QtQuickControls2 import QQuickStyle
 
 from src.app.app_controller import AppController
 from src.app.validator import Validator
-# from src.data.
 
 
 if __name__ == "__main__":

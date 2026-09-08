@@ -1,6 +1,10 @@
 from PySide6.QtCore import QObject, Property
 
+from src.data.task_sort_filter_proxy import TaskSortFilterProxy
 from src.data.task_table_model import TaskTableModel
+from src.data.database import init_db
+from src.data.task_repository import TaskRepository
+from src.data.project_repository import ProjectRepository
 
 from src.app.project_list_controller import ProjectListController
 from src.app.task_table_controller import TaskTableController
@@ -12,7 +16,10 @@ class AppController(QObject):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self._task_table_model = TaskTableModel()
+        self._database = init_db()
+
+        self._task_repo: TaskRepository = TaskRepository()
+        self._task_table_model = TaskTableModel(self._task_repo)
 
         self._project_list_controller = ProjectListController()
         self._task_table_controller = TaskTableController(self._task_table_model)
