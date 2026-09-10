@@ -19,10 +19,9 @@ class ProjectsListModel(QAbstractListModel):
         self._repository: ProjectRepository = ProjectRepository()
         self._projects: list = self._repository.get_all()
 
-        '''
-        project_one: Project = Project("Test Project", "2027-02-17", "This is the project description")
-        self.add_project(project_one)
-        '''
+    @property
+    def projects(self) -> list:
+        return self._projects
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         """
@@ -82,10 +81,8 @@ class ProjectsListModel(QAbstractListModel):
         if len(self._projects) == 0:
             new_index = 0
 
-        # new_project = { ProjectRoles.NAME: project_name }
-
         self.beginInsertRows(QModelIndex(), new_index, new_index)
-        self._projects.insert(new_index, project)
-        # self._projects.append(project)
+        # self._projects.insert(new_index, project)
+        self._projects.append(project)
         self._repository.add(project)
         self.endInsertRows()

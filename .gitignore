@@ -14,3 +14,4 @@ debug.*
 
 # Files
 *.txt
+*.db

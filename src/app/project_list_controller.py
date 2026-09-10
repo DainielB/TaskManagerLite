@@ -11,6 +11,7 @@ from src.data.project import Project
 
 class ProjectListController(QObject):
 
+    projectCountChangedSignal = Signal(int)
     projectSelectedSignal = Signal(bool)
 
     def __init__(self, parent=None):
@@ -42,7 +43,7 @@ class ProjectListController(QObject):
     def project_list_model(self):
         return self._project_list_model
 
-    @Slot(str, str, str, str)
+    @Slot(str, str, str)
     def add_new_project(self, name: str, end_date: str, description: str) -> None:
         """
         Adds a project to the project list at the specified index with the given info.
@@ -50,4 +51,11 @@ class ProjectListController(QObject):
 
         new_project = Project(name, end_date, description)
 
-        self._project_list_model.add_project(new_project.name)
+        self._project_list_model.add_project(new_project)
+        self.selected_project = new_project
+        self.projectCountChangedSignal.emit(self.num_projects())
+
+    def num_projects(self) -> int:
+        return len(self.project_list_model.projects)
+
+    projectCount = Property(int, num_projects, notify=projectCountChangedSignal)

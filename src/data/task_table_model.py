@@ -28,11 +28,6 @@ class TaskTableModel(QAbstractListModel):
         self._repository: TaskRepository = TaskRepository()
         self._tasks: list[Task] = self._repository.get_all()
 
-        """
-        task_one: Task = Task("Task One", "2026-08-09", TaskPriority.High.name, TaskKind.FX.value, "Initial Status", "Description of the task", None)
-        self.add_task(task_one)
-        """
-
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         """
         Returns the number of rows under the given parent.

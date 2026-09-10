@@ -39,7 +39,7 @@ Dialog {
     }
 
     contentItem: ColumnLayout {
-        anchors.fill: Overlay.overlay
+        // anchors.fill: Overlay.overlay
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.margins: 10
@@ -57,8 +57,8 @@ Dialog {
             background: Rectangle {
                 //color: "white"
                 radius: 4
-                color: isValid ? "#4a4a5e" : "#e05252"
-                border.width: !isValid ? 8 : 4
+                color: nameField.isValid ? "#4a4a5e" : "#e05252"
+                border.width: !nameField.isValid ? 4 : 2
             }
         }
 
