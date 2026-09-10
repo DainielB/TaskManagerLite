@@ -84,10 +84,11 @@ Rectangle {
 
             Button {
                 id: newTaskButton
-                text: "New Task"
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.rightMargin: 10
+                text: "New Task"
+                enabled: false
 
                 onReleased: createTaskLoader.active = true
             }

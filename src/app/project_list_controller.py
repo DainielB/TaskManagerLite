@@ -1,4 +1,9 @@
-from PySide6.QtCore import Property, QObject, Slot
+from PySide6.QtCore import (
+    Property,
+    QObject,
+    Signal,
+    Slot
+)
 
 from src.data.project_list_model import ProjectsListModel
 from src.data.project import Project
@@ -6,10 +11,32 @@ from src.data.project import Project
 
 class ProjectListController(QObject):
 
+    projectSelectedSignal = Signal(bool)
+
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        self._selected_project: Project = None
         self._project_list_model = ProjectsListModel()
+
+    @property
+    def selected_project(self) -> Project:
+        return self._selected_project
+
+    @selected_project.setter
+    def selected_project(self, project: Project) -> None:
+        self._selected_project = project
+        self.projectSelectedSignal.emit(self._is_project_selected())
+
+    def _is_project_selected(self) -> bool:
+        """
+        if self._selected_project is None:
+            return False
+        return self._selected_project.status != TaskStatus.IN_PROGRESS
+        """
+        return self._selected_project is not None
+    
+    projectSelected = Property(bool, _is_project_selected, notify=projectSelectedSignal)
 
     @Property(QObject, constant=True)
     def project_list_model(self):

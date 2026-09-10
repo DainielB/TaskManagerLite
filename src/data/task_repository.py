@@ -1,14 +1,11 @@
 from uuid import UUID
+from sqlite3 import IntegrityError
 
 from src.data.db_repository import DB_Repository
 from src.data.task import Task
-from constants import DB_PATH
 
 
 class TaskRepository(DB_Repository):
-
-    def __init__(self) -> None:
-        ...
 
     def get_all(self):
         conn = self._connect()
@@ -20,17 +17,22 @@ class TaskRepository(DB_Repository):
 
     def add(self, object):
         conn = self._connect()
-        conn.execute("""
-            INSERT INTO tasks (id, name, description, status, priority, kind,
-                                end_date, creation_date, project_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            str(object.id), object.name, object.description, str(object.status),
-            object.priority, str(object.kind), object.end_date.toString(),
-            object.creation_date.toString(), str(object.project_id) if object.project_id else None,
-        ))
-        conn.commit()
-        conn.close()
+
+        try:
+            conn.execute("""
+                INSERT INTO tasks (id, name, description, status, priority, kind,
+                                    end_date, creation_date, project_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                str(object.id), object.name, object.description, str(object.status),
+                object.priority, str(object.kind), object.end_date.toString(),
+                object.creation_date.toString(), object.project_id,
+            ))
+            conn.commit()
+        except(IntegrityError):
+            print("There are no projects")
+        finally:
+            conn.close()
 
     def update(self, object):
         conn = self._connect()

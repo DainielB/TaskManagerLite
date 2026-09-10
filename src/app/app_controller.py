@@ -3,7 +3,6 @@ from PySide6.QtCore import QObject, Property
 from src.data.task_sort_filter_proxy import TaskSortFilterProxy
 from src.data.task_table_model import TaskTableModel
 from src.data.database import init_db
-from src.data.project_repository import ProjectRepository
 
 from src.app.project_list_controller import ProjectListController
 from src.app.task_table_controller import TaskTableController

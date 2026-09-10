@@ -6,9 +6,6 @@ from src.data.project import Project
 
 class ProjectRepository(DB_Repository):
 
-    def __init__(self) -> None:
-        ...
-
     def get_all(self) -> list[Project]:
         conn = self._connect()
         cursor = conn.execute("SELECT * FROM projects")

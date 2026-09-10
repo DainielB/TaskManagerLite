@@ -23,11 +23,15 @@ from src.data.task_repository import TaskRepository
 class TaskTableModel(QAbstractListModel):
 
     def __init__(self):
-    # def __init__(self, repository: TaskRepository, parent=None):
         super().__init__()
 
         self._repository: TaskRepository = TaskRepository()
         self._tasks: list[Task] = self._repository.get_all()
+
+        """
+        task_one: Task = Task("Task One", "2026-08-09", TaskPriority.High.name, TaskKind.FX.value, "Initial Status", "Description of the task", None)
+        self.add_task(task_one)
+        """
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         """
@@ -120,10 +124,9 @@ class TaskTableModel(QAbstractListModel):
         self.endRemoveRows()
     '''
 
-    # @Slot(UUID)
-    def get_task_by_id(self, task_id: UUID) -> Task:
+    def get_task_by_id(self, task_id: id) -> Task:
         for task in self._tasks:
-            if str(task_id) == str(task.id):
+            if task_id == task.id:
                 return task
 
         return None

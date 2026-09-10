@@ -1,20 +1,20 @@
-import sqlite3
+from sqlite3 import connect
 
 from constants import DB_PATH
 
 
 def init_db() -> None:
-    conn = sqlite3.connect(DB_PATH)
+    conn = connect(DB_PATH)
     cursor = conn.cursor()
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS projects (
             id TEXT PRIMARY KEY,
             name TEXT NOT NULL,
-            start_date DATE,
-            end_date DATE,
+            start_date TEXT,
+            end_date TEXT,
             description TEXT,
-            creation_date DATE
+            creation_date TEXT
         )
     """)
 
@@ -29,11 +29,10 @@ def init_db() -> None:
             start_date TEXT,
             end_date TEXT,
             creation_date TEXT,
-            project_id TEXT,
+            project_id TEXT NOT NULL,
             FOREIGN KEY (project_id) REFERENCES projects(id)
         )
-    """
-    )
+    """)
 
     conn.commit()
     conn.close()

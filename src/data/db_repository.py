@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-import sqlite3
+from sqlite3 import Connection, Row, connect
 from uuid import UUID
 
 from PySide6.QtCore import QObject
@@ -9,9 +9,9 @@ from constants import DB_PATH
 
 class DB_Repository(ABC):
 
-    def _connect(self) -> sqlite3.Connection:
-        conn = sqlite3.connect(DB_PATH)
-        conn.row_factory = sqlite3.Row
+    def _connect(self) -> Connection:
+        conn = connect(DB_PATH)
+        conn.row_factory = Row
         return conn
 
     @abstractmethod
@@ -27,4 +27,4 @@ class DB_Repository(ABC):
     def update(self, object: QObject) -> None: ...
 
     @abstractmethod
-    def row_to_object(self, row: sqlite3.Row) -> QObject: ...
+    def row_to_object(self, row: Row) -> QObject: ...

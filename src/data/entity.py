@@ -10,7 +10,7 @@ class Entity(QObject):
     def __init__(self, name: str, end_date: QDate, description: str = "") -> None:
         super().__init__()
 
-        self._id: UUID = uuid4()
+        self._id: str = str(uuid4())
         self._name: str = name
         self._start_date: QDate = None
         self._end_date: QDate = end_date
@@ -18,7 +18,7 @@ class Entity(QObject):
         self._creation_date: QDate = QDate.currentDate()
 
     @property
-    def id(self) -> UUID:
+    def id(self) -> str:
         return self._id
 
     @property

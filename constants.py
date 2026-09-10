@@ -7,10 +7,14 @@ from enum import (
 from pathlib import Path
 
 
-# VARIABLES
+### VARIABLES###
 DATE_FORMAT: str = "yyyy-M-d"
 COLUMN_NUM: int = 0
-DB_PATH: Path = Path("TaskManagerLite.db")
+# Database
+_DB_NAME: str = "TaskManagerLite.db"
+_current_file: Path = Path(__file__).resolve()
+_project_root: Path = _current_file.parent / "db"
+DB_PATH: Path = _project_root / _DB_NAME
 
 
 class ProjectRoles(IntEnum):
@@ -32,6 +36,12 @@ project_role_names = {
     ProjectRoles.CREATION_DATE: b'creation_date',
     ProjectRoles.STATUS: b'status',
 }
+
+
+class ProjectStatus(Enum):
+    READY_TO_START = "Ready to Start"
+    IN_PROGRESS = "In Progress"
+    FINISHED = "Finished"
 
 
 class TaskRoles(IntEnum):
@@ -61,6 +71,7 @@ task_role_names: dict = {
 
 
 class TaskStatus(Enum):
+    # INITIAL_STATUS = "Initial Status"
     IN_PROGRESS = "In Progress"
     IN_REVIEW = "In Review"
     TO_DO = "To Do"

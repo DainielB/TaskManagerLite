@@ -14,7 +14,6 @@ from src.data.project_repository import ProjectRepository
 class ProjectsListModel(QAbstractListModel):
 
     def __init__(self):
-    # def __init__(self, repository: ProjectRepository, parent=None):
         super().__init__()
 
         self._repository: ProjectRepository = ProjectRepository()
@@ -31,11 +30,6 @@ class ProjectsListModel(QAbstractListModel):
         When the parent is valid it means that rowCount is returning
         the number of children of parent.
         """
-
-        '''
-        if parent.isValid():
-            return 0
-        '''
 
         return len(self._projects)
 

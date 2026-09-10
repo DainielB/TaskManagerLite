@@ -3,7 +3,6 @@ from uuid import UUID
 from PySide6.QtCore import(
     Property,
     QObject,
-    Signal,
     Slot,
 )
 

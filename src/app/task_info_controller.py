@@ -52,7 +52,7 @@ class TaskInfoController(QObject):
 
     taskSelected = Property(bool, _is_task_selected, notify=taskSelectedSignal)
 
-    @Slot(UUID)
+    @Slot(str)
     def load_task(self, id) -> None:
         task: Task = self._model.get_task_by_id(id)
         self.selected_task = task
