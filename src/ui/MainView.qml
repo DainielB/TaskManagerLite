@@ -65,7 +65,7 @@ ApplicationWindow {
         sourceComponent: Component {
             CreateProjectView {
                 id: newProjectDialog
-                onAccepted: app_controller.project_list_controller.add_new_project(newProjectDialog.projectName, newProjectDialog.limitDateInput.dateInput, newProjectDialog.projectDescription)
+                onAccepted: app_controller.project_list_controller.add_new_project(newProjectDialog.name, newProjectDialog.endDate, newProjectDialog.description)
                 onClosed: createProjectLoader.active = false
             }
         }
@@ -81,7 +81,7 @@ ApplicationWindow {
             CreateTaskView {
                 id: newTaskDialog
                 is_modal: true
-                onAccepted: app_controller.task_table_controller.add_new_task(newTaskDialog.name, newTaskDialog.endDate, newTaskDialog.priority.currentText, newTaskDialog.kind.currentText, newTaskDialog.status.currentText, newTaskDialog.description)
+                onAccepted: app_controller.task_table_controller.add_new_task(app_controller.project_list_controller.selected_project_id, newTaskDialog.name, newTaskDialog.endDate, newTaskDialog.priority.currentText, newTaskDialog.kind.currentText, newTaskDialog.status.currentText, newTaskDialog.description)
                 onClosed: createTaskLoader.active = false
             }
         }

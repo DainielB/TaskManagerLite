@@ -4,10 +4,10 @@ import QtQuick.Controls
 
 
 Dialog {
-    property alias projectName: nameField.text
-    property alias projectDescription: descriptionField.text
-    property alias limitDateInput: dateField
-    property alias projectColor: colorField
+    property alias name: nameField.text
+    property alias description: descriptionField.text
+    property alias endDate: dateField.new_date
+    // property alias projectColor: colorField
 
     id: createProject
     width: Overlay.overlay.width / 4
@@ -96,6 +96,7 @@ Dialog {
                 }
             }
 
+            /*
             RowLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: false
@@ -122,14 +123,12 @@ Dialog {
                         "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe"
                     ]
 
-                    /*
                     model: {
                         "Universal.Lime":"Lime", "Universal.Green":"Green", "Universal.Emerald":"Emerald", "Universal.Teal":"Teal", "Universal.Cyan":"Cyan", "Universal.Cobalt":"Cobalt",
                         "Universal.Indigo":"Indigo", "Universal.Violet":"Violet", "Universal.Purple":"Purple", "Universal.Pink":"Pink", "Universal.Magenta":"Magenta", "Universal.Crimson":"Crimson",
                         "Universal.Red":"Red", "Universal.Orange":"Orange", "Universal.Amber":"Amber", "Universal.Yellow":"Yellow", "Universal.Brown":"Brown", "Universal.Olive":"Olive",
                         "Universal.Steel":"Steel", "Universal.Mauve":"Mauve", "º.Taupe":"Taupe"
                     }
-                    */
 
                     currentIndex: 0
 
@@ -140,6 +139,7 @@ Dialog {
                     }
                 }
             }
+            */
         }
 
     }

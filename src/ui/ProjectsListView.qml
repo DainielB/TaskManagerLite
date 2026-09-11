@@ -28,6 +28,11 @@ Rectangle {
             ScrollBar.vertical: ScrollBar {}
 
             model: app_controller.project_list_controller.project_list_model
+            onCurrentIndexChanged: {
+                if (currentIndex >= 0) {
+                    app_controller.project_list_controller.select_project(currentIndex)
+                }
+            }
 
             Component {
                 id: projectDelegate

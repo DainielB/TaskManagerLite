@@ -16,9 +16,9 @@ class AppController(QObject):
 
         init_db()
 
-        self._task_table_model = TaskTableModel()
-
         self._project_list_controller = ProjectListController()
+
+        self._task_table_model = TaskTableModel()
         self._task_table_controller = TaskTableController(self._task_table_model)
         self._task_info_controller = TaskInfoController(self._task_table_model)
 

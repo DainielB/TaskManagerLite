@@ -11,9 +11,6 @@ from PySide6.QtCore import (
 from constants import (
     TaskRoles,
     task_role_names,
-    TaskPriority,
-    TaskStatus,
-    TaskKind,
     DATE_FORMAT
 )
 from src.data.task import Task
@@ -59,19 +56,19 @@ class TaskTableModel(QAbstractListModel):
         if role == TaskRoles.ID:
             return task.id
         elif role == TaskRoles.START_DATE:
-            return task.start_date.toString(DATE_FORMAT)
+            return task.start_date.toString(DATE_FORMAT) if task.start_date else ""
         elif role == TaskRoles.END_DATE:
             return task.end_date.toString(DATE_FORMAT)
         elif role == TaskRoles.STATUS:
-            return task.status.value
+            return task.status
         elif role == TaskRoles.DESCRIPTION:
             return task.description
         elif role == TaskRoles.NAME:
             return task.name
         elif role == TaskRoles.KIND:
-            return task.kind.value
+            return task.kind
         elif role == TaskRoles.PRIORITY:
-            return task.priority.name
+            return task.priority
         elif role == TaskRoles.CREATION_DATE:
             return task.creation_date.toString(DATE_FORMAT)
         elif role == TaskRoles.TASK:

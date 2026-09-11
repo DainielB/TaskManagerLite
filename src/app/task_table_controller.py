@@ -29,12 +29,26 @@ class TaskTableController(QObject):
     def selected_task_id(self, id: UUID) -> None:
         self._selected_task_id = id
 
-    @Slot(str, str, str, str, str, str)
-    def add_new_task(self, name: str, end_date: str, priority: str, kind: str, status: str = "", description: str = "") -> None:
+    @Slot(str, str, str, str, str, str, str)
+    def add_new_task(
+        self,
+        project_id: str,
+        name: str,
+        end_date: str,
+        priority: str,
+        kind: str,
+        status: str = "",
+        description: str = ""
+    ) -> None:
         """
         Adds a task to the task table with the given info.
         """
 
-        new_task = Task(name, end_date, priority, kind, status, description)
+        print(f"PROJECT ID: {project_id}")
+
+        if not project_id:
+            raise ValueError("A project must be selected before creating a new task.")
+
+        new_task = Task(name, end_date, priority, kind, status, description, project_id)
 
         self._model.add_task(new_task)

@@ -151,7 +151,6 @@ Rectangle {
             Button {
                 id: startTask
                 text: "Start"
-                // enabled: root._enabled
                 visible: app_controller.task_info_controller.taskSelected
                 onReleased: {
                     app_controller.task_info_controller.start_task()

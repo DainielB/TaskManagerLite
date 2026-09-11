@@ -3,6 +3,7 @@ from sqlite3 import IntegrityError
 
 from src.data.db_repository import DB_Repository
 from src.data.task import Task
+from constants import DATE_FORMAT
 
 
 class TaskRepository(DB_Repository):
@@ -25,7 +26,7 @@ class TaskRepository(DB_Repository):
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 str(object.id), object.name, object.description, str(object.status),
-                object.priority, str(object.kind), object.end_date.toString(),
+                object.priority, str(object.kind), object.end_date.toString(DATE_FORMAT),
                 object.creation_date.toString(), object.project_id,
             ))
             conn.commit()

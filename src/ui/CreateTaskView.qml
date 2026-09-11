@@ -12,14 +12,15 @@ Dialog {
     property alias priority: priorityField
 
     property bool is_modal
-    property bool formValid: nameField.acceptableInput && kindField.currentIndex !== 0 // && dateField.is_valid_input
+    property bool formValid: nameField.acceptableInput && kindField.currentIndex !== 0
 
     id: root
     width: Overlay.overlay.width / 4
     height: Overlay.overlay.height / 2
     title: qsTr("Create Task")
     visible: true
-    modal: is_modal
+    // modal: is_modal
+    modal: true
     closePolicy: Popup.CloseOnEscape
     anchors.centerIn: Overlay.overlay
 
@@ -175,8 +176,4 @@ Dialog {
             }
         }
     }
-
-    // onAccepted: console.log("Task Created")
-    // onRejected: console.log("VALID", root.formValid)
-
 }

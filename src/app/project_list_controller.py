@@ -20,6 +20,14 @@ class ProjectListController(QObject):
         self._selected_project: Project = None
         self._project_list_model = ProjectsListModel()
 
+        if self._project_list_model.projects:
+            self._selected_project = self._project_list_model.projects[0]
+
+        """
+        __projects_list: list = self._project_list_model.projects
+        self._selected_project: Project = None if len(__projects_list) == 0 else __projects_list[0]
+        """
+
     @property
     def selected_project(self) -> Project:
         return self._selected_project
@@ -30,24 +38,37 @@ class ProjectListController(QObject):
         self.projectSelectedSignal.emit(self._is_project_selected())
 
     def _is_project_selected(self) -> bool:
-        """
-        if self._selected_project is None:
-            return False
-        return self._selected_project.status != TaskStatus.IN_PROGRESS
-        """
         return self._selected_project is not None
     
     projectSelected = Property(bool, _is_project_selected, notify=projectSelectedSignal)
 
+    def _selected_project_id(self) -> str:
+            if self._selected_project is None:
+                return None
+            return self.selected_project.id
+    
+    selected_project_id = Property(str, _selected_project_id, notify=projectSelectedSignal)
+
     @Property(QObject, constant=True)
     def project_list_model(self):
         return self._project_list_model
+
+    @Slot(int)
+    def select_project(self, index: int) -> None:
+        if not 0 <= index < len(self._project_list_model.projects):
+            return
+
+        self.selected_project = self._project_list_model.projects[index]
 
     @Slot(str, str, str)
     def add_new_project(self, name: str, end_date: str, description: str) -> None:
         """
         Adds a project to the project list at the specified index with the given info.
         """
+
+        print(f"NAME: {name}")
+        print(f"END DATE: {end_date}")
+        print(f"DESCRIPTION: {description}")
 
         new_project = Project(name, end_date, description)
 

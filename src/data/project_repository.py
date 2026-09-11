@@ -2,6 +2,7 @@ from uuid import UUID
 
 from src.data.db_repository import DB_Repository
 from src.data.project import Project
+from constants import DATE_FORMAT
 
 
 class ProjectRepository(DB_Repository):
@@ -20,7 +21,7 @@ class ProjectRepository(DB_Repository):
             INSERT INTO projects (id, name, description,  end_date, creation_date)
             VALUES (?, ?, ?, ?, ?)
         """, (
-            str(object.id), object.name, object.description, object.end_date.toString(), object.creation_date.toString()
+            str(object.id), object.name, object.description, object.end_date.toString(DATE_FORMAT), object.creation_date.toString()
         ))
         conn.commit()
         conn.close()
@@ -44,8 +45,12 @@ class ProjectRepository(DB_Repository):
         conn.close()
 
     def row_to_object(self, row) -> Project:
-        return Project(
+        project = Project(
                     name=row["name"],
                     end_date=row["end_date"],
                     description=row["description"],
+                    id=row["id"]
                 )
+
+        # project._id = row["id"]
+        return project

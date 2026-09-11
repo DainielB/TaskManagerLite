@@ -91,7 +91,7 @@ class TaskSortFilterProxy(QSortFilterProxyModel):
         source_index = self._source_model.index(source_row, COLUMN_NUM, source_parent)
 
         # STATUS Filter
-        status = self._source_model.data(source_index, TaskRoles.STATUS)
+        status = self._source_model.data(source_index, TaskRoles.STATUS.value)
 
         if status != self._status:
             return False
