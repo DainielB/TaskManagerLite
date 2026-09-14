@@ -56,11 +56,11 @@ class ProjectsListModel(QAbstractListModel):
         elif role == ProjectRoles.DESCRIPTION:
             return project.description
         elif role == ProjectRoles.END_DATE:
-            return project.end_date.toString(DATE_FORMAT)
+            return project.end_dat
         elif role == ProjectRoles.START_DATE:
-            return project.start_date.toString(DATE_FORMAT)
+            return project.start_date
         elif role == ProjectRoles.CREATION_DATE:
-            return project.creation_date.toString(DATE_FORMAT)
+            return project.creation_date
         elif role == ProjectRoles.STATUS:
             return project.status
         elif role == ProjectRoles.PROJECT:

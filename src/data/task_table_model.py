@@ -25,6 +25,10 @@ class TaskTableModel(QAbstractListModel):
         self._repository: TaskRepository = TaskRepository()
         self._tasks: list[Task] = self._repository.get_all()
 
+    @property
+    def repository(self) -> TaskRepository:
+        return self._repository
+
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         """
         Returns the number of rows under the given parent.
@@ -56,9 +60,9 @@ class TaskTableModel(QAbstractListModel):
         if role == TaskRoles.ID:
             return task.id
         elif role == TaskRoles.START_DATE:
-            return task.start_date.toString(DATE_FORMAT) if task.start_date else ""
+            return task.start_date
         elif role == TaskRoles.END_DATE:
-            return task.end_date.toString(DATE_FORMAT)
+            return task.end_date
         elif role == TaskRoles.STATUS:
             return task.status
         elif role == TaskRoles.DESCRIPTION:
@@ -70,7 +74,7 @@ class TaskTableModel(QAbstractListModel):
         elif role == TaskRoles.PRIORITY:
             return task.priority
         elif role == TaskRoles.CREATION_DATE:
-            return task.creation_date.toString(DATE_FORMAT)
+            return task.creation_date
         elif role == TaskRoles.TASK:
             return task
 
@@ -84,7 +88,7 @@ class TaskTableModel(QAbstractListModel):
             return False
 
         task = self._tasks[index.row()]
-        self._repository.update_task(task)
+        self._repository.update(task)
 
         self.dataChanged.emit(index, index, list(self.roleNames().keys()))
 
@@ -123,7 +127,7 @@ class TaskTableModel(QAbstractListModel):
 
         return None
 
-    def get_index_task(self, task_id: UUID) -> QModelIndex:
+    def get_index_task(self, task_id: str) -> QModelIndex:
 
         row_count: int = self.rowCount()
 

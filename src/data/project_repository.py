@@ -21,7 +21,7 @@ class ProjectRepository(DB_Repository):
             INSERT INTO projects (id, name, description,  end_date, creation_date)
             VALUES (?, ?, ?, ?, ?)
         """, (
-            str(object.id), object.name, object.description, object.end_date.toString(DATE_FORMAT), object.creation_date.toString()
+            str(object.id), object.name, object.description, object.end_date, object.creation_date
         ))
         conn.commit()
         conn.close()

@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from PySide6.QtCore import QDate
 
 from .entity import Entity
@@ -18,21 +16,17 @@ class Task(Entity):
 
         self._priority: str = priority if priority != "Priority" else TaskPriority.Low.name
         self._kind: str = kind
-        # self._status: str = status if status not in (None , "Initial Status") else TaskStatus.TO_DO.value
 
+        self._status: str = status
         if status in (None, "Initial Status"):
-            self._status = TaskStatus.TO_DO.value
-        else:
-            self._status = status
+            self._status= TaskStatus.TO_DO.value
 
-
+        self._project_id: str = None
         if project_id:
             self._project_id: str = str(project_id)
-        else:
-            self._project_id: str = None
 
     def __str__(self) -> str:
-        return f"TASK\r\n id: {self.id}, name: {self.name}, end_date: {self.end_date.toString(DATE_FORMAT)}, priority: {self.priority}, kind: {self.kind}, status: {self.status}, description: {self.description}\n, project_id: {self.project_id}"
+        return f"TASK\r\n id: {self.id}, name: {self.name}, end_date: {self.end_date}, priority: {self.priority}, kind: {self.kind}, status: {self.status}, description: {self.description}\n, project_id: {self.project_id}"
 
     @property
     def priority(self) -> str:
@@ -57,7 +51,8 @@ class Task(Entity):
     @status.setter
     def status(self, new_status: TaskStatus) -> None:
         if new_status == TaskStatus.IN_PROGRESS and self.status != TaskStatus.IN_PROGRESS:
-            self.start_date = QDate.currentDate()
+            new_start_date = QDate.currentDate()
+            self.start_date = new_start_date # .toString(DATE_FORMAT)
 
         self._status = new_status.value
 

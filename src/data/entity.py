@@ -2,7 +2,7 @@ from uuid import UUID, uuid4
 
 from PySide6.QtCore import QDate, QObject
 
-from constants import TaskStatus
+from constants import DATE_FORMAT
 
 
 class Entity(QObject):
@@ -30,16 +30,16 @@ class Entity(QObject):
         self._name = name
 
     @property
-    def start_date(self) -> QDate:
-        return self._start_date
+    def start_date(self) -> str:
+        return self._start_date.toString(DATE_FORMAT) if self._start_date else ""
 
     @start_date.setter
     def start_date(self, start_date: QDate) -> None:
         self._start_date = start_date
 
     @property
-    def end_date(self) -> QDate:
-        return self._end_date
+    def end_date(self) -> str:
+        return self._end_date.toString(DATE_FORMAT)
 
     @end_date.setter
     def end_date(self, end_date: QDate) -> None:
@@ -54,5 +54,5 @@ class Entity(QObject):
         self._description = description
 
     @property
-    def creation_date(self) -> QDate:
-        return self._creation_date
+    def creation_date(self) -> str:
+        return self._creation_date.toString(DATE_FORMAT)

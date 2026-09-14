@@ -130,6 +130,7 @@ Rectangle {
                     Layout.fillWidth: true
                     enabled: root._enabled
 
+                    /*
                     model: [
                         "Low", "Medium", "High", "Urgent"
                     ]
@@ -137,6 +138,21 @@ Rectangle {
 
                     onCurrentIndexChanged: {
 
+                    }
+                    */
+
+                    model: [
+                        {value: 0, text: "Low"},
+                        {value: 1, text: "Medium"},
+                        {value: 2, text: "High"},
+                        {value: 3, text: "Urgent"}
+                    ]
+                    textRole: "text"
+                    valueRole: "value"
+                    currentIndex: model[0].value
+
+                    onCurrentIndexChanged: {
+                        console.log("QML Priority: ", parseInt(model[0].value))
                     }
                 }
             }
@@ -184,6 +200,7 @@ Rectangle {
                 enabled: root._enabled
                 visible: root._enabled
                 onReleased: {
+                    console.log("CURRENT VALUE: ", priority.currentValue)
                     app_controller.task_info_controller.save_task(taskName.text, taskDescription.text, dateInputView.new_date, taskStatus.currentValue, taskType.currentValue, priority.currentValue)
                     root._enabled = !root._enabled
                 }
