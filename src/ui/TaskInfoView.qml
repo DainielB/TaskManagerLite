@@ -149,10 +149,10 @@ Rectangle {
                     ]
                     textRole: "text"
                     valueRole: "value"
-                    currentIndex: model[0].value
+                    currentIndex: 0
 
                     onCurrentIndexChanged: {
-                        console.log("QML Priority: ", parseInt(model[0].value))
+
                     }
                 }
             }
@@ -200,7 +200,6 @@ Rectangle {
                 enabled: root._enabled
                 visible: root._enabled
                 onReleased: {
-                    console.log("CURRENT VALUE: ", priority.currentValue)
                     app_controller.task_info_controller.save_task(taskName.text, taskDescription.text, dateInputView.new_date, taskStatus.currentValue, taskType.currentValue, priority.currentValue)
                     root._enabled = !root._enabled
                 }

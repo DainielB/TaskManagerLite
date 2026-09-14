@@ -54,6 +54,7 @@ class TaskInfoController(QObject):
     def load_task(self, id: str) -> None:
         task: Task = self._model.get_task_by_id(id)
         self.selected_task = task
+        print(f"PRIORITY VALUE: {TaskPriority.task.priority.value}")
         task_dict = {
             TaskRoles.ID.name: task.id,
             TaskRoles.NAME.name: task.name,
@@ -61,7 +62,8 @@ class TaskInfoController(QObject):
             TaskRoles.END_DATE.name: task.end_date,
             TaskRoles.STATUS.name: task.status,
             TaskRoles.KIND.name: task.kind,
-            TaskRoles.PRIORITY.name: task.priority
+            # TaskRoles.PRIORITY.name: task.priority
+            TaskRoles.PRIORITY.value: TaskPriority.task.priority.value
         }
 
         self.taskClicked.emit(task_dict)
