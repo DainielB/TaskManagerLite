@@ -7,7 +7,6 @@ Dialog {
     property alias name: nameField.text
     property alias description: descriptionField.text
     property alias endDate: dateField.new_date
-    // property alias projectColor: colorField
 
     id: createProject
     width: Overlay.overlay.width / 4

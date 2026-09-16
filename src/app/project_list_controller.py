@@ -11,8 +11,9 @@ from src.data.project import Project
 
 class ProjectListController(QObject):
 
-    projectCountChangedSignal = Signal(int)
-    projectSelectedSignal = Signal(bool)
+    # projectCountChangedSignal = Signal(int)
+    hasProjectChanged = Signal(bool)
+    onProjectSelection = Signal(bool)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -22,11 +23,9 @@ class ProjectListController(QObject):
 
         if self._project_list_model.projects:
             self._selected_project = self._project_list_model.projects[0]
-
-        """
-        __projects_list: list = self._project_list_model.projects
-        self._selected_project: Project = None if len(__projects_list) == 0 else __projects_list[0]
-        """
+            self._project_list_model.numProjectsChanged.connect(self._on_project_count_changed)
+        else:
+            self._selected_project = None
 
     @property
     def selected_project(self) -> Project:
@@ -35,19 +34,14 @@ class ProjectListController(QObject):
     @selected_project.setter
     def selected_project(self, project: Project) -> None:
         self._selected_project = project
-        self.projectSelectedSignal.emit(self._is_project_selected())
-
-    def _is_project_selected(self) -> bool:
-        return self._selected_project is not None
     
-    projectSelected = Property(bool, _is_project_selected, notify=projectSelectedSignal)
-
     def _selected_project_id(self) -> str:
-            if self._selected_project is None:
-                return None
-            return self.selected_project.id
+        if self._selected_project is None:
+            return None
+
+        return self.selected_project.id
     
-    selected_project_id = Property(str, _selected_project_id, notify=projectSelectedSignal)
+    selected_project_id = Property(str, _selected_project_id, notify=onProjectSelection)
 
     @Property(QObject, constant=True)
     def project_list_model(self):
@@ -55,6 +49,9 @@ class ProjectListController(QObject):
 
     @Slot(int)
     def select_project(self, index: int) -> None:
+        """
+        """
+
         if not 0 <= index < len(self._project_list_model.projects):
             return
 
@@ -66,17 +63,22 @@ class ProjectListController(QObject):
         Adds a project to the project list at the specified index with the given info.
         """
 
-        print(f"NAME: {name}")
-        print(f"END DATE: {end_date}")
-        print(f"DESCRIPTION: {description}")
-
         new_project = Project(name, end_date, description)
 
         self._project_list_model.add_project(new_project)
         self.selected_project = new_project
-        self.projectCountChangedSignal.emit(self.num_projects())
 
-    def num_projects(self) -> int:
-        return len(self.project_list_model.projects)
+        self.hasProjectChanged.emit(self._has_projects())
 
-    projectCount = Property(int, num_projects, notify=projectCountChangedSignal)
+    @Slot(str)
+    def remove_project(self, id: str) -> None:
+        # self.hasProjectChanged.emit(self._has_projects())
+        pass
+
+    def _has_projects(self) -> bool:
+        return len(self.project_list_model.projects) > 0
+
+    def _on_project_count_changed(self) -> None:
+        self.hasProjectChanged.emit(self._has_projects())
+
+    hasProjects = Property(bool, fget=_has_projects, notify=hasProjectChanged)

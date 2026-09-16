@@ -23,17 +23,19 @@ Rectangle {
             clip: true
             spacing: 50
             highlight: Rectangle { color: "#7286A0" }
-            // spacing: (parent.height / projectsListModel.num_projects()) // Divide number of projects / screen height (?)
 
             ScrollBar.vertical: ScrollBar {}
 
             model: app_controller.project_list_controller.project_list_model
             onCurrentIndexChanged: {
+                /*
                 if (currentIndex >= 0) {
                     app_controller.project_list_controller.select_project(currentIndex)
                 }
+                */
             }
 
+            // TODO: Disabled project currenty selected
             Component {
                 id: projectDelegate
 
@@ -45,15 +47,17 @@ Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                         anchors.leftMargin: 10
-                        text: name // TODO: Esto es lo que hace que cuando se cree un proyecto nuevo,
-                                                            // los que ya hay en la lista se actualicen automáticamente con el nombre
-                                                            // que se está poniendo en el textfield
+                        text: name
                         color: listView.isCurrentItem ? "black" : "white"
                     }
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: listView.currentIndex = index
+                        onClicked:{
+                            listView.currentIndex = index
+                            app_controller.project_list_controller.select_project(listView.currentIndex)
+                            app_controller.task_table_controller.task_table_model.refresh_table(app_controller.project_list_controller.selected_project_id)
+                        }
                     }
                 }
             }

@@ -18,6 +18,14 @@ class AppController(QObject):
 
         self._project_list_controller = ProjectListController()
 
+        '''
+        _id: str = ""
+        if self._project_list_controller.selected_project:
+            _id = self._project_list_controller.selected_project.id
+        else:
+            _id = None
+        '''
+
         self._task_table_model = TaskTableModel()
         self._task_table_controller = TaskTableController(self._task_table_model)
         self._task_info_controller = TaskInfoController(self._task_table_model)

@@ -4,6 +4,7 @@ from PySide6.QtCore import (
     QModelIndex,
     QPersistentModelIndex,
     Slot,
+    Signal
 )
 
 from constants import ProjectRoles, project_role_names, DATE_FORMAT
@@ -13,11 +14,17 @@ from src.data.project_repository import ProjectRepository
 
 class ProjectsListModel(QAbstractListModel):
 
+    numProjectsChanged = Signal(int)
+
     def __init__(self):
         super().__init__()
 
         self._repository: ProjectRepository = ProjectRepository()
         self._projects: list = self._repository.get_all()
+
+    @property
+    def repository(self) -> ProjectRepository:
+        return self._repository
 
     @property
     def projects(self) -> list:
@@ -86,3 +93,5 @@ class ProjectsListModel(QAbstractListModel):
         self._projects.append(project)
         self._repository.add(project)
         self.endInsertRows()
+
+        self.numProjectsChanged.emit(len(self._projects))

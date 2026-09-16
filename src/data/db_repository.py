@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from sqlite3 import Connection, Row, connect
-from uuid import UUID
 
 from PySide6.QtCore import QObject
 
@@ -21,7 +20,7 @@ class DB_Repository(ABC):
     def add(self, object: QObject) -> None: ...
 
     @abstractmethod
-    def delete(self, object_id: UUID) -> None: ...
+    def delete(self, object_id: str) -> None: ...
 
     @abstractmethod
     def update(self, object: QObject) -> None: ...

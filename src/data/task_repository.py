@@ -1,4 +1,3 @@
-from uuid import UUID
 from sqlite3 import IntegrityError, OperationalError
 
 from src.data.db_repository import DB_Repository
@@ -8,18 +7,25 @@ from constants import DATE_FORMAT
 
 class TaskRepository(DB_Repository):
 
-    def get_all(self):
+    def get_all(self, object_id: str = None) -> list[Task]:
+    # def get_all(self) -> list[Task]:
 
         try:
             with self._connect() as conn:
-                cursor = conn.execute("SELECT * FROM tasks")
+
+                if object_id:
+                    cursor = conn.execute("SELECT * FROM tasks WHERE project_id=?", (object_id,))
+                else:
+                    cursor = conn.execute("SELECT * FROM tasks")
                 rows = cursor.fetchall()
         
                 return [self.row_to_object(row) for row in rows]
-        except OperationalError as oe: # MODIDY THIS
-            print(oe)        
+        except OperationalError as oe: # TODO: Modify the exception
+            print(oe)
+        else:
+            return []
 
-    def add(self, object):
+    def add(self, object) -> None:
         try:
             with self._connect() as conn:        
                 conn.execute("""
@@ -35,10 +41,9 @@ class TaskRepository(DB_Repository):
         except(IntegrityError):
             print("There are no projects")
 
-    def update(self, object):
+    def update(self, object) -> None:
 
         try:
-
             with self._connect() as conn:
                 conn.execute("""
                     UPDATE tasks
@@ -54,7 +59,7 @@ class TaskRepository(DB_Repository):
         except OperationalError as oe:
             print(oe)
 
-    def delete(self, object_id):
+    def delete(self, object_id: str) -> None:
 
         try:
             with self._connect() as conn:
@@ -63,7 +68,7 @@ class TaskRepository(DB_Repository):
         except OperationalError as oe: # MODIFY THIS
             print(oe)
 
-    def row_to_object(self, row):
+    def row_to_object(self, row) -> Task:
         return Task(
             name=row["name"],
             end_date=row["end_date"],
@@ -71,5 +76,5 @@ class TaskRepository(DB_Repository):
             kind=row["kind"],
             status=row["status"],
             description=row["description"],
-            project_id=UUID(row["project_id"]) if row["project_id"] else None,
+            project_id=row["project_id"],
         )

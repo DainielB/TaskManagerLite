@@ -1,5 +1,4 @@
 from typing import Any
-from uuid import UUID
 
 from PySide6.QtCore import (
     QAbstractListModel,
@@ -19,11 +18,12 @@ from src.data.task_repository import TaskRepository
 
 class TaskTableModel(QAbstractListModel):
 
-    def __init__(self):
+    def __init__(self, project_id: str = None):
         super().__init__()
 
         self._repository: TaskRepository = TaskRepository()
-        self._tasks: list[Task] = self._repository.get_all()
+        # self._project_id: str = project_id
+        self._tasks: list[Task] = self._repository.get_all(project_id)
 
     @property
     def repository(self) -> TaskRepository:
@@ -95,8 +95,13 @@ class TaskTableModel(QAbstractListModel):
         return super().setData(index, value, role)
 
     @Slot(Task)
-    def add_task(self, task: Task) -> None:
-        """Adds a task to the task list at the specified index with the given name."""
+    def add_task(self, task: Task, insert: bool = False) -> None:
+        """Adds a task to the task list at the specified index with the given name.
+
+        Args:
+            task (Task): Task object to add to the model
+            insert (bool, optional): If true the task will be inserted in the database. Defaults to False.
+        """
 
         new_index = len(self._tasks)
 
@@ -105,11 +110,13 @@ class TaskTableModel(QAbstractListModel):
 
         self.beginInsertRows(QModelIndex(), new_index, new_index)
         self._tasks.append(task)
-        self._repository.add(task)
         self.endInsertRows()
 
+        if insert:
+            self._repository.add(task)
+
     '''
-    @Slot(int)
+    # @Slot(int)
     def remove_task(self, row: int) -> None:
         if not (0 <= row < len(self._tasks)):
             return
@@ -119,6 +126,20 @@ class TaskTableModel(QAbstractListModel):
         self._repository.delete_task(task.id)
         self.endRemoveRows()
     '''
+
+    def __remove_tasks(self) -> None:
+
+        if len(self._tasks) > 0:
+            removed_rows = []
+
+            for row, task in enumerate(self._tasks):
+                if task in self._tasks:
+                    removed_rows.append(row)
+
+            for row in sorted(removed_rows, reverse=True):
+                self.beginRemoveRows(QModelIndex(), row, row)
+                self._tasks.pop(row)
+                self.endRemoveRows()
 
     def get_task_by_id(self, task_id: id) -> Task:
         for task in self._tasks:
@@ -137,3 +158,17 @@ class TaskTableModel(QAbstractListModel):
                 return index
 
         return QModelIndex()
+
+    @Slot(str)
+    def refresh_table(self, project_id: str = None) -> None:
+        """Refresh the table UI.
+
+        Args:
+            project_id (str, optional): Id of the project to get the tasks from. Defaults to None.
+        """
+
+        self.__remove_tasks()
+
+        tasks_list: list = self._repository.get_all(project_id)
+        for task in tasks_list:
+            self.add_task(task)

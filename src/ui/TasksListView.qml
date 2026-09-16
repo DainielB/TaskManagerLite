@@ -88,8 +88,7 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.rightMargin: 10
                 text: "New Task"
-                // enabled: app_controller.project_list_controller.projectCount > 0
-                enabled: app_controller.project_list_controller.projectSelected
+                enabled: app_controller.project_list_controller.hasProjects
 
                 onReleased: createTaskLoader.active = true
             }
