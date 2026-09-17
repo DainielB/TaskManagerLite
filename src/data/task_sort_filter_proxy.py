@@ -30,7 +30,6 @@ class TaskSortFilterProxy(QSortFilterProxyModel):
         super().__init__(parent)
 
         self._sort_role = None
-        # self._filter_role = None
         self._source_model = None
         self._status: str = None
         self._current_sort_field: str = None

@@ -6,7 +6,7 @@ import QtQuick.Controls
 Rectangle {
     id: root
     radius: 8
-    border.color: "#F0803C"
+    // border.color: "#F0803C"
     color: "#9EACBD"
 
     property string name: "Name of the task"

@@ -6,16 +6,15 @@ import QtQuick.Controls
 Rectangle {
     property int component_height: 36
     property int tasks_spacing: 5
+    property var proxyModel
+    property string status: ""
+
     readonly property alias contentHeight: listView.contentHeight
     readonly property int headerParts: 10
     readonly property int taskCol: 3
     readonly property int dateCol: 2
-    readonly property int statusCol: 2
     readonly property int priorityCol: 2
     readonly property int typeCol: 1
-
-    property var proxyModel
-    property string status: ""
 
     id: root
     color: "transparent"
@@ -43,7 +42,7 @@ Rectangle {
                     radius: 5
 
                     border.width: 2
-                    border.color: "#F0803C"
+                    border.color: model.color
 
                     RowLayout {
                         anchors.fill: parent

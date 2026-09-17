@@ -5,6 +5,7 @@ from constants import (
     TaskStatus,
     TaskPriority,
     TaskKind,
+    TaskPriorityColor,
     DATE_FORMAT,
 )
 
@@ -20,6 +21,8 @@ class Task(Entity):
         self._status: str = status
         if status in (None, "Initial Status"):
             self._status= TaskStatus.TO_DO.value
+
+        self._color: str = TaskPriorityColor[self._priority].value
 
         self._project_id: str = None
         if project_id:
@@ -52,9 +55,17 @@ class Task(Entity):
     def status(self, new_status: TaskStatus) -> None:
         if new_status == TaskStatus.IN_PROGRESS and self.status != TaskStatus.IN_PROGRESS:
             new_start_date = QDate.currentDate()
-            self.start_date = new_start_date # .toString(DATE_FORMAT)
+            self.start_date = new_start_date
 
         self._status = new_status.value
+
+    @property
+    def color(self) -> str:
+        return self._color
+
+    @color.setter
+    def color(self, new_color: str) -> None:
+        self._color = new_color
 
     @property
     def project_id(self) -> str:

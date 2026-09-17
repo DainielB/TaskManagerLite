@@ -22,7 +22,6 @@ class TaskTableModel(QAbstractListModel):
         super().__init__()
 
         self._repository: TaskRepository = TaskRepository()
-        # self._project_id: str = project_id
         self._tasks: list[Task] = self._repository.get_all(project_id)
 
     @property
@@ -73,6 +72,8 @@ class TaskTableModel(QAbstractListModel):
             return task.kind
         elif role == TaskRoles.PRIORITY:
             return task.priority
+        elif role == TaskRoles.COLOR:
+            return task.color
         elif role == TaskRoles.CREATION_DATE:
             return task.creation_date
         elif role == TaskRoles.TASK:

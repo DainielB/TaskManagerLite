@@ -20,12 +20,7 @@ class TaskInfoController(QObject):
 
     taskClicked = Signal("QVariant")
     taskSelectedSignal = Signal(bool)
-
-    # nameChanged = Signal(str)
-    # descriptionChanged = Signal(str)
-    # endDateChanged = Signal(QDate)
     statusChanged = Signal(str)
-    # kindChanged = Signal(str)
     # priorityChanged = Signal(str)
 
     def __init__(self, model, parent=None):
@@ -54,7 +49,7 @@ class TaskInfoController(QObject):
     def load_task(self, id: str) -> None:
         task: Task = self._model.get_task_by_id(id)
         self.selected_task = task
-        print(f"PRIORITY VALUE: {TaskPriority.task.priority.value}")
+
         task_dict = {
             TaskRoles.ID.name: task.id,
             TaskRoles.NAME.name: task.name,
@@ -76,15 +71,12 @@ class TaskInfoController(QObject):
 
         if new_name != self.selected_task.name:
             self.selected_task.name = new_name
-            # self.nameChanged.emit(new_name)
 
         if new_description != self.selected_task.description:
             self.selected_task.description = new_description
-            # self.descriptionChanged.emit(new_description)
 
         if new_end_date != self.selected_task.end_date:
             self.selected_task.end_date = QDate.fromString(new_end_date, DATE_FORMAT)
-            # self.endDateChanged.emit(new_end_date)
 
         if TaskStatus(new_status) != self.selected_task.status:
             self.selected_task.status = TaskStatus(new_status)
@@ -93,16 +85,16 @@ class TaskInfoController(QObject):
 
         if TaskKind(new_kind) != self.selected_task.kind:
             self.selected_task.kind = TaskKind(new_kind)
-            # self.kindChanged.emit(new_kind)
 
         priority_aux: int = int(new_priority)
         if TaskPriority(priority_aux).name != self.selected_task.priority:
             self.selected_task.priority = TaskPriority(priority_aux)
-            print(f"self.selected_task.priority: {self.selected_task.priority}")
-            # self.priorityChanged.emit(new_priority)
+            # self.priorityChanged.emit(self.selected_task.priority)
 
         self._model.repository.update(self.selected_task)
         self._set_data()
+
+    # taskColor = Property(str, fget=lambda self: self._selected_task.color, notify=priorityChanged)
 
     @Slot()
     def start_task(self) -> None:

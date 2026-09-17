@@ -127,8 +127,6 @@ Rectangle {
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
 
-                    // hoverEnabled: true
-
                     onReleased: {
                         root.sortAllBy("name")
                     }
@@ -209,7 +207,7 @@ Rectangle {
             ScrollBar.horizontal.interactive: false
             ScrollBar.vertical.interactive: true
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff // ScrollBar is not visible but it works
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
             /*
             background: Rectangle {
