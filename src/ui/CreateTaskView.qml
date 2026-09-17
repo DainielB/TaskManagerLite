@@ -19,7 +19,6 @@ Dialog {
     height: Overlay.overlay.height / 2
     title: qsTr("Create Task")
     visible: true
-    // modal: is_modal
     modal: true
     closePolicy: Popup.CloseOnEscape
     anchors.centerIn: Overlay.overlay
@@ -45,7 +44,6 @@ Dialog {
     }
 
     contentItem: ColumnLayout {
-        //anchors.fill: Overlay.overlay
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.margins: 10
@@ -108,7 +106,7 @@ Dialog {
                 }
 
                 model: [
-                    "Initial Status", "To Do", "In Progress", "In Review", "Paused", "Backlog", "Finished"
+                    "Initial Status", "To Do", "In Progress", "In Review", "Paused", "Backlog"
                 ]
 
                 currentIndex: 0
