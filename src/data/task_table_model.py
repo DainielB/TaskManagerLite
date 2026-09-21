@@ -128,7 +128,7 @@ class TaskTableModel(QAbstractListModel):
         self.endRemoveRows()
     '''
 
-    def __remove_tasks(self) -> None:
+    def __delete_tasks(self) -> None:
 
         if len(self._tasks) > 0:
             removed_rows = []
@@ -141,6 +141,8 @@ class TaskTableModel(QAbstractListModel):
                 self.beginRemoveRows(QModelIndex(), row, row)
                 self._tasks.pop(row)
                 self.endRemoveRows()
+
+            # self.__refresh_table(project_id)
 
     def get_task_by_id(self, task_id: id) -> Task:
         for task in self._tasks:
@@ -168,7 +170,9 @@ class TaskTableModel(QAbstractListModel):
             project_id (str, optional): Id of the project to get the tasks from. Defaults to None.
         """
 
-        self.__remove_tasks()
+        print(f"PYTHON PROJECT ID: {project_id}")
+
+        self.__delete_tasks()
 
         tasks_list: list = self._repository.get_all(project_id)
         for task in tasks_list:

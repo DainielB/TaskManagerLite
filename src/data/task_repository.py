@@ -8,7 +8,14 @@ from constants import DATE_FORMAT
 class TaskRepository(DB_Repository):
 
     def get_all(self, object_id: str = None) -> list[Task]:
-    # def get_all(self) -> list[Task]:
+        """_summary_
+
+        Args:
+            object_id (str, optional): _description_. Defaults to None.
+
+        Returns:
+            list[Task]: _description_
+        """
 
         try:
             with self._connect() as conn:

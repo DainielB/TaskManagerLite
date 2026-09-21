@@ -9,7 +9,24 @@ Rectangle {
 
     color: "#30332E"
     radius: 4
-    // border.color: "#F8D64F"
+
+    function load_projects() {
+        app_controller.project_list_controller.select_project(listView.currentIndex)
+        
+        app_controller.task_table_controller.task_table_model.refresh_table(app_controller.project_list_controller.selected_project_id)
+    }
+
+    function reset_index(index) {
+        if (index >= 1) {
+            index -= 1
+            // listView.currentIndex = index - 1
+        } else {
+            // listView.currentIndex = 0
+            index = 0
+        }
+
+        return index
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -28,11 +45,6 @@ Rectangle {
 
             model: app_controller.project_list_controller.project_list_model
             onCurrentIndexChanged: {
-                /*
-                if (currentIndex >= 0) {
-                    app_controller.project_list_controller.select_project(currentIndex)
-                }
-                */
             }
 
             // TODO: Disabled project currenty selected
@@ -40,8 +52,10 @@ Rectangle {
                 id: projectDelegate
 
                 Item {
+                    id: projectItem
                     width: listView.width
                     height: 48
+                    // enabled: false
 
                     Text {
                         anchors.verticalCenter: parent.verticalCenter
@@ -53,12 +67,47 @@ Rectangle {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked:{
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        onClicked: (mouse)=> {
+
                             listView.currentIndex = index
+                            console.log("listView.currentIndex: ", listView.currentIndex)
                             app_controller.project_list_controller.select_project(listView.currentIndex)
                             app_controller.task_table_controller.task_table_model.refresh_table(app_controller.project_list_controller.selected_project_id)
+
+                            if (mouse.button == Qt.RightButton) {
+                                context_menu.open()
+                            }
+
                         }
                     }
+
+                    Menu {
+                        id: context_menu
+                        x: (projectItem.width * 0.5)
+                        y: (projectItem.height * 0.75)
+
+                        MenuItem {
+                            text: "Delete"
+                            onReleased: {
+                                let new_index = root.reset_index(listView.currentIndex)
+                                console.log("NEW INDEX: ", new_index)
+
+                                app_controller.task_table_controller.task_table_model.refresh_table(app_controller.project_list_controller.selected_project_id)
+                                app_controller.project_list_controller.select_project(new_index)
+                                app_controller.project_list_controller.delete_project(app_controller.project_list_controller.selected_project_id)
+                            }
+                        }
+                        /*
+                        MenuItem {
+                            text: "Info"
+                            onReleased: {
+                                // TODO: Get current project information
+                            }
+                        }
+                        */
+                    }
+
                 }
             }
 

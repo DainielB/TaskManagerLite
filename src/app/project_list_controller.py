@@ -11,9 +11,9 @@ from src.data.project import Project
 
 class ProjectListController(QObject):
 
-    # projectCountChangedSignal = Signal(int)
     hasProjectChanged = Signal(bool)
     onProjectSelection = Signal(bool)
+    # selectProjectSignal = Signal("QVariant")
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -34,6 +34,14 @@ class ProjectListController(QObject):
     @selected_project.setter
     def selected_project(self, project: Project) -> None:
         self._selected_project = project
+        # self.selectProjectSignal.emit(self._selected_project)
+
+    """
+    def _get_selected_project(self) -> Project:
+        return self._selected_project
+    """
+
+    # selectedProject = Property("QVariant", fget=_get_selected_project, notify=selectProjectSignal)
     
     def _selected_project_id(self) -> str:
         if self._selected_project is None:
@@ -49,13 +57,17 @@ class ProjectListController(QObject):
 
     @Slot(int)
     def select_project(self, index: int) -> None:
-        """
+        """_summary_
+
+        Args:
+            index (int): _description_
         """
 
         if not 0 <= index < len(self._project_list_model.projects):
             return
 
         self.selected_project = self._project_list_model.projects[index]
+        self.onProjectSelection.emit(True)
 
     @Slot(str, str, str)
     def add_new_project(self, name: str, end_date: str, description: str) -> None:
@@ -65,15 +77,21 @@ class ProjectListController(QObject):
 
         new_project = Project(name, end_date, description)
 
-        self._project_list_model.add_project(new_project)
+        self._project_list_model.add_project(new_project, True)
         self.selected_project = new_project
 
         self.hasProjectChanged.emit(self._has_projects())
 
     @Slot(str)
-    def remove_project(self, id: str) -> None:
-        # self.hasProjectChanged.emit(self._has_projects())
-        pass
+    def delete_project(self, id: str) -> None:
+        """_summary_
+
+        Args:
+            id (str): _description_
+        """
+
+        self.project_list_model._delete_project(id)
+        self.hasProjectChanged.emit(self._has_projects())
 
     def _has_projects(self) -> bool:
         return len(self.project_list_model.projects) > 0

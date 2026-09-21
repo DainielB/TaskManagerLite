@@ -65,3 +65,12 @@ class ProjectRepository(DB_Repository):
             description=row["description"],
             id=row["id"]
         )
+
+    def delete_tasks_by_project_id(self, project_id: str) -> None:
+
+        try:
+            with self._connect() as conn:
+                conn.execute("DELETE FROM tasks WHERE project_id=?", (project_id,))
+                conn.commit()
+        except OperationalError as oe: # MODIFY THIS
+            print(oe)

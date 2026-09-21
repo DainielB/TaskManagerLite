@@ -79,9 +79,12 @@ class ProjectsListModel(QAbstractListModel):
         return project_role_names
 
     @Slot(str)
-    def add_project(self, project: Project) -> None:
-    # def add_project(self, project: Project) -> None:
-        """Adds a project to the project list at the specified index with the given name."""
+    def add_project(self, project: Project, insert: bool = False) -> None:
+        """Adds a project to the project list at the specified index with the given name.
+
+        Args:
+            project (Project): _description_
+        """
 
         new_index = len(self._projects)
 
@@ -91,7 +94,43 @@ class ProjectsListModel(QAbstractListModel):
         self.beginInsertRows(QModelIndex(), new_index, new_index)
         # self._projects.insert(new_index, project)
         self._projects.append(project)
-        self._repository.add(project)
         self.endInsertRows()
 
+        if insert:
+            self.repository.add(project)
+
         self.numProjectsChanged.emit(len(self._projects))
+
+    def _delete_project(self, _id: str) -> None:
+        """_summary_
+
+        Args:
+            _id (str): id of the project selected
+        """
+
+        if len(self._projects) > 0:
+            removed_rows = []
+
+            for row, project in enumerate(self._projects):
+                if project in self._projects:
+                    removed_rows.append(row)
+
+            for row in sorted(removed_rows, reverse=True):
+                self.beginRemoveRows(QModelIndex(), row, row)
+                self._projects.pop(row)
+                self.endRemoveRows()
+
+            self.repository.delete_tasks_by_project_id(_id)
+            self.repository.delete(_id)
+            self.__refresh_table(_id)
+
+    def __refresh_table(self, project_id: str = None) -> None:
+        """_summary_
+
+        Args:
+            project_id (str, optional): _description_. Defaults to None.
+        """
+
+        projects_list: list = self.repository.get_all()
+        for project in projects_list:
+            self.add_project(project)
