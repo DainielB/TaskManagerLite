@@ -12,8 +12,8 @@ from src.data.project import Project
 class ProjectListController(QObject):
 
     hasProjectChanged = Signal(bool)
-    onProjectSelection = Signal(bool)
-    # selectProjectSignal = Signal("QVariant")
+    # onProjectSelection = Signal(bool)
+    onProjectSelection = Signal(str)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -67,12 +67,17 @@ class ProjectListController(QObject):
             return
 
         self.selected_project = self._project_list_model.projects[index]
-        self.onProjectSelection.emit(True)
+        # self.onProjectSelection.emit(True)
+        self.onProjectSelection.emit(self.selected_project.id)
 
     @Slot(str, str, str)
     def add_new_project(self, name: str, end_date: str, description: str) -> None:
-        """
-        Adds a project to the project list at the specified index with the given info.
+        """Adds a project to the project list at the specified index with the given info.
+
+        Args:
+            name (str): _description_
+            end_date (str): _description_
+            description (str): _description_
         """
 
         new_project = Project(name, end_date, description)
@@ -80,6 +85,7 @@ class ProjectListController(QObject):
         self._project_list_model.add_project(new_project, True)
         self.selected_project = new_project
 
+        self.onProjectSelection.emit(self.selected_project.id)
         self.hasProjectChanged.emit(self._has_projects())
 
     @Slot(str)
@@ -91,6 +97,25 @@ class ProjectListController(QObject):
         """
 
         self.project_list_model._delete_project(id)
+        self.hasProjectChanged.emit(self._has_projects())
+
+    @Slot(str)
+    def remove_project(self, id: str) -> None:
+        """_summary_
+
+        Args:
+            id (str): _description_
+        """
+
+        self._project_list_model.remove_project(id)
+
+        if self.selected_project and self.selected_project.id == id:
+            projects = self._project_list_model.projects
+            self.selected_project = projects[0] if projects else None
+
+        # selected_id = self._selected_project_id()
+
+        self.onProjectSelection.emit(self.selected_project.id)
         self.hasProjectChanged.emit(self._has_projects())
 
     def _has_projects(self) -> bool:

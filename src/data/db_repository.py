@@ -1,17 +1,22 @@
 from abc import ABC, abstractmethod
-from sqlite3 import Connection, Row, connect
 
+import psycopg2
 from PySide6.QtCore import QObject
 
-from constants import DB_PATH
+from config import load_config
 
 
 class DB_Repository(ABC):
 
-    def _connect(self) -> Connection:
-        conn = connect(DB_PATH)
-        conn.row_factory = Row
-        return conn
+    def connect(self, config):
+        """ Connect to the PostgreSQL database server """
+        try:
+            # connecting to the PostgreSQL server
+            with psycopg2.connect(**config) as conn:
+                print('Connected to the PostgreSQL server.')
+                return conn
+        except (psycopg2.DatabaseError, Exception) as error:
+            print(error)
 
     @abstractmethod
     def get_all(self) -> list[QObject]: ...
@@ -26,4 +31,4 @@ class DB_Repository(ABC):
     def update(self, object: QObject) -> None: ...
 
     @abstractmethod
-    def row_to_object(self, row: Row) -> QObject: ...
+    def row_to_object(self, row) -> QObject: ...

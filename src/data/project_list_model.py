@@ -101,6 +101,25 @@ class ProjectsListModel(QAbstractListModel):
 
         self.numProjectsChanged.emit(len(self._projects))
 
+    @Slot(str)
+    def remove_project(self, project_id: str) -> None:
+        """_summary_
+
+        Args:
+            project_id (str): _description_
+        """
+
+        for row, project in enumerate(self._projects):
+            if project.id != project_id:
+                continue
+
+            self.beginRemoveRows(QModelIndex(), row, row)
+            self._projects.pop(row)
+            self.repository.delete(project_id)
+            self.endRemoveRows()
+            self.numProjectsChanged.emit(len(self._projects))
+            return
+
     def _delete_project(self, _id: str) -> None:
         """_summary_
 

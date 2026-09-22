@@ -18,11 +18,12 @@ from src.data.task_repository import TaskRepository
 
 class TaskTableModel(QAbstractListModel):
 
-    def __init__(self, project_id: str = None):
+    def __init__(self):
         super().__init__()
 
         self._repository: TaskRepository = TaskRepository()
-        self._tasks: list[Task] = self._repository.get_all(project_id)
+        # self._tasks: list[Task] = self._repository.get_all(project_id)
+        self._tasks: list[Task] = []
 
     @property
     def repository(self) -> TaskRepository:
@@ -116,17 +117,23 @@ class TaskTableModel(QAbstractListModel):
         if insert:
             self._repository.add(task)
 
-    '''
-    # @Slot(int)
-    def remove_task(self, row: int) -> None:
-        if not (0 <= row < len(self._tasks)):
-            return
+    @Slot(str)
+    def remove_task(self, task_id: str) -> None:
 
-        self.beginRemoveRows(QModelIndex(), row, row)
-        task = self._tasks.pop(row)
-        self._repository.delete_task(task.id)
-        self.endRemoveRows()
-    '''
+        for row, task in enumerate(self._tasks):
+            if task.id != task_id:
+                continue           
+
+            '''
+            if not (0 <= row < len(self._tasks)):
+                return
+            '''
+
+            self.beginRemoveRows(QModelIndex(), row, row)
+            task = self._tasks.pop(row)
+            self._repository.delete_task(task_id)
+            self.endRemoveRows()
+            return
 
     def __delete_tasks(self) -> None:
 
@@ -170,10 +177,8 @@ class TaskTableModel(QAbstractListModel):
             project_id (str, optional): Id of the project to get the tasks from. Defaults to None.
         """
 
-        print(f"PYTHON PROJECT ID: {project_id}")
+        # self.__delete_tasks()
 
-        self.__delete_tasks()
-
-        tasks_list: list = self._repository.get_all(project_id)
-        for task in tasks_list:
-            self.add_task(task)
+        self.beginResetModel()
+        self._tasks = self._repository.get_all(project_id)
+        self.endResetModel()

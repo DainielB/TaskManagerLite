@@ -1,8 +1,9 @@
-from sqlite3 import IntegrityError, OperationalError
+import psycopg2
 
 from src.data.db_repository import DB_Repository
 from src.data.task import Task
 from constants import DATE_FORMAT
+from config import load_config
 
 
 class TaskRepository(DB_Repository):
@@ -17,63 +18,91 @@ class TaskRepository(DB_Repository):
             list[Task]: _description_
         """
 
-        try:
-            with self._connect() as conn:
+        config = load_config()
 
-                if object_id:
-                    cursor = conn.execute("SELECT * FROM tasks WHERE project_id=?", (object_id,))
-                else:
-                    cursor = conn.execute("SELECT * FROM tasks")
-                rows = cursor.fetchall()
+        try:
+            with psycopg2.connect(**config) as conn:
+                with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+
+                    if object_id:
+                        query = "SELECT * FROM tasks WHERE project_id=%s"
+                        cursor.execute(query, (object_id,))
+                    else:
+                        query = "SELECT * FROM tasks"
+                        cursor.execute(query)
+
+                    rows = cursor.fetchmany()
         
-                return [self.row_to_object(row) for row in rows]
-        except OperationalError as oe: # TODO: Modify the exception
-            print(oe)
-        else:
+                    return [self.row_to_object(row) for row in rows]
+        except psycopg2.ProgrammingError as error:
+            print(error)
+        finally:
+            conn.close()
             return []
 
     def add(self, object) -> None:
+
+        query = """
+                INSERT INTO tasks (id, name, description, status, priority, 
+                kind, end_date, creation_date, project_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """
+
+        config = load_config()
+
         try:
-            with self._connect() as conn:        
-                conn.execute("""
-                    INSERT INTO tasks (id, name, description, status, priority, kind,
-                                        end_date, creation_date, project_id)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """, (
-                    str(object.id), object.name, object.description, str(object.status),
-                    object.priority, str(object.kind), object.end_date,
-                    object.creation_date, object.project_id,
-                ))
-                conn.commit()
-        except(IntegrityError):
-            print("There are no projects")
+            with psycopg2.connect(**config) as conn:
+                with conn.cursor() as cursor:   
+                    cursor.execute(query,
+                        (str(object.id), object.name, object.description, str(object.status),
+                        object.priority, str(object.kind), object.end_date,
+                        object.creation_date, object.project_id,)
+                    )
+        except psycopg2.ProgrammingError as error:
+            print(error)
+        finally:
+            conn.close()
 
     def update(self, object) -> None:
 
+        query = """
+                UPDATE tasks
+                SET name=?, description=?, status=?, priority=?, kind=?,
+                    start_date=?, end_date=?, project_id=?
+                WHERE id=?
+                """
+
+        config = load_config()
+        
         try:
-            with self._connect() as conn:
-                conn.execute("""
-                    UPDATE tasks
-                    SET name=?, description=?, status=?, priority=?, kind=?,
-                        start_date=?, end_date=?, project_id=?
-                    WHERE id=?
-                """, (
-                    object.name, object.description, object.status, object.priority,
-                    object.kind, object.start_date, object.end_date,
-                    object.project_id if object.project_id else None, object.id,
-                ))
+            with psycopg2.connect(**config) as conn:
+                with conn.cursor() as cursor:
+                    cursor.execute(query,
+                        (object.name, object.description, object.status, object.priority,
+                        object.kind, object.start_date, object.end_date,
+                        object.project_id if object.project_id else None, object.id,)
+                    )
                 conn.commit()
-        except OperationalError as oe:
-            print(oe)
+        except psycopg2.ProgrammingError as error:
+            # raise (f"There was a problem trying to ADD the project with the id {object.id}")
+            print(error)
+        finally:
+            conn.close()
 
     def delete(self, object_id: str) -> None:
 
+        query = "DELETE FROM tasks WHERE id=?"
+
+        config = load_config()
+
         try:
-            with self._connect() as conn:
-                conn.execute("DELETE FROM tasks WHERE id=?", (str(object_id),))
-                conn.commit()
-        except OperationalError as oe: # MODIFY THIS
-            print(oe)
+            with psycopg2.connect(**config) as conn:
+                with conn.cursor() as cursor:
+                    cursor.execute(query, (str(object_id),))
+        except psycopg2.ProgrammingError as error:
+            print(error)
+        finally:
+            conn.close()
 
     def row_to_object(self, row) -> Task:
         return Task(

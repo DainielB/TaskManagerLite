@@ -10,11 +10,6 @@ from pathlib import Path
 ### VARIABLES###
 DATE_FORMAT: str = "yyyy-M-d"
 COLUMN_NUM: int = 0
-# Database
-_DB_NAME: str = ".db"
-_current_file: Path = Path(__file__).resolve()
-_project_root: Path = _current_file.parent / ".db"
-DB_PATH: Path = _project_root / _DB_NAME
 
 
 class ProjectRoles(IntEnum):

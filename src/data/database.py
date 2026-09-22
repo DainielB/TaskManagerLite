@@ -1,26 +1,22 @@
-from sqlite3 import connect
-from pathlib import Path
+import psycopg2
 
-from constants import DB_PATH
+from config import load_config
 
 
 def init_db() -> None:
-    Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
-    conn = connect(DB_PATH)
-    cursor = conn.cursor()
 
-    cursor.execute("""
+    commands = (
+        """
         CREATE TABLE IF NOT EXISTS projects (
             id TEXT PRIMARY KEY,
             name TEXT NOT NULL,
             start_date TEXT,
-            end_date TEXT,
+            end_date TEXT NOT NULL,
             description TEXT,
             creation_date TEXT
         )
-    """)
-
-    cursor.execute("""
+        """,
+        """
         CREATE TABLE IF NOT EXISTS tasks (
             id TEXT PRIMARY KEY,
             name TEXT NOT NULL,
@@ -32,9 +28,27 @@ def init_db() -> None:
             end_date TEXT,
             creation_date TEXT,
             project_id TEXT NOT NULL,
-            FOREIGN KEY (project_id) REFERENCES projects(id)
+            FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
         )
-    """)
+        """,
+        """
+        CREATE INDEX IF NOT EXISTS index_tasks_project_id ON tasks(project_id)
+        """
+    )
 
-    conn.commit()
-    conn.close()
+
+    config = load_config()
+
+    conn = psycopg2.connect(**config)
+    try:
+        # with psycopg2.connect(**config) as conn:
+        with conn.cursor() as cursor:
+            for command in commands:
+                cursor.execute(command)
+
+        conn.commit()
+    except (psycopg2.DatabaseError, Exception) as error:
+        conn.rollback()
+        print(error)
+    finally:
+        conn.close()

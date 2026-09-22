@@ -10,24 +10,6 @@ Rectangle {
     color: "#30332E"
     radius: 4
 
-    function load_projects() {
-        app_controller.project_list_controller.select_project(listView.currentIndex)
-        
-        app_controller.task_table_controller.task_table_model.refresh_table(app_controller.project_list_controller.selected_project_id)
-    }
-
-    function reset_index(index) {
-        if (index >= 1) {
-            index -= 1
-            // listView.currentIndex = index - 1
-        } else {
-            // listView.currentIndex = 0
-            index = 0
-        }
-
-        return index
-    }
-
     ColumnLayout {
         anchors.fill: parent
 
@@ -47,7 +29,6 @@ Rectangle {
             onCurrentIndexChanged: {
             }
 
-            // TODO: Disabled project currenty selected
             Component {
                 id: projectDelegate
 
@@ -69,11 +50,8 @@ Rectangle {
                         anchors.fill: parent
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
                         onClicked: (mouse)=> {
-
                             listView.currentIndex = index
-                            console.log("listView.currentIndex: ", listView.currentIndex)
                             app_controller.project_list_controller.select_project(listView.currentIndex)
-                            app_controller.task_table_controller.task_table_model.refresh_table(app_controller.project_list_controller.selected_project_id)
 
                             if (mouse.button == Qt.RightButton) {
                                 context_menu.open()
@@ -90,12 +68,8 @@ Rectangle {
                         MenuItem {
                             text: "Delete"
                             onReleased: {
-                                let new_index = root.reset_index(listView.currentIndex)
-                                console.log("NEW INDEX: ", new_index)
-
+                                app_controller.project_list_controller.remove_project(app_controller.project_list_controller.selected_project_id)
                                 app_controller.task_table_controller.task_table_model.refresh_table(app_controller.project_list_controller.selected_project_id)
-                                app_controller.project_list_controller.select_project(new_index)
-                                app_controller.project_list_controller.delete_project(app_controller.project_list_controller.selected_project_id)
                             }
                         }
                         /*

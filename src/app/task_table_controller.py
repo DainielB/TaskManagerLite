@@ -48,3 +48,13 @@ class TaskTableController(QObject):
         new_task = Task(name, end_date, priority, kind, status, description, project_id)
 
         self._model.add_task(new_task, True)
+
+    @Slot(str)
+    def remove_task(self, task_id: str) -> None:
+        """_summary_
+
+        Args:
+            task_id (str): _description_
+        """
+
+        self._model.remove_task(task_id)

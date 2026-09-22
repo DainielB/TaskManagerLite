@@ -18,9 +18,14 @@ class AppController(QObject):
 
         self._project_list_controller = ProjectListController()
 
-        self._task_table_model = TaskTableModel(self._project_list_controller.selected_project.id)
+        self._task_table_model = TaskTableModel()
         self._task_table_controller = TaskTableController(self._task_table_model)
         self._task_info_controller = TaskInfoController(self._task_table_model)
+
+        self._project_list_controller.onProjectSelection.connect(self._task_table_model.refresh_table)
+
+        if self._project_list_controller.selected_project:
+            self._task_table_model.refresh_table(self._project_list_controller.selected_project.id)
 
     @Property(QObject, constant=True)
     def project_list_controller(self):
