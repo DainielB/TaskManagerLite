@@ -22,7 +22,6 @@ class TaskTableModel(QAbstractListModel):
         super().__init__()
 
         self._repository: TaskRepository = TaskRepository()
-        # self._tasks: list[Task] = self._repository.get_all(project_id)
         self._tasks: list[Task] = []
 
     @property
@@ -149,8 +148,6 @@ class TaskTableModel(QAbstractListModel):
                 self._tasks.pop(row)
                 self.endRemoveRows()
 
-            # self.__refresh_table(project_id)
-
     def get_task_by_id(self, task_id: id) -> Task:
         for task in self._tasks:
             if task_id == task.id:
@@ -178,6 +175,7 @@ class TaskTableModel(QAbstractListModel):
         """
 
         # self.__delete_tasks()
+        print(f"PROJECT ID: {project_id}")
 
         self.beginResetModel()
         self._tasks = self._repository.get_all(project_id)

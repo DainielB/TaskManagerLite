@@ -36,11 +36,6 @@ class ProjectListController(QObject):
         self._selected_project = project
         # self.selectProjectSignal.emit(self._selected_project)
 
-    """
-    def _get_selected_project(self) -> Project:
-        return self._selected_project
-    """
-
     # selectedProject = Property("QVariant", fget=_get_selected_project, notify=selectProjectSignal)
     
     def _selected_project_id(self) -> str:
@@ -49,7 +44,9 @@ class ProjectListController(QObject):
 
         return self.selected_project.id
     
-    selected_project_id = Property(str, _selected_project_id, notify=onProjectSelection)
+    selected_project_id = Property(str,
+                                   lambda self: self.selected_project.id if self.selected_project is not None else None,
+                                notify=onProjectSelection)
 
     @Property(QObject, constant=True)
     def project_list_model(self):
@@ -89,17 +86,6 @@ class ProjectListController(QObject):
         self.hasProjectChanged.emit(self._has_projects())
 
     @Slot(str)
-    def delete_project(self, id: str) -> None:
-        """_summary_
-
-        Args:
-            id (str): _description_
-        """
-
-        self.project_list_model._delete_project(id)
-        self.hasProjectChanged.emit(self._has_projects())
-
-    @Slot(str)
     def remove_project(self, id: str) -> None:
         """_summary_
 
@@ -109,14 +95,20 @@ class ProjectListController(QObject):
 
         self._project_list_model.remove_project(id)
 
+        """
         if self.selected_project and self.selected_project.id == id:
             projects = self._project_list_model.projects
             self.selected_project = projects[0] if projects else None
+        """
 
-        # selected_id = self._selected_project_id()
+        projects = self._project_list_model.projects
+        self.selected_project = projects[0] if projects else None
 
-        self.onProjectSelection.emit(self.selected_project.id)
         self.hasProjectChanged.emit(self._has_projects())
+        if self.selected_project:
+            self.onProjectSelection.emit(self.selected_project.id)
+        else:
+            self.onProjectSelection.emit(None)
 
     def _has_projects(self) -> bool:
         return len(self.project_list_model.projects) > 0

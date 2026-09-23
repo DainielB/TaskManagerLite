@@ -26,7 +26,29 @@ Rectangle {
             ScrollBar.vertical: ScrollBar {}
 
             model: app_controller.project_list_controller.project_list_model
-            onCurrentIndexChanged: {
+
+            Connections {
+                target: listView.model
+
+                function onRowsRemoved() {
+                    Qt.callLater(function() {
+                        listView.currentIndex = listView.count > 0 ? 0 : -1
+                    })
+                }
+
+                function onRowsInserted(parent, first, last) {
+                    Qt.callLater(function() {
+                        listView.currentIndex = last
+                        listView.positionViewAtIndex(last, ListView.Contain)
+                    })
+                }
+            }
+
+            Connections {
+                target: app_controller.project_list_controller
+                function onOnProjectSelection(projectId) {
+                    app_controller.task_table_controller.task_table_model.refresh_table(projectId)
+                }
             }
 
             Component {
@@ -43,7 +65,7 @@ Rectangle {
                         anchors.left: parent.left
                         anchors.leftMargin: 10
                         text: name
-                        color: listView.isCurrentItem ? "black" : "white"
+                        color: projectItem.ListView.isCurrentItem ? "#F8D64F" : "white"
                     }
 
                     MouseArea {
@@ -69,7 +91,7 @@ Rectangle {
                             text: "Delete"
                             onReleased: {
                                 app_controller.project_list_controller.remove_project(app_controller.project_list_controller.selected_project_id)
-                                app_controller.task_table_controller.task_table_model.refresh_table(app_controller.project_list_controller.selected_project_id)
+                                // app_controller.task_table_controller.task_table_model.refresh_table(app_controller.project_list_controller.selected_project_id)
                             }
                         }
                         /*
