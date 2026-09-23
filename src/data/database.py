@@ -50,5 +50,6 @@ def init_db() -> None:
     except (psycopg2.DatabaseError, Exception) as error:
         conn.rollback()
         print(error)
+        raise
     finally:
         conn.close()
