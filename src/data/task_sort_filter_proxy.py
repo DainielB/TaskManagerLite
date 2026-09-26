@@ -29,10 +29,10 @@ class TaskSortFilterProxy(QSortFilterProxyModel):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self._sort_role = None
+        self._sort_role = TaskRoles.PRIORITY
         self._source_model = None
         self._status: str = None
-        self._current_sort_field: str = None
+        self._current_sort_field: str = "priority"
         self._search_text: str = ""
 
         self.setDynamicSortFilter(True)
@@ -44,6 +44,8 @@ class TaskSortFilterProxy(QSortFilterProxyModel):
             QRegularExpression(self._search_text, QRegularExpression.CaseInsensitiveOption)
         )
 
+        self.setSortRole(self._sort_role)
+
     def get_source_model(self):
         return self._source_model
 
@@ -53,6 +55,8 @@ class TaskSortFilterProxy(QSortFilterProxyModel):
 
         self.setSourceModel(model)
         self._source_model = model
+
+        self.sort(0, Qt.SortOrder.DescendingOrder)
 
     source_model = Property(QObject, fget=get_source_model, fset=set_source_model)
 
@@ -76,7 +80,7 @@ class TaskSortFilterProxy(QSortFilterProxyModel):
         elif sort_role == TaskRoles.END_DATE:
             return QDate.fromString(left_data, DATE_FORMAT) < QDate.fromString(right_data, DATE_FORMAT)
         elif sort_role == TaskRoles.PRIORITY:
-            return source_left < source_right
+            return int(left_data) < int(right_data)
         elif sort_role == TaskRoles.KIND:
             return str(left_data) < str(right_data)
 

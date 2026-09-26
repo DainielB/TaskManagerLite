@@ -12,7 +12,6 @@ from src.data.project import Project
 class ProjectListController(QObject):
 
     hasProjectChanged = Signal(bool)
-    # onProjectSelection = Signal(bool)
     onProjectSelection = Signal(str)
 
     def __init__(self, parent=None):
@@ -34,9 +33,6 @@ class ProjectListController(QObject):
     @selected_project.setter
     def selected_project(self, project: Project) -> None:
         self._selected_project = project
-        # self.selectProjectSignal.emit(self._selected_project)
-
-    # selectedProject = Property("QVariant", fget=_get_selected_project, notify=selectProjectSignal)
     
     def _selected_project_id(self) -> str:
         if self._selected_project is None:
@@ -64,7 +60,6 @@ class ProjectListController(QObject):
             return
 
         self.selected_project = self._project_list_model.projects[index]
-        # self.onProjectSelection.emit(True)
         self.onProjectSelection.emit(self.selected_project.id)
 
     @Slot(str, str, str)

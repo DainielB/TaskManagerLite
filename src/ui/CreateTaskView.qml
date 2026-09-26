@@ -130,6 +130,7 @@ Dialog {
                 currentIndex: 0
             }
 
+            /*
             ComboBox {
                 id: priorityField
                 Layout.fillWidth: true
@@ -145,6 +146,39 @@ Dialog {
                     "Priority", "Low", "Medium", "High", "Urgent"
                 ]
 
+                currentIndex: 0
+            }
+            */
+
+            ComboBox {
+                id: priorityField
+                Layout.fillWidth: true
+                enabled: true
+                background: Rectangle {
+                    color: "white"
+                    radius: 4
+                    border.color: nameField.enabled ? "#21be2b" : "transparent"
+                }
+
+                /*
+                model: [
+                    "Low", "Medium", "High", "Urgent"
+                ]
+                currentIndex: 0
+
+                onCurrentIndexChanged: {
+
+                }
+                */
+
+                model: [
+                    {value: 1, text: "Low"},
+                    {value: 2, text: "Medium"},
+                    {value: 3, text: "High"},
+                    {value: 4, text: "Urgent"}
+                ]
+                textRole: "text"
+                valueRole: "value"
                 currentIndex: 0
             }
 

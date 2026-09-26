@@ -91,7 +91,6 @@ Rectangle {
                             text: "Delete"
                             onReleased: {
                                 app_controller.project_list_controller.remove_project(app_controller.project_list_controller.selected_project_id)
-                                // app_controller.task_table_controller.task_table_model.refresh_table(app_controller.project_list_controller.selected_project_id)
                             }
                         }
                         /*

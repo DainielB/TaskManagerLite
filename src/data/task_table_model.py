@@ -71,7 +71,9 @@ class TaskTableModel(QAbstractListModel):
         elif role == TaskRoles.KIND:
             return task.kind
         elif role == TaskRoles.PRIORITY:
-            return task.priority
+            return task.priority.value
+        elif role == TaskRoles.PRIORITY_LABEL:
+            return task.priority.name
         elif role == TaskRoles.COLOR:
             return task.color
         elif role == TaskRoles.CREATION_DATE:
@@ -134,20 +136,6 @@ class TaskTableModel(QAbstractListModel):
             self.endRemoveRows()
             return
 
-    def __delete_tasks(self) -> None:
-
-        if len(self._tasks) > 0:
-            removed_rows = []
-
-            for row, task in enumerate(self._tasks):
-                if task in self._tasks:
-                    removed_rows.append(row)
-
-            for row in sorted(removed_rows, reverse=True):
-                self.beginRemoveRows(QModelIndex(), row, row)
-                self._tasks.pop(row)
-                self.endRemoveRows()
-
     def get_task_by_id(self, task_id: id) -> Task:
         for task in self._tasks:
             if task_id == task.id:
@@ -173,9 +161,6 @@ class TaskTableModel(QAbstractListModel):
         Args:
             project_id (str, optional): Id of the project to get the tasks from. Defaults to None.
         """
-
-        # self.__delete_tasks()
-        print(f"PROJECT ID: {project_id}")
 
         self.beginResetModel()
         self._tasks = self._repository.get_all(project_id)

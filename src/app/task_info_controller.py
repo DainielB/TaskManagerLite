@@ -10,6 +10,7 @@ from constants import (
     DATE_FORMAT,
     TaskKind,
     TaskPriority,
+    TaskPriorityColor,
     TaskRoles,
     TaskStatus,
 )
@@ -21,7 +22,7 @@ class TaskInfoController(QObject):
     taskClicked = Signal("QVariant")
     taskSelectedSignal = Signal(bool)
     statusChanged = Signal(str)
-    # priorityChanged = Signal(str)
+    priorityChanged = Signal(str)
 
     def __init__(self, model, parent=None):
         super().__init__(parent)
@@ -58,7 +59,7 @@ class TaskInfoController(QObject):
             TaskRoles.STATUS.name: task.status,
             TaskRoles.KIND.name: task.kind,
             # TaskRoles.PRIORITY.name: task.priority
-            TaskRoles.PRIORITY.value: TaskPriority.task.priority.value
+            TaskRoles.PRIORITY.name: task.priority.value
         }
 
         self.taskClicked.emit(task_dict)
@@ -89,12 +90,10 @@ class TaskInfoController(QObject):
         priority_aux: int = int(new_priority)
         if TaskPriority(priority_aux).name != self.selected_task.priority:
             self.selected_task.priority = TaskPriority(priority_aux)
-            # self.priorityChanged.emit(self.selected_task.priority)
+            self.selected_task.color = TaskPriorityColor[self.selected_task.priority.name].value
 
         self._model.repository.update(self.selected_task)
         self._set_data()
-
-    # taskColor = Property(str, fget=lambda self: self._selected_task.color, notify=priorityChanged)
 
     @Slot()
     def start_task(self) -> None:

@@ -48,6 +48,7 @@ class TaskRoles(IntEnum):
     NAME = auto()
     KIND = auto()
     PRIORITY = auto()
+    PRIORITY_LABEL = auto()
     COLOR = auto()
     CREATION_DATE = auto()
     TASK = auto()
@@ -61,6 +62,7 @@ task_role_names: dict = {
     TaskRoles.NAME: b'name',
     TaskRoles.KIND: b'kind',
     TaskRoles.PRIORITY: b'priority',
+    TaskRoles.PRIORITY_LABEL: b'priority_label',
     TaskRoles.COLOR: b'color',
     TaskRoles.CREATION_DATE: b'creation_date',
     TaskRoles.TASK: b'task',
@@ -88,10 +90,10 @@ class TaskKind(Enum):
     COMPOSITING = "Compositing"
 
 class TaskPriority(IntEnum):
-    Low = 0
-    Medium = 1
-    High = 2
-    Urgent = 3
+    Low = 1
+    Medium = 2
+    High = 3
+    Urgent = 4
 
 class TaskPriorityColor(Enum):
     Low = "#4DAA57" #78A1BB #1098F7

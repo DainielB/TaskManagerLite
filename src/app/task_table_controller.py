@@ -27,13 +27,13 @@ class TaskTableController(QObject):
     def selected_task_id(self, id: str) -> None:
         self._selected_task_id = id
 
-    @Slot(str, str, str, str, str, str, str)
+    @Slot(str, str, str, int, str, str, str)
     def add_new_task(
         self,
         project_id: str,
         name: str,
         end_date: str,
-        priority: str,
+        priority: int,
         kind: str,
         status: str = "",
         description: str = ""

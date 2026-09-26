@@ -22,7 +22,7 @@ def init_db() -> None:
             name TEXT NOT NULL,
             description TEXT,
             status TEXT NOT NULL,
-            priority TEXT NOT NULL,
+            priority INTEGER NOT NULL,
             kind TEXT,
             start_date TEXT,
             end_date TEXT,

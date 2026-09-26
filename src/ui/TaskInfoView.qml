@@ -142,18 +142,14 @@ Rectangle {
                     */
 
                     model: [
-                        {value: 0, text: "Low"},
-                        {value: 1, text: "Medium"},
-                        {value: 2, text: "High"},
-                        {value: 3, text: "Urgent"}
+                        {value: 1, text: "Low"},
+                        {value: 2, text: "Medium"},
+                        {value: 3, text: "High"},
+                        {value: 4, text: "Urgent"}
                     ]
                     textRole: "text"
                     valueRole: "value"
                     currentIndex: 0
-
-                    onCurrentIndexChanged: {
-
-                    }
                 }
             }
 

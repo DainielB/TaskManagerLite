@@ -12,17 +12,19 @@ from constants import (
 
 class Task(Entity):
 
-    def __init__(self, name: str, end_date: str, priority: str, kind: str, status: str, description: str, project_id: str) -> None:
+    # def __init__(self, name: str, end_date: str, priority: str, kind: str, status: str, description: str, project_id: str) -> None:
+    def __init__(self, name: str, end_date: str, priority: int, kind: str, status: str, description: str, project_id: str) -> None:
         super().__init__(name, QDate.fromString(end_date, DATE_FORMAT), description)
 
-        self._priority: str = priority if priority != "Priority" else TaskPriority.Low.name
+        # self._priority: str = priority if priority != "Priority" else TaskPriority.Low.name
+        self._priority: int = priority if priority else TaskPriority.Low.value
         self._kind: str = kind
 
         self._status: str = status
         if status in (None, "Initial Status"):
             self._status= TaskStatus.TO_DO.value
 
-        self._color: str = TaskPriorityColor[self._priority].value
+        self._color: str = TaskPriorityColor[self.priority.name].value
 
         self._project_id: str = None
         if project_id:
@@ -32,12 +34,12 @@ class Task(Entity):
         return f"TASK\r\n id: {self.id}, name: {self.name}, end_date: {self.end_date}, priority: {self.priority}, kind: {self.kind}, status: {self.status}, description: {self.description}\n, project_id: {self.project_id}"
 
     @property
-    def priority(self) -> str:
-        return self._priority
+    def priority(self) -> TaskPriority:
+        return TaskPriority(self._priority)
 
     @priority.setter
     def priority(self, priority: TaskPriority) -> None:
-        self._priority = priority.name
+        self._priority = priority.value
 
     @property
     def kind(self) -> str:

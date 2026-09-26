@@ -42,7 +42,7 @@ Rectangle {
                     radius: 5
 
                     border.width: 2
-                    border.color: model.color
+                    border.color: model.color // app_controller.task_info_controller.priorityColor
 
                     RowLayout {
                         anchors.fill: parent
@@ -60,7 +60,7 @@ Rectangle {
                             Layout.preferredWidth: root.width * root.dateCol / root.headerParts
                         }
                         Text {
-                            text: model.priority
+                            text: model.priority_label
                             color: listView.isCurrentItem ? "black" : "white"
                             Layout.preferredWidth: root.width * root.priorityCol / root.headerParts
                         }
